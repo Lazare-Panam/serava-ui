@@ -6,6 +6,7 @@ import { TrustBand } from "./Landing/TrustBand";
 import { ClinicalQuote } from "./Landing/ClinicalQuote";
 
 import { Outcomes } from "./Landing/Outcomes";
+import { HonestySection } from "./Landing/HonestySection";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <TrustBand />
       <ClinicalQuote />
       <Outcomes />
+      <HonestySection />
     </>
   );
 }
