@@ -1,0 +1,13 @@
+/* src/app/globals.css */
+/* Nearly everything here used to come from Tailwind + shadcn.
+   MUI's <CssBaseline /> (in layout.tsx) now handles the reset instead. */
+
+html,
+body {
+  height: 100%;
+}
+
+/* Optional: a calmer default scrollbar, since MUI doesn't touch this */
+* {
+  scrollbar-width: thin;
+}
