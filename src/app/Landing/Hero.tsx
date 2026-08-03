@@ -66,7 +66,7 @@ function PhotoCarousel({ fill = false }: { fill?: boolean }) {
             <Paper
               variant="outlined"
               sx={{
-                height: 160,
+                height: 220,
                 width: "100%",
                 flexShrink: 0,
                 display: "flex",
@@ -139,33 +139,125 @@ export function Hero() {
         bgcolor: "background.default",
       }}
     >
-      {/* Soft radial glows — span the full section width */}
+      {/* Soft radial glows — each blob is actually two overlapping layers
+          (teal + iris) that crossfade into one another on a loop, so the
+          colour itself visibly swaps back and forth over time. The outer
+          wrapper keeps the slow position drift from before. */}
       <Box
+        className="glow-1"
         sx={{
           pointerEvents: "none",
           position: "absolute",
-          right: -160,
-          top: -224,
-          height: 640,
-          width: 640,
-          borderRadius: "50%",
-          background: (t) =>
-            `radial-gradient(circle, ${t.palette.primary.main}29 0%, transparent 70%)`,
+          right: -220,
+          top: -280,
+          height: 780,
+          width: 780,
+          filter: "blur(70px)",
         }}
-      />
+      >
+        <Box
+          className="glow-1-teal"
+          sx={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: "50%",
+            background: (t) =>
+              `radial-gradient(circle, ${t.palette.primary.main}b3 0%, ${t.palette.primary.main}59 45%, transparent 85%)`,
+          }}
+        />
+        <Box
+          className="glow-1-iris"
+          sx={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: "50%",
+            background: (t) =>
+              `radial-gradient(circle, ${t.palette.accentBrand.main}b3 0%, ${t.palette.accentBrand.main}59 45%, transparent 85%)`,
+          }}
+        />
+      </Box>
+
       <Box
+        className="glow-2"
         sx={{
           pointerEvents: "none",
           position: "absolute",
-          left: -160,
-          bottom: -160,
-          height: 480,
-          width: 480,
-          borderRadius: "50%",
-          background: (t) =>
-            `radial-gradient(circle, ${t.palette.accentBrand.main}1f 0%, transparent 70%)`,
+          left: -220,
+          bottom: -220,
+          height: 600,
+          width: 600,
+          filter: "blur(70px)",
         }}
-      />
+      >
+        <Box
+          className="glow-2-iris"
+          sx={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: "50%",
+            background: (t) =>
+              `radial-gradient(circle, ${t.palette.accentBrand.main}b3 0%, ${t.palette.accentBrand.main}59 45%, transparent 85%)`,
+          }}
+        />
+        <Box
+          className="glow-2-teal"
+          sx={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: "50%",
+            background: (t) =>
+              `radial-gradient(circle, ${t.palette.primary.main}b3 0%, ${t.palette.primary.main}59 45%, transparent 85%)`,
+          }}
+        />
+      </Box>
+
+      <style>{`
+        .glow-1 {
+          animation: glow-drift-1 22s ease-in-out infinite;
+        }
+        .glow-2 {
+          animation: glow-drift-2 26s ease-in-out infinite;
+        }
+        .glow-1-teal {
+          animation: crossfade-a 14s ease-in-out infinite;
+        }
+        .glow-1-iris {
+          animation: crossfade-b 14s ease-in-out infinite;
+        }
+        .glow-2-iris {
+          animation: crossfade-a 18s ease-in-out infinite;
+        }
+        .glow-2-teal {
+          animation: crossfade-b 18s ease-in-out infinite;
+        }
+        @keyframes crossfade-a {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+        @keyframes crossfade-b {
+          0%, 100% { opacity: 0; }
+          50% { opacity: 1; }
+        }
+        @keyframes glow-drift-1 {
+          0%   { transform: translate(0px, 0px) scale(1); }
+          25%  { transform: translate(-40px, 30px) scale(1.08); }
+          50%  { transform: translate(20px, 60px) scale(0.96); }
+          75%  { transform: translate(-25px, -20px) scale(1.05); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+        @keyframes glow-drift-2 {
+          0%   { transform: translate(0px, 0px) scale(1); }
+          30%  { transform: translate(35px, -25px) scale(1.06); }
+          60%  { transform: translate(-20px, -50px) scale(0.94); }
+          85%  { transform: translate(25px, 15px) scale(1.03); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .glow-1, .glow-2, .glow-1-teal, .glow-1-iris, .glow-2-iris, .glow-2-teal {
+            animation: none;
+          }
+        }
+      `}</style>
 
       <Box
         sx={{
@@ -208,7 +300,8 @@ export function Hero() {
             fontFamily: "var(--font-manrope), sans-serif",
             fontWeight: 800,
             textTransform: "uppercase",
-            letterSpacing: "-0.02em",
+            letterSpacing: "-0.01em",
+            wordSpacing: "0.15em",
             lineHeight: 0.88,
             fontSize: "clamp(3rem, 8vw, 7.5rem)",
             mb: { xs: 2, md: 3 },
@@ -222,7 +315,7 @@ export function Hero() {
           sx={{
             position: "relative",
             zIndex: 1,
-            pr: { md: "390px" },
+            pr: { md: "440px" },
           }}
         >
           <Stack spacing={3}>
@@ -267,7 +360,7 @@ export function Hero() {
                 href="/eligibility"
                 variant="contained"
                 size="large"
-                sx={{ borderRadius: 999, px: 4 }}
+                sx={{ borderRadius: 999, px: 4, color: "#FFFFFF" }}
               >
                 Check your eligibility →
               </Button>

@@ -1,96 +1,82 @@
 // src/components/LibraryShelf.tsx
-// A visual "bookshelf" of the Lifestyle Library's volumes: spines of
-// varying height and color sitting on a shelf board. Colors come from the
-// theme, not the unrelated reference's "butter" token (not in our palette) —
-// "The Safety Net" uses Status Amber instead, since amber already carries
-// safety/caution meaning in the traffic-light system elsewhere on the site.
+// The Lifestyle Library, shown as a grid of book-cover cards grouped by
+// category. Uses hairline borders (per the brand doc's own preference)
+// instead of heavy shadows, which avoids the washed-out "hazy" look.
 "use client";
 
 import { Box, Typography } from "@mui/material";
 
-type Spine = {
-  label: string;
-  height: number;
-  width?: number;
+type Volume = {
+  title: string;
+  category: string;
   bgcolor: string;
   color: string;
 };
 
-const SPINES: Spine[] = [
+const VOLUMES: Volume[] = [
   {
-    label: "Meal Library I",
-    height: 260,
-    width: 52,
+    title: "Meal Library I",
+    category: "Meals",
     bgcolor: "secondary.main",
     color: "secondary.contrastText",
   },
   {
-    label: "Meal Library II",
-    height: 260,
-    width: 52,
-    bgcolor: "secondary.dark",
-    color: "secondary.contrastText",
-  },
-  {
-    label: "Meal Library III",
-    height: 260,
-    width: 52,
+    title: "Meal Library II",
+    category: "Meals",
     bgcolor: "secondary.main",
     color: "secondary.contrastText",
   },
   {
-    label: "Meal Library IV",
-    height: 260,
-    width: 52,
-    bgcolor: "secondary.dark",
-    color: "secondary.contrastText",
-  },
-  {
-    label: "Meal Library V",
-    height: 260,
-    width: 52,
+    title: "Meal Library III",
+    category: "Meals",
     bgcolor: "secondary.main",
     color: "secondary.contrastText",
   },
   {
-    label: "Meal Library VI",
-    height: 260,
-    width: 52,
-    bgcolor: "secondary.dark",
+    title: "Meal Library IV",
+    category: "Meals",
+    bgcolor: "secondary.main",
     color: "secondary.contrastText",
   },
   {
-    label: "Strength I",
-    height: 280,
-    width: 60,
+    title: "Meal Library V",
+    category: "Meals",
+    bgcolor: "secondary.main",
+    color: "secondary.contrastText",
+  },
+  {
+    title: "Meal Library VI",
+    category: "Meals",
+    bgcolor: "secondary.main",
+    color: "secondary.contrastText",
+  },
+  {
+    title: "Strength I",
+    category: "Strength",
     bgcolor: "accentBrand.main",
     color: "accentBrand.contrastText",
   },
   {
-    label: "Strength II",
-    height: 280,
-    width: 60,
+    title: "Strength II",
+    category: "Strength",
     bgcolor: "accentBrand.main",
     color: "accentBrand.contrastText",
   },
   {
-    label: "Water",
-    height: 220,
-    width: 52,
+    title: "Water",
+    category: "Foundations",
     bgcolor: "primary.main",
     color: "primary.contrastText",
   },
   {
-    label: "The Safety Net",
-    height: 220,
-    width: 52,
+    title: "The Safety Net",
+    category: "Foundations",
     bgcolor: "status.amber",
     color: "secondary.contrastText",
   },
   {
-    label: "The Supplement Guide",
-    height: 220,
-    width: 52,
+    title: "The Supplement Guide",
+    category: "Foundations",
     bgcolor: "primary.main",
     color: "primary.contrastText",
   },
@@ -137,66 +123,62 @@ export function LibraryShelf() {
 
       <Box
         sx={{
-          mt: 8,
-          borderRadius: 6,
-          bgcolor: "muted.main",
-          p: { xs: 4, md: 8 },
+          mt: 6,
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "repeat(2, 1fr)",
+            sm: "repeat(3, 1fr)",
+            md: "repeat(4, 1fr)",
+            lg: "repeat(6, 1fr)",
+          },
+          gap: 3,
         }}
       >
-        <Box
-          role="img"
-          aria-label="The Serava Library: six meal volumes, two strength volumes, and three foundations guides"
-          sx={{
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "center",
-            gap: { xs: 1.5, md: 2 },
-            overflowX: "auto",
-            pb: 1,
-          }}
-        >
-          {SPINES.map((spine) => (
-            <Box
-              key={spine.label}
+        {VOLUMES.map((volume) => (
+          <Box
+            key={volume.title}
+            sx={{
+              position: "relative",
+              aspectRatio: "3 / 4",
+              borderRadius: 3,
+              border: "1px solid",
+              borderColor: "divider",
+              bgcolor: volume.bgcolor,
+              color: volume.color,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              p: 2.5,
+              overflow: "hidden",
+            }}
+          >
+            <Typography
+              variant="caption"
               sx={{
-                height: spine.height,
-                width: spine.width,
-                flexShrink: 0,
-                bgcolor: spine.bgcolor,
-                color: spine.color,
-                borderTopLeftRadius: 8,
-                borderTopRightRadius: 8,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                writingMode: "vertical-rl",
-                transform: "rotate(180deg)",
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+                opacity: 0.8,
                 fontWeight: 600,
-                fontSize: "0.9rem",
-                letterSpacing: "0.03em",
-                textAlign: "center",
-                px: 1,
-                boxShadow: 2,
               }}
             >
-              {spine.label}
-            </Box>
-          ))}
-        </Box>
+              {volume.category}
+            </Typography>
 
-        {/* Shelf board: the ledge the spines sit on */}
-        <Box
-          sx={{
-            mt: 0,
-            height: 10,
-            borderRadius: 5,
-            bgcolor: "background.paper",
-            boxShadow: "0 14px 28px rgba(0,0,0,0.14)",
-          }}
-        />
+            <Typography
+              sx={{
+                fontFamily: "var(--font-manrope), sans-serif",
+                fontWeight: 700,
+                fontSize: { xs: "1rem", md: "1.15rem" },
+                lineHeight: 1.25,
+              }}
+            >
+              {volume.title}
+            </Typography>
+          </Box>
+        ))}
       </Box>
 
-      <Typography variant="body2" color="text.secondary" sx={{ mt: 3 }}>
+      <Typography variant="body2" color="text.secondary" sx={{ mt: 4 }}>
         Six meal volumes, two strength volumes, three foundations guides, plus
         session cards, a training log and pocket cards.
       </Typography>

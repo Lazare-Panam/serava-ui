@@ -4,7 +4,8 @@ import { ProgrammePaths } from "./Landing/ProgramPaths";
 import { HowItWorks } from "./Landing/HowItWorks";
 import { TrustBand } from "./Landing/TrustBand";
 import { ClinicalQuote } from "./Landing/ClinicalQuote";
-import { LibraryShelf } from "./Landing/LibraryShelf";
+
+import { Outcomes } from "./Landing/Outcomes";
 
 export default function Home() {
   return (
@@ -14,7 +15,7 @@ export default function Home() {
       <HowItWorks />
       <TrustBand />
       <ClinicalQuote />
-      <LibraryShelf />
+      <Outcomes />
     </>
   );
 }
