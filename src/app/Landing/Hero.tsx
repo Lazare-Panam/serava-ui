@@ -265,7 +265,7 @@ export function Hero() {
           mx: "auto",
           maxWidth: 1152,
           px: 3,
-          py: { xs: 8, md: 12 },
+          py: { xs: 10, md: 20 },
         }}
       >
         {/* Photo column: absolutely positioned, z-index above the wordmark,
@@ -296,14 +296,13 @@ export function Hero() {
             position: "relative",
             zIndex: 1,
             whiteSpace: "nowrap",
-            overflow: "hidden",
             fontFamily: "var(--font-manrope), sans-serif",
             fontWeight: 800,
             textTransform: "uppercase",
             letterSpacing: "-0.01em",
             wordSpacing: "0.15em",
             lineHeight: 0.88,
-            fontSize: "clamp(3rem, 8vw, 7.5rem)",
+            fontSize: "clamp(3.5rem, 11vw, 10rem)",
             mb: { xs: 2, md: 3 },
             color: "primary.main",
           }}
@@ -318,24 +317,14 @@ export function Hero() {
             pr: { md: "440px" },
           }}
         >
-          <Stack spacing={3}>
-            <Typography
-              variant="overline"
-              sx={{
-                color: "secondary.main",
-                letterSpacing: "0.2em",
-                fontWeight: 500,
-              }}
-            >
-              Private weight management
-            </Typography>
-
+          <Stack spacing={4}>
             <Typography
               variant="h1"
               sx={{
-                fontSize: { xs: "2.25rem", sm: "3rem" },
+                fontSize: { xs: "2.75rem", sm: "3.75rem" },
                 fontWeight: 600,
-                lineHeight: 1.15,
+                lineHeight: 1.12,
+                whiteSpace: "nowrap",
               }}
             >
               Weight care,{" "}
@@ -347,10 +336,10 @@ export function Hero() {
             <Typography
               variant="body1"
               color="text.secondary"
-              sx={{ maxWidth: 480, fontSize: "1.125rem", lineHeight: 1.7 }}
+              sx={{ maxWidth: 520, fontSize: "1.25rem", lineHeight: 1.7 }}
             >
-              A programme led by independent prescribers: one to one
-              consultations, blood tests, structured monitoring, and full
+              A programme led by independent prescribers, built around one to
+              one consultations, blood tests, structured monitoring, and full
               lifestyle support, with a planned ending.
             </Typography>
 
@@ -360,7 +349,13 @@ export function Hero() {
                 href="/eligibility"
                 variant="contained"
                 size="large"
-                sx={{ borderRadius: 999, px: 4, color: "#FFFFFF" }}
+                sx={{
+                  borderRadius: 999,
+                  px: 5,
+                  py: 1.5,
+                  fontSize: "1.05rem",
+                  color: "#FFFFFF",
+                }}
               >
                 Check your eligibility →
               </Button>
@@ -369,13 +364,17 @@ export function Hero() {
                 href="#how"
                 variant="outlined"
                 size="large"
-                sx={{ borderRadius: 999, px: 4 }}
+                sx={{ borderRadius: 999, px: 5, py: 1.5, fontSize: "1.05rem" }}
               >
                 How it works →
               </Button>
             </Stack>
 
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body1"
+              color="text.secondary"
+              sx={{ fontSize: "1rem" }}
+            >
               Takes about five minutes. No obligation, and no payment to check.
             </Typography>
           </Stack>
