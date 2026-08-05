@@ -5,6 +5,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {
   Box,
   Typography,
@@ -22,7 +23,7 @@ export function ProgrammePaths() {
       <Box
         sx={{
           borderRadius: 6,
-          bgcolor: "muted.main",
+          bgcolor: "#F9E8B0", // buttery yellow, was muted.main (grey)
           px: { xs: 3, sm: 6 },
           py: { xs: 8, md: 10 },
         }}
@@ -31,7 +32,7 @@ export function ProgrammePaths() {
           <Typography
             variant="h2"
             sx={{
-              fontSize: { xs: "1.875rem", sm: "2.25rem" },
+              fontSize: { xs: "1.5rem", sm: "1.875rem" },
               fontWeight: 600,
             }}
           >
@@ -51,7 +52,7 @@ export function ProgrammePaths() {
           sx={{
             mx: "auto",
             mt: 6,
-            maxWidth: 1400,
+            maxWidth: 1300,
             display: "grid",
             gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
             gap: 3,
@@ -66,19 +67,26 @@ export function ProgrammePaths() {
               overflow: "hidden",
               display: "flex",
               flexDirection: "column",
+              boxShadow: "0 12px 28px rgba(0,0,0,0.10)",
+              borderColor: "transparent",
             }}
           >
-            <CardContent
+            <Box
               sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1.5,
+                px: 3,
+                pt: 3,
+                pb: 2,
+                borderBottom: "1px solid",
+                borderColor: "divider",
                 position: "relative",
                 zIndex: 1,
-                display: "flex",
-                flexDirection: "column",
-                gap: 1.5,
               }}
             >
               <AssignmentOutlinedIcon
-                sx={{ fontSize: 36, color: "primary.main" }}
+                sx={{ fontSize: 32, color: "primary.main" }}
               />
               <Typography
                 variant="h5"
@@ -89,41 +97,63 @@ export function ProgrammePaths() {
               >
                 Start your programme
               </Typography>
+            </Box>
+
+            <CardContent
+              sx={{
+                position: "relative",
+                zIndex: 1,
+                pr: { xs: 2, sm: "42%" },
+                pt: 2,
+              }}
+            >
               <Typography
                 variant="body1"
                 color="text.secondary"
-                sx={{ maxWidth: "70%", lineHeight: 1.7 }}
+                sx={{ lineHeight: 1.7 }}
               >
                 A prescriber-led plan built around your goals, with coaching and
-                clear guidance at every step.
+                clear guidance at every step. You'll get a tailored dosing
+                schedule, regular check-ins with your prescriber, and ongoing
+                support to keep you on track.
               </Typography>
             </CardContent>
 
-            {/* Image slot: swap for a real product/app screenshot once
-                ready. Sits behind the text (zIndex 0) so it never covers it. */}
+            {/* fade so the image reads as tucked into the card, not escaping it */}
             <Box
               sx={{
                 position: "absolute",
-                right: -16,
-                top: "50%",
+                right: 0,
+                top: 64,
+                bottom: 0,
+                width: "55%",
                 zIndex: 0,
-                height: 256,
-                width: 288,
-                transform: "translateY(-50%) rotate(3deg)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 3,
-                border: "1px solid",
-                borderColor: "divider",
-                bgcolor: "action.hover",
-                p: 2,
-                textAlign: "center",
+                background: (theme) =>
+                  `linear-gradient(to right, ${theme.palette.background.paper} 0%, transparent 35%)`,
+              }}
+            />
+
+            <Box
+              sx={{
+                position: "absolute",
+                right: -8,
+                bottom: 8,
+                zIndex: 0,
+                height: 260,
+                width: 280,
+                transform: "rotate(1deg)",
               }}
             >
-              <Typography variant="body2" color="text.secondary">
-                App or product image
-              </Typography>
+              <Image
+                src="https://pblol2.blob.core.windows.net/serava-ui/hero/Serava_Collagen_Transparent.png"
+                alt="Serava collagen product"
+                fill
+                style={{
+                  objectFit: "contain",
+                  filter: "drop-shadow(0 16px 20px rgba(0,0,0,0.25))",
+                }}
+                sizes="280px"
+              />
             </Box>
 
             <CardActions
@@ -131,8 +161,6 @@ export function ProgrammePaths() {
                 position: "relative",
                 zIndex: 1,
                 mt: "auto",
-                borderTop: "1px solid",
-                borderColor: "divider",
                 px: 2,
                 py: 2,
                 gap: 1.5,
@@ -144,7 +172,7 @@ export function ProgrammePaths() {
                 href="/eligibility"
                 variant="contained"
                 size="large"
-                sx={{ borderRadius: 999, px: 3 }}
+                sx={{ borderRadius: 999, px: 3, color: "#fff" }}
               >
                 Check your eligibility
               </Button>
@@ -169,77 +197,92 @@ export function ProgrammePaths() {
               overflow: "hidden",
               display: "flex",
               flexDirection: "column",
-              bgcolor: "secondary.main",
-              color: "secondary.contrastText",
-              borderColor: "secondary.main",
+              bgcolor: "primary.main",
+              color: "primary.contrastText",
+              borderColor: "transparent",
+              boxShadow: "0 12px 28px rgba(0,0,0,0.18)",
             }}
           >
-            <CardContent
+            <Box
               sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1.5,
+                px: 3,
+                pt: 3,
+                pb: 2,
+                borderBottom: "1px solid",
+                borderColor: "rgba(255,255,255,0.2)",
                 position: "relative",
                 zIndex: 1,
-                display: "flex",
-                flexDirection: "column",
-                gap: 1.5,
               }}
             >
-              <MonitorHeartOutlinedIcon
-                sx={{ fontSize: 36, color: "secondary.contrastText" }}
-              />
+              <MonitorHeartOutlinedIcon sx={{ fontSize: 32, color: "#fff" }} />
               <Typography
                 variant="h5"
                 sx={{
                   fontFamily: "var(--font-manrope), sans-serif",
                   fontWeight: 600,
-                  color: "secondary.contrastText",
+                  color: "#fff",
                 }}
               >
                 Already taking a GLP-1 medication?
               </Typography>
-              <Typography
-                variant="body1"
-                sx={{
-                  maxWidth: "70%",
-                  lineHeight: 1.7,
-                  color: "secondary.contrastText",
-                  opacity: 0.85,
-                }}
-              >
-                Get tailored nutrition guidance, habit support, and ongoing
-                coaching alongside your prescription.
-              </Typography>
-            </CardContent>
+            </Box>
 
-            {/* Image slot: keep this to an icon, illustration, or lifestyle
-                photo, never an injection pen, needle, or medication device,
-                per the photography compliance rule. Sits behind the text
-                (zIndex 0) so it never covers it. */}
-            <Box
+            <CardContent
               sx={{
-                position: "absolute",
-                right: -16,
-                top: "50%",
-                zIndex: 0,
-                height: 256,
-                width: 288,
-                transform: "translateY(-50%) rotate(3deg)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 3,
-                border: "1px solid",
-                borderColor: "rgba(255,255,255,0.3)",
-                bgcolor: "rgba(255,255,255,0.1)",
-                p: 2,
-                textAlign: "center",
+                position: "relative",
+                zIndex: 1,
+                pr: { xs: 2, sm: "42%" },
+                pt: 2,
               }}
             >
               <Typography
-                variant="body2"
-                sx={{ color: "secondary.contrastText", opacity: 0.7 }}
+                variant="body1"
+                sx={{ lineHeight: 1.7, color: "#fff", opacity: 0.85 }}
               >
-                Lifestyle image, no medication devices
+                Get tailored nutrition guidance, habit support, and ongoing
+                coaching alongside your prescription — plus regular check-ins to
+                help you stay consistent and see results.
               </Typography>
+            </CardContent>
+
+            {/* fade so the image reads as tucked into the card, not escaping it */}
+            <Box
+              sx={{
+                position: "absolute",
+                right: 0,
+                top: 64,
+                bottom: 0,
+                width: "55%",
+                zIndex: 0,
+                background: (theme) =>
+                  `linear-gradient(to right, ${theme.palette.primary.main} 0%, transparent 35%)`,
+              }}
+            />
+
+            <Box
+              sx={{
+                position: "absolute",
+                right: 16,
+                bottom: 20,
+                zIndex: 0,
+                height: 240,
+                width: 260,
+                transform: "rotate(1deg)",
+              }}
+            >
+              <Image
+                src="https://pblol2.blob.core.windows.net/serava-ui/hero/Serava_Pill_Box_Transparent.png"
+                alt="Serava pill organizer"
+                fill
+                style={{
+                  objectFit: "contain",
+                  filter: "drop-shadow(0 16px 20px rgba(0,0,0,0.3))",
+                }}
+                sizes="260px"
+              />
             </Box>
 
             <CardActions
@@ -247,8 +290,6 @@ export function ProgrammePaths() {
                 position: "relative",
                 zIndex: 1,
                 mt: "auto",
-                borderTop: "1px solid",
-                borderColor: "rgba(255,255,255,0.2)",
                 px: 2,
                 py: 2,
                 gap: 1.5,
@@ -260,7 +301,13 @@ export function ProgrammePaths() {
                 href="/companion"
                 variant="contained"
                 size="large"
-                sx={{ borderRadius: 999, px: 3 }}
+                sx={{
+                  borderRadius: 999,
+                  px: 3,
+                  bgcolor: "secondary.main",
+                  color: "secondary.contrastText",
+                  "&:hover": { bgcolor: "secondary.dark" },
+                }}
               >
                 Join now
               </Button>
@@ -273,11 +320,11 @@ export function ProgrammePaths() {
                   borderRadius: 999,
                   px: 3,
                   borderWidth: 2,
-                  borderColor: "secondary.contrastText",
-                  color: "secondary.contrastText",
+                  borderColor: "#fff",
+                  color: "#fff",
                   "&:hover": {
                     borderWidth: 2,
-                    borderColor: "secondary.contrastText",
+                    borderColor: "#fff",
                     bgcolor: "rgba(255,255,255,0.1)",
                   },
                 }}
