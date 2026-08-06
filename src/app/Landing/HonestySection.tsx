@@ -99,12 +99,6 @@ export function HonestySection() {
                 not right for everyone, and we screen carefully.
               </Typography>
 
-              {/* No card surfaces here anymore — the list sits straight on
-                  the photo (the scrim above is what keeps it legible), a
-                  thin translucent-white rule separates each row instead of
-                  a white pill, and both the icon and the text are plain
-                  white so nothing but the photo itself reads as a
-                  "surface". */}
               <Stack sx={{ mt: 5, mb: -5 }}>
                 {EXCLUSIONS.map((item, i) => (
                   <Stack
@@ -142,11 +136,6 @@ export function HonestySection() {
                 ))}
               </Stack>
             </Box>
-
-            {/* Visual anchor: just the icon itself, all white, floating
-                directly on the photo — no white disc behind it anymore, so
-                it reads as part of the image rather than a card sitting on
-                top of it. */}
             <Box
               sx={{
                 display: { xs: "none", md: "flex" },
