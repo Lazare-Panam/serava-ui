@@ -70,25 +70,14 @@ export function HonestySection() {
                   root override from theme.ts (or scoping it to just
                   buttons/labels) since it's quietly doing this to every
                   paragraph on the site, not only this section. */}
-              <Typography
-                variant="overline"
-                sx={{
-                  color: "primary.main",
-                  letterSpacing: "0.2em",
-                  fontWeight: 600,
-                  textTransform: "uppercase",
-                }}
-              >
-                Honesty first
-              </Typography>
-
+            
               <Typography
                 variant="h2"
                 sx={{
                   fontFamily: "var(--font-manrope), sans-serif",
                   fontWeight: 600,
                   fontSize: { xs: "2.25rem", sm: "2.75rem" },
-                  mt: 1,
+                  mt: 5,
                   color: "background.paper",
                   textTransform: "none",
                 }}
@@ -116,7 +105,7 @@ export function HonestySection() {
                   a white pill, and both the icon and the text are plain
                   white so nothing but the photo itself reads as a
                   "surface". */}
-              <Stack sx={{ mt: 5 }}>
+              <Stack sx={{ mt: 5, mb: -5 }}>
                 {EXCLUSIONS.map((item, i) => (
                   <Stack
                     key={item}
