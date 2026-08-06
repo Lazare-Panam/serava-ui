@@ -2,9 +2,9 @@
 
 import { Box, Typography, Stack } from "@mui/material";
 import { alpha } from "@mui/material/styles";
-import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
-import LocalHospitalOutlinedIcon from "@mui/icons-material/LocalHospitalOutlined";
-import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import LocalHospitalRoundedIcon from "@mui/icons-material/LocalHospitalRounded";
+import VerifiedUserRoundedIcon from "@mui/icons-material/VerifiedUserRounded";
 
 const EXCLUSIONS = [
   "You must be 18 or over.",
@@ -32,11 +32,12 @@ export function HonestySection() {
           p: { xs: 4, md: 8 },
         }}
       >
-        {/* Scrim: the overline/heading/body sit directly on the photo (the
-            exclusion cards and the emergency notice below are their own
-            solid white surfaces, so they stay legible regardless). Heavier
-            on the left where that text is, fading out toward the visual
-            anchor on the right. */}
+        {/* Scrim: everything in this section — heading, body, the
+            exclusion list, the emergency notice, the icons — now sits
+            directly on the photo with no white card surfaces underneath,
+            so this scrim is the only thing keeping any of it legible.
+            Heavier on the left where the copy is, fading out toward the
+            visual anchor on the right. */}
         <Box
           sx={{
             position: "absolute",
@@ -58,12 +59,24 @@ export function HonestySection() {
             }}
           >
             <Box>
+              {/* textTransform is explicit ("none"/"uppercase") on every
+                  Typography below rather than left to inherit: the theme's
+                  MuiTypography root override forces textTransform:
+                  "capitalize" globally, which title-cases every word of
+                  ordinary sentences ("You Must Be 18 Or Over.") — fine for
+                  a short heading, but it reads as broken for body copy and
+                  list text. Overriding it locally per-element is the
+                  surgical fix; the real long-term fix is removing that
+                  root override from theme.ts (or scoping it to just
+                  buttons/labels) since it's quietly doing this to every
+                  paragraph on the site, not only this section. */}
               <Typography
                 variant="overline"
                 sx={{
                   color: "primary.main",
                   letterSpacing: "0.2em",
                   fontWeight: 600,
+                  textTransform: "uppercase",
                 }}
               >
                 Honesty first
@@ -77,6 +90,7 @@ export function HonestySection() {
                   fontSize: { xs: "2.25rem", sm: "2.75rem" },
                   mt: 1,
                   color: "background.paper",
+                  textTransform: "none",
                 }}
               >
                 Who this service is not for
@@ -89,36 +103,49 @@ export function HonestySection() {
                   fontSize: "1.25rem",
                   lineHeight: 1.7,
                   color: (t) => alpha(t.palette.background.paper, 0.88),
+                  textTransform: "none",
                 }}
               >
                 Trust starts with being clear about limits. This programme is
                 not right for everyone, and we screen carefully.
               </Typography>
 
-              <Stack spacing={2} sx={{ mt: 5 }}>
-                {EXCLUSIONS.map((item) => (
+              {/* No card surfaces here anymore — the list sits straight on
+                  the photo (the scrim above is what keeps it legible), a
+                  thin translucent-white rule separates each row instead of
+                  a white pill, and both the icon and the text are plain
+                  white so nothing but the photo itself reads as a
+                  "surface". */}
+              <Stack sx={{ mt: 5 }}>
+                {EXCLUSIONS.map((item, i) => (
                   <Stack
                     key={item}
                     direction="row"
                     spacing={2}
                     sx={{
                       alignItems: "flex-start",
-                      bgcolor: "background.paper",
-                      borderRadius: 3,
-                      p: 2.5,
+                      py: 2.5,
+                      borderTop: i === 0 ? "none" : "1px solid",
+                      borderColor: (t) =>
+                        alpha(t.palette.background.paper, 0.22),
                     }}
                   >
-                    <CheckOutlinedIcon
+                    <CheckRoundedIcon
                       sx={{
-                        color: "primary.main",
-                        mt: "2px",
+                        color: "background.paper",
                         flexShrink: 0,
-                        fontSize: 26,
+                        fontSize: 24,
+                        mt: "2px",
                       }}
                     />
                     <Typography
                       variant="body1"
-                      sx={{ fontSize: "1.1rem", lineHeight: 1.6 }}
+                      sx={{
+                        fontSize: "1.1rem",
+                        lineHeight: 1.6,
+                        color: "background.paper",
+                        textTransform: "none",
+                      }}
                     >
                       {item}
                     </Typography>
@@ -127,9 +154,10 @@ export function HonestySection() {
               </Stack>
             </Box>
 
-            {/* Visual anchor: a large safety-badge icon in a soft circle,
-                giving this section the same "visual half" every other
-                section on the page has (photo, chart, card grid). */}
+            {/* Visual anchor: just the icon itself, all white, floating
+                directly on the photo — no white disc behind it anymore, so
+                it reads as part of the image rather than a card sitting on
+                top of it. */}
             <Box
               sx={{
                 display: { xs: "none", md: "flex" },
@@ -138,12 +166,10 @@ export function HonestySection() {
                 height: 340,
                 width: 340,
                 mx: "auto",
-                borderRadius: "50%",
-                bgcolor: "background.paper",
               }}
             >
-              <VerifiedUserOutlinedIcon
-                sx={{ fontSize: 140, color: "secondary.main", opacity: 0.85 }}
+              <VerifiedUserRoundedIcon
+                sx={{ fontSize: 180, color: "background.paper" }}
               />
             </Box>
           </Box>
@@ -154,24 +180,25 @@ export function HonestySection() {
               maxWidth: 1300,
               mx: "auto",
               display: "flex",
-              gap: 2,
-              alignItems: "flex-start",
+              gap: 2.5,
+              alignItems: "center",
               borderRadius: 3,
               border: "1px solid",
-              borderColor: "status.red",
-              bgcolor: "background.paper",
+              borderColor: (t) => alpha(t.palette.background.paper, 0.35),
               p: { xs: 3, md: 4 },
             }}
           >
-            <LocalHospitalOutlinedIcon
-              sx={{
-                color: "status.red",
-                mt: "4px",
-                flexShrink: 0,
-                fontSize: 28,
-              }}
+            <LocalHospitalRoundedIcon
+              sx={{ color: "background.paper", flexShrink: 0, fontSize: 26 }}
             />
-            <Typography sx={{ fontSize: "1.15rem", lineHeight: 1.6 }}>
+            <Typography
+              sx={{
+                fontSize: "1.15rem",
+                lineHeight: 1.6,
+                color: "background.paper",
+                textTransform: "none",
+              }}
+            >
               <Box component="span" sx={{ fontWeight: 700 }}>
                 If you are unwell now, call 999, or NHS 111 for urgent advice.
               </Box>{" "}
