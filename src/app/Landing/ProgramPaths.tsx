@@ -36,15 +36,15 @@ export function ProgrammePaths() {
               fontWeight: 600,
             }}
           >
-            Built around you, on medication or not.
+            Built for wherever you're starting from.
           </Typography>
           <Typography
             variant="body1"
             color="text.secondary"
             sx={{ mt: 2, fontSize: "1.125rem", lineHeight: 1.7 }}
           >
-            Your programme adapts to where you are today, whether you are
-            starting fresh or already taking a GLP-1 medication.
+            Your programme adapts to you — whether this is a first step, or
+            you're already partway through treatment.
           </Typography>
         </Box>
 
@@ -110,12 +110,13 @@ export function ProgrammePaths() {
               <Typography
                 variant="body1"
                 color="text.secondary"
-                sx={{ lineHeight: 1.7 }}
+                sx={{ lineHeight: 1.7, fontSize: "1.125rem" }}
               >
-                A prescriber-led plan built around your goals, with coaching and
-                clear guidance at every step. You'll get a tailored dosing
-                schedule, regular check-ins with your prescriber, and ongoing
-                support to keep you on track.
+                A prescriber-led plan built around your goals, with clear
+                guidance and support at every step. Where medication is part of
+                your plan, it's dosed and adjusted by your prescriber —
+                alongside regular check-ins and the ongoing support to help you
+                stay on track.
               </Typography>
             </CardContent>
 
@@ -240,11 +241,16 @@ export function ProgrammePaths() {
             >
               <Typography
                 variant="body1"
-                sx={{ lineHeight: 1.7, color: "#fff", opacity: 0.85 }}
+                sx={{
+                  lineHeight: 1.7,
+                  color: "#fff",
+                  opacity: 0.85,
+                  fontSize: "1.125rem",
+                }}
               >
-                Get tailored nutrition guidance, habit support, and ongoing
-                coaching alongside your prescription — plus regular check-ins to
-                help you stay consistent and see results.
+                Get tailored nutrition guidance, habit support, and structured
+                reviews alongside your prescription — on a fixed rhythm, to help
+                you stay consistent.
               </Typography>
             </CardContent>
 

@@ -82,7 +82,7 @@ export const theme = createTheme({
     h4: { fontFamily: "var(--font-manrope), sans-serif" },
     h5: { fontFamily: "var(--font-manrope), sans-serif" },
     h6: { fontFamily: "var(--font-manrope), sans-serif" },
-    button: { textTransform: "none" }, // kills the default UPPERCASE look
+    button: { textTransform: "none" },
   },
   shape: {
     borderRadius: 12, // matches --radius: 0.75rem
@@ -90,6 +90,25 @@ export const theme = createTheme({
   components: {
     MuiButton: {
       defaultProps: { disableRipple: true },
+      styleOverrides: {
+        root: {
+          textTransform: "capitalize",
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          textTransform: "capitalize",
+        },
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        label: {
+          textTransform: "capitalize",
+        },
+      },
     },
   },
 });

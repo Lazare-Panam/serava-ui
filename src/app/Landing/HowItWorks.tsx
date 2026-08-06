@@ -1,15 +1,16 @@
 // src/components/HowItWorks.tsx
-// Five-step journey. The connecting line draws in once on scroll, and each
-// step's dot fills with colour on a delay timed to match roughly when the
-// travelling line would reach it — line and dots share one trigger so
-// they're synchronized, not two independent animations that happen to
-// overlap. Dots sit in a flat row (no per-dot vertical stagger) and the
-// line is a gentle, low-amplitude wave, so the line reliably stays close
-// to every dot instead of drifting away from one at certain widths.
-// Falls back to a plain vertical timeline on mobile.
+// Five-step journey. The connecting line draws in once on scroll, growing
+// from step 1 across to step 5 — a straight line moving at constant speed —
+// so the dot fill delays (a linear fraction of total duration) line up with
+// where the line visually is at that moment. Each dot fills with colour and
+// gains a white border as the line passes it. Only the dots themselves are
+// clickable links (placeholder href="#" until real destinations exist),
+// with a glossy sheen sweep on hover so they read as interactive. Falls
+// back to a plain vertical timeline on mobile.
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import Link from "next/link";
 import { Box, Typography } from "@mui/material";
 
 type Step = {
@@ -39,44 +40,135 @@ const STEPS: Step[] = [
   },
   {
     title: "Reviews, then the off-ramp",
-    detail: "Regular reviews, and a planned maintenance phase to finish.",
+    detail:
+      "Scheduled reviews, moving into a maintenance phase designed to bring things to a steady close.",
   },
 ];
 
-// Total time for the line to draw across all five dots. Each dot's fill
-// delay is a fraction of this, so the last dot lights up right as the line
-// finishes drawing.
-const LINE_DURATION = 2.2;
+// Total time for the line to draw across all five dots, step 1 to step 5.
+// Each dot's fill delay is a fraction of this, so the last dot lights up
+// right as the line finishes drawing.
+const LINE_DURATION = 3.6;
 
+// Diameter of the desktop dot. The line's vertical position is derived
+// directly from this (half of it), so the two can never drift out of sync
+// again — bump this and the line re-centres itself automatically.
+const DOT_SIZE = 72;
+
+// Shared sx for the glossy sheen sweep + hover pop, factored out since both
+// the desktop and mobile dot are otherwise near-identical.
+function shinyDotSx(drawn: boolean, delay: number) {
+  return {
+    position: "relative" as const,
+    overflow: "hidden" as const,
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontWeight: 700,
+    textDecoration: "none",
+    boxShadow: 1,
+    border: "2px solid",
+    borderColor: drawn ? "#FFFFFF" : "primary.main",
+    bgcolor: drawn ? "primary.main" : "background.paper",
+    color: drawn ? "#FFFFFF" : "secondary.main",
+    cursor: "pointer",
+    // color/border/background transition keeps its scroll-timed delay;
+    // transform/box-shadow (hover feedback) get their own transition with
+    // no delay, so hovering never feels laggy once "drawn" has fired.
+    transition: `background-color 0.5s ease ${delay}s, color 0.5s ease ${delay}s, border-color 0.5s ease ${delay}s, transform 0.2s ease, box-shadow 0.2s ease`,
+    "&::after": {
+      content: '""',
+      position: "absolute",
+      top: 0,
+      left: "-75%",
+      width: "50%",
+      height: "100%",
+      background:
+        "linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0) 100%)",
+      transform: "skewX(-20deg)",
+    },
+    "&:hover": {
+      transform: "scale(1.08)",
+      boxShadow: "0 0 0 6px rgba(42,179,166,0.18), 0 6px 14px rgba(0,0,0,0.15)",
+    },
+    "&:hover::after": {
+      left: "125%",
+      transition: "left 0.6s ease",
+    },
+  };
+}
+
+// The connecting line. It's a plain, perfectly flat horizontal stroke — no
+// viewBox distortion to fight — positioned so its centre sits exactly at
+// DOT_SIZE / 2 from the top of the row, which is exactly where the dot
+// circles are centred too (they're the first thing in each grid column,
+// so their own centre is also DOT_SIZE / 2 from the row's top). The ends
+// fade out via a gradient rather than cutting off hard, which is what
+// actually reads as "graceful" rather than a flat ruled line.
+//
+// Horizontally it runs from the centre of the first dot's column to the
+// centre of the last dot's column (10% to 90%, since 5 equal columns put
+// column i's centre at (i + 0.5) / 5), so it visually originates from and
+// terminates in the dots themselves instead of floating past their edges.
 function CareLinePath({ drawn }: { drawn: boolean }) {
+  const gradientId = useId();
+
   return (
     <Box
       component="svg"
-      viewBox="0 0 1000 120"
+      viewBox="0 0 1000 6"
       preserveAspectRatio="none"
       aria-hidden="true"
       sx={{
         position: "absolute",
         left: 0,
         right: 0,
-        top: 6,
+        top: DOT_SIZE / 2,
+        transform: "translateY(-50%)",
         width: "100%",
-        height: 120,
+        height: 6,
         display: { xs: "none", md: "block" },
       }}
     >
+      <defs>
+        {/*
+          gradientUnits must be userSpaceOnUse here. The default,
+          objectBoundingBox, derives its coordinate system from the path's
+          own bounding box — and a perfectly horizontal line has a
+          bounding box with zero height. Per the SVG spec, an
+          objectBoundingBox paint server on a zero-area bounding box simply
+          doesn't render (not even a fallback colour), which is why the
+          whole line vanished the moment this became a gradient instead of
+          a flat stroke colour. userSpaceOnUse anchors x1/x2 to the same
+          0–1000 coordinate space as the path's own "d" data, sidestepping
+          the bounding-box calculation entirely.
+        */}
+        <linearGradient
+          id={gradientId}
+          gradientUnits="userSpaceOnUse"
+          x1="100"
+          y1="3"
+          x2="900"
+          y2="3"
+        >
+          <stop offset="0%" stopColor="#2AB3A6" stopOpacity={0} />
+          <stop offset="8%" stopColor="#2AB3A6" stopOpacity={0.55} />
+          <stop offset="92%" stopColor="#2AB3A6" stopOpacity={0.55} />
+          <stop offset="100%" stopColor="#2AB3A6" stopOpacity={0} />
+        </linearGradient>
+      </defs>
       <path
-        d="M20 54 C 90 44, 150 64, 220 56 S 380 46, 500 54 S 660 62, 780 54 S 930 46, 985 54"
+        d="M100 3 L900 3"
         fill="none"
-        stroke="#2AB3A6"
-        strokeWidth={2.5}
+        stroke={`url(#${gradientId})`}
+        strokeWidth={3}
         strokeLinecap="round"
-        opacity={0.5}
         pathLength={1}
         style={{
           strokeDasharray: 1,
           strokeDashoffset: drawn ? 0 : 1,
-          transition: `stroke-dashoffset ${LINE_DURATION}s ease`,
+          transition: `stroke-dashoffset ${LINE_DURATION}s linear`,
         }}
       />
     </Box>
@@ -175,24 +267,16 @@ export function HowItWorks() {
             return (
               <Box key={step.title} sx={{ textAlign: "center" }}>
                 <Box
+                  component={Link}
+                  href="#"
+                  aria-label={`Step ${i + 1}: ${step.title}`}
                   sx={{
-                    width: 72,
-                    height: 72,
+                    ...shinyDotSx(drawn, delay),
+                    width: DOT_SIZE,
+                    height: DOT_SIZE,
                     mx: "auto",
                     mb: 3,
-                    borderRadius: "50%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontWeight: 700,
                     fontSize: "1.25rem",
-                    boxShadow: 1,
-                    border: "2px solid",
-                    borderColor: "primary.main",
-                    bgcolor: drawn ? "primary.main" : "background.paper",
-                    color: drawn ? "#FFFFFF" : "secondary.main",
-                    transition: "background-color 0.5s ease, color 0.5s ease",
-                    transitionDelay: `${delay}s`,
                   }}
                 >
                   {i + 1}
@@ -234,24 +318,17 @@ export function HowItWorks() {
           return (
             <Box key={step.title} sx={{ position: "relative", py: 2.5 }}>
               <Box
+                component={Link}
+                href="#"
+                aria-label={`Step ${i + 1}: ${step.title}`}
                 sx={{
+                  ...shinyDotSx(drawn, delay),
                   position: "absolute",
                   left: -60,
                   top: 18,
                   width: 44,
                   height: 44,
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 700,
                   fontSize: "1rem",
-                  border: "2px solid",
-                  borderColor: "primary.main",
-                  bgcolor: drawn ? "primary.main" : "background.paper",
-                  color: drawn ? "#FFFFFF" : "secondary.main",
-                  transition: "background-color 0.5s ease, color 0.5s ease",
-                  transitionDelay: `${delay}s`,
                 }}
               >
                 {i + 1}

@@ -149,9 +149,10 @@ export function Hero() {
                 color="text.secondary"
                 sx={{ maxWidth: 480, fontSize: "1.1rem", lineHeight: 1.65 }}
               >
-                A programme led by independent prescribers, built around one to
-                one consultations, blood tests, structured monitoring, and full
-                lifestyle support, with a planned ending.
+                Led by independent prescribers, the programme runs on one to one
+                consultations, blood tests, and structured monitoring — with
+                full lifestyle support throughout, and an ending built in from
+                day one.
               </Typography>
 
               <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
@@ -185,15 +186,14 @@ export function Hero() {
                   How it works →
                 </Button>
               </Stack>
-
-              <Typography
+              {/* <Typography
                 variant="body1"
                 color="text.secondary"
                 sx={{ fontSize: "0.92rem" }}
               >
                 Takes about five minutes. No obligation, and no payment to
                 check.
-              </Typography>
+              </Typography> */}
             </Stack>
           </Box>
 
