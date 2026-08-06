@@ -81,20 +81,20 @@ function shinyDotSx(drawn: boolean, delay: number) {
       content: '""',
       position: "absolute",
       top: 0,
-      left: "-75%",
-      width: "50%",
+      left: "-60%",
+      width: "35%",
       height: "100%",
       background:
-        "linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0) 100%)",
+        "linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)",
       transform: "skewX(-20deg)",
     },
     "&:hover": {
-      transform: "scale(1.08)",
-      boxShadow: "0 0 0 6px rgba(42,179,166,0.18), 0 6px 14px rgba(0,0,0,0.15)",
+      transform: "scale(1.03)",
+      boxShadow: "0 3px 8px rgba(0,0,0,0.12)",
     },
     "&:hover::after": {
-      left: "125%",
-      transition: "left 0.6s ease",
+      left: "115%",
+      transition: "left 0.7s ease",
     },
   };
 }

@@ -10,14 +10,14 @@ import { alpha } from "@mui/material/styles";
 import { Box, Typography, Button, Stack } from "@mui/material";
 
 type Photo = {
-  caption: string;
+  src: string;
 };
 
 const PHOTOS: Photo[] = [
-  { caption: "Supported from day one" },
-  { caption: "A prescriber, not just a form" },
-  { caption: "Real reviews, on a fixed rhythm" },
-  { caption: "A plan you keep, after the programme ends" },
+  { src: "https://pblol2.blob.core.windows.net/serava-ui/hero/s-img-1.jpeg" },
+  { src: "https://pblol2.blob.core.windows.net/serava-ui/hero/s-img-2.jpeg" },
+  { src: "https://pblol2.blob.core.windows.net/serava-ui/hero/s-img-3.jpeg" },
+  { src: "https://pblol2.blob.core.windows.net/serava-ui/hero/s-img-4.jpeg" },
 ];
 
 function PhotoColumn() {
@@ -38,49 +38,21 @@ function PhotoColumn() {
       >
         {looped.map((photo, i) => (
           <Box
-            key={`${photo.caption}-${i}`}
+            key={`${photo.src}-${i}`}
+            component="img"
+            src={photo.src}
+            alt=""
             sx={{
               height: 260,
+              width: "100%",
               flexShrink: 0,
-              display: "flex",
-              alignItems: "flex-end",
-              p: 2,
               borderRadius: 3,
-              bgcolor: "muted.main",
+              objectFit: "cover",
+              display: "block",
             }}
-          >
-            <Typography
-              variant="body2"
-              sx={{ color: "text.primary", fontWeight: 500 }}
-            >
-              {photo.caption}
-            </Typography>
-          </Box>
+          />
         ))}
       </Box>
-
-      <Box
-        sx={{
-          pointerEvents: "none",
-          position: "absolute",
-          insetInline: 0,
-          top: 0,
-          height: 48,
-          background: (t) =>
-            `linear-gradient(to bottom, ${t.palette.background.default}, transparent)`,
-        }}
-      />
-      <Box
-        sx={{
-          pointerEvents: "none",
-          position: "absolute",
-          insetInline: 0,
-          bottom: 0,
-          height: 48,
-          background: (t) =>
-            `linear-gradient(to top, ${t.palette.background.default}, transparent)`,
-        }}
-      />
 
       <style>{`
         .trust-scroll {
@@ -109,7 +81,6 @@ export function TrustBand() {
       <Box
         sx={{
           borderRadius: 6,
-          bgcolor: (t) => alpha(t.palette.accentBrand.main, 0.08),
           overflow: "hidden",
           p: { xs: 3, md: 6 },
         }}
@@ -144,7 +115,7 @@ export function TrustBand() {
                 color: "text.primary",
               }}
             >
-              Built around a prescriber, not a form and a hope.
+              A prescriber decides, not a form.
             </Typography>
 
             <Typography
@@ -153,8 +124,8 @@ export function TrustBand() {
               sx={{ fontSize: "1.25rem", lineHeight: 1.7 }}
             >
               Your programme is personal, supervised, and never something you do
-              alone. From your first consultation to the planned end of
-              treatment, someone is checking in with you.
+              alone. From your first consultation onward, someone is checking in
+              with you — right through to a finish you can see coming.
             </Typography>
 
             <Box
@@ -173,7 +144,13 @@ export function TrustBand() {
                 href="/eligibility"
                 variant="contained"
                 size="large"
-                sx={{ borderRadius: 999, px: 4, py: 1.5, fontSize: "1.05rem" }}
+                sx={{
+                  borderRadius: 999,
+                  px: 4,
+                  py: 1.5,
+                  fontSize: "1.05rem",
+                  color: "#fff",
+                }}
               >
                 Check your eligibility
               </Button>
