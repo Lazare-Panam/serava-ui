@@ -1,13 +1,24 @@
-// src/components/Landing/Pricing.tsx
+// src/components/Landing/PricingSection.tsx
 // Three-tier pricing: a free eligibility/questionnaire stage, a one-time
 // consultation fee, and a recurring subscription. Same card anatomy across
 // all three (a coloured header block carrying the tier name/price, then a
 // white body with the checklist and CTA) — only the header colour changes
 // per tier. Colour lookups for plain palette tokens live in ACCENT_TOKENS;
 // anything needing alpha-blending is computed inline via a `(theme) => ...`
-// callback directly inside the relevant sx, the same pattern ProgrammePaths
+// callback directly inside the relevant sx, same pattern ProgrammePaths
 // uses — no standalone helper function, so there's never a "theme"
 // parameter sitting outside a typed context for TypeScript to choke on.
+//
+// The whole heading + card grid now sits on a rounded dark-green tile
+// (secondary.main), same "cards floating in a coloured panel" device
+// ProgrammePaths already uses for its two-path section — except there the
+// panel was the pale buttery yellow behind mostly-white cards, and here
+// it's secondary.main (deep viridian) behind three already-colourful card
+// headers (buttery yellow / iris / teal). Went dark instead of another
+// pastel deliberately: those three header colours are the whole point of
+// telling the tiers apart, and they read strongest against a dark, mostly
+// neutral backdrop rather than against another light tint competing with
+// them for attention.
 //
 // Note: theme.ts sets `textTransform: "capitalize"` globally on
 // MuiTypography and MuiChip (and "capitalize" on MuiButton too, despite
@@ -15,10 +26,10 @@
 // That's why every Typography/Chip below that's meant to read as normal
 // sentence case has an explicit `textTransform: "none"` — without it,
 // "Starting at" renders as "Starting At" and the chip's illustrative-price
-// disclaimer gets title-cased word by word, which is what was happening
-// before this fix. If you'd rather not fight this per-component, the real
-// fix is removing those three overrides from theme.ts — this file just
-// works around them locally instead, since that's a bigger, sitewide call.
+// disclaimer gets title-cased word by word. If you'd rather not fight this
+// per-component, the real fix is removing those three overrides from
+// theme.ts — this file just works around them locally instead, since
+// that's a bigger, sitewide call.
 "use client";
 
 import Link from "next/link";
@@ -132,8 +143,8 @@ function PricingCard({ plan }: { plan: Plan }) {
         borderRadius: "20px",
         bgcolor: "background.paper",
         boxShadow: isFeatured
-          ? "0 24px 48px rgba(29,36,48,0.16)"
-          : "0 12px 32px rgba(29,36,48,0.08)",
+          ? "0 24px 48px rgba(0,0,0,0.32)"
+          : "0 12px 32px rgba(0,0,0,0.22)",
         display: "flex",
         flexDirection: "column",
         height: "100%",
@@ -327,107 +338,119 @@ export function PricingSection() {
     <Box
       component="section"
       id="pricing"
-      sx={{ mx: "auto", maxWidth: 1600, px: 3, py: { xs: 10, md: 16 } }}
+      sx={{ mx: "auto", maxWidth: 1600, px: 3, py: { xs: 6, md: 10 } }}
     >
+      {/* The tile — everything below (heading, cards, footer note) sits
+          inside this one rounded dark-green panel. */}
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 1.5,
-          alignItems: "center",
-          textAlign: "center",
+          borderRadius: 6,
+          bgcolor: "secondary.main",
+          px: { xs: 3, sm: 6 },
+          py: { xs: 8, md: 12 },
         }}
       >
         <Box
           sx={{
             display: "flex",
-            flexDirection: "row",
-            gap: 1,
+            flexDirection: "column",
+            gap: 1.5,
             alignItems: "center",
+            textAlign: "center",
           }}
         >
-          <Box sx={{ width: 20, height: "1px", bgcolor: "secondary.main" }} />
-          <Typography
-            variant="overline"
+          <Box
             sx={{
-              color: "secondary.main",
-              letterSpacing: "0.2em",
-              fontWeight: 500,
-              textTransform: "uppercase",
+              display: "flex",
+              flexDirection: "row",
+              gap: 1,
+              alignItems: "center",
             }}
           >
-            Pricing
+            <Box sx={{ width: 20, height: "1px", bgcolor: "primary.main" }} />
+            <Typography
+              variant="overline"
+              sx={{
+                color: "primary.main",
+                letterSpacing: "0.2em",
+                fontWeight: 500,
+                textTransform: "uppercase",
+              }}
+            >
+              Pricing
+            </Typography>
+          </Box>
+
+          <Typography
+            variant="h2"
+            sx={{
+              fontFamily: "var(--font-manrope), sans-serif",
+              fontWeight: 700,
+              fontSize: { xs: "2.25rem", sm: "2.75rem" },
+              color: "background.paper",
+              textTransform: "none",
+            }}
+          >
+            Pick the stage you're on
+          </Typography>
+
+          <Typography
+            variant="body1"
+            sx={{
+              maxWidth: 560,
+              fontSize: "1.05rem",
+              lineHeight: 1.7,
+              color: (t) => alpha(t.palette.background.paper, 0.75),
+              textTransform: "none",
+            }}
+          >
+            Three stages, three prices — nothing hidden between them, and
+            nothing to pay until you know this is right for you.
           </Typography>
         </Box>
 
-        <Typography
-          variant="h2"
-          sx={{
-            fontFamily: "var(--font-manrope), sans-serif",
-            fontWeight: 700,
-            fontSize: { xs: "2.25rem", sm: "2.75rem" },
-            textTransform: "none",
-          }}
-        >
-          Pick the stage you're on
-        </Typography>
-
-        <Typography
-          variant="body1"
-          color="text.secondary"
-          sx={{
-            maxWidth: 560,
-            fontSize: "1.05rem",
-            lineHeight: 1.7,
-            textTransform: "none",
-          }}
-        >
-          Three stages, three prices — nothing hidden between them, and nothing
-          to pay until you know this is right for you.
-        </Typography>
-      </Box>
-
-      <Box
-        sx={{
-          mx: "auto",
-          mt: { xs: 6, md: 12 },
-          maxWidth: 1100,
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "repeat(3, minmax(0, 320px))" },
-          justifyContent: "center",
-          gap: { xs: 4, md: 5 },
-          alignItems: "stretch",
-        }}
-      >
-        {PLANS.map((plan) => (
-          <PricingCard key={plan.id} plan={plan} />
-        ))}
-      </Box>
-
-      <Typography
-        sx={{
-          mt: { xs: 6, md: 10 },
-          textAlign: "center",
-          fontSize: "0.9rem",
-          color: "text.secondary",
-          textTransform: "none",
-        }}
-      >
-        You pay nothing until you book your consultation. Full breakdown of
-        what's included is on{" "}
         <Box
-          component={Link}
-          href="/programme"
           sx={{
-            color: "secondary.main",
-            fontWeight: 600,
+            mx: "auto",
+            mt: { xs: 6, md: 12 },
+            maxWidth: 1100,
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: "repeat(3, minmax(0, 320px))" },
+            justifyContent: "center",
+            gap: { xs: 4, md: 5 },
+            alignItems: "stretch",
+          }}
+        >
+          {PLANS.map((plan) => (
+            <PricingCard key={plan.id} plan={plan} />
+          ))}
+        </Box>
+
+        <Typography
+          sx={{
+            mt: { xs: 6, md: 10 },
+            textAlign: "center",
+            fontSize: "0.9rem",
+            color: (t) => alpha(t.palette.background.paper, 0.7),
             textTransform: "none",
           }}
         >
-          the programme
-        </Box>{" "}
-        page.
-      </Typography>
+          You pay nothing until you book your consultation. Full breakdown of
+          what's included is on{" "}
+          <Box
+            component={Link}
+            href="/programme"
+            sx={{
+              color: "primary.main",
+              fontWeight: 600,
+              textTransform: "none",
+            }}
+          >
+            the programme
+          </Box>{" "}
+          page.
+        </Typography>
+      </Box>
     </Box>
   );
 }
