@@ -19,7 +19,7 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const LOGO_URL =
-  "https://pblol2.blob.core.windows.net/serava-ui/serava-health-no-bg.png";
+  "https://pblol2.blob.core.windows.net/serava-ui/hero/sereva.logo.jpeg";
 
 const NAV_LINKS = [
   { label: "How it works", href: "#how" },
@@ -40,7 +40,7 @@ export function Navbar() {
         position: "sticky",
         top: 0,
         zIndex: (t) => t.zIndex.appBar,
-        bgcolor: "background.default",
+        bgcolor: "#fff",
         borderBottom: "1px solid",
         borderColor: "divider",
       }}
