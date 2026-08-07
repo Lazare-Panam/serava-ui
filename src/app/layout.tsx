@@ -3,6 +3,7 @@ import { Manrope, Inter } from "next/font/google";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { theme } from "./theme";
+import { Navbar } from "./Common/Navbar";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -30,6 +31,7 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
+            <Navbar />
             {children}
           </ThemeProvider>
         </AppRouterCacheProvider>
