@@ -22,6 +22,24 @@ import { alpha } from "@mui/material/styles";
 import type { SxProps, Theme } from "@mui/material/styles";
 import { Box, Typography } from "@mui/material";
 
+// UAT-only stand-ins for a future real partner-logo row. These "glogo-*" /
+// "g-logo-*" images are generic dummy marks with no real institution
+// behind them — each one still carries its own "placeholder" caption
+// underneath (not just the row-level note above) so nobody mistakes one
+// for an actual confirmed partner while skimming the page. Do not replace
+// these with a real institution's logo or name unless a genuine, signed
+// partnership exists; swapping one in "for now, we'll confirm later" is
+// exactly how a false affiliation claim quietly ships. When real
+// partnerships exist, replace this whole array with the actual, approved
+// logo files and drop the "placeholder" caption for that entry.
+const PARTNER_PLACEHOLDERS = [
+  { src: "https://pblol2.blob.core.windows.net/serava-ui/hero/glogo-1.png", alt: "Dummy partner logo 1" },
+  { src: "https://pblol2.blob.core.windows.net/serava-ui/hero/g-logo-2.png", alt: "Dummy partner logo 2" },
+  { src: "https://pblol2.blob.core.windows.net/serava-ui/hero/uk-logo.png", alt: "Dummy partner logo 3" },
+  { src: "https://pblol2.blob.core.windows.net/serava-ui/hero/g-logo-4.png", alt: "Dummy partner logo 4" },
+  { src: "https://pblol2.blob.core.windows.net/serava-ui/hero/g-logo-3.jpg", alt: "Dummy partner logo 5" },
+];
+
 const BACKGROUND_IMAGE_URL =
   "https://pblol2.blob.core.windows.net/serava-ui/hero/sv-analytics-section.jpg";
 
@@ -141,32 +159,12 @@ function ChartLegend({
 function ChartAxes({ xEnd = "Week 12" }: { xEnd?: string }) {
   return (
     <>
-      <line
-        x1="14"
-        y1="8"
-        x2="14"
-        y2="86"
-        stroke="rgba(29,36,48,0.18)"
-        strokeWidth={1}
-      />
-      <line
-        x1="14"
-        y1="86"
-        x2="192"
-        y2="86"
-        stroke="rgba(29,36,48,0.18)"
-        strokeWidth={1}
-      />
+      <line x1="14" y1="8" x2="14" y2="86" stroke="rgba(29,36,48,0.18)" strokeWidth={1} />
+      <line x1="14" y1="86" x2="192" y2="86" stroke="rgba(29,36,48,0.18)" strokeWidth={1} />
       <text x="14" y="97" fontSize="7" fill="rgba(29,36,48,0.45)">
         Start
       </text>
-      <text
-        x="192"
-        y="97"
-        fontSize="7"
-        fill="rgba(29,36,48,0.45)"
-        textAnchor="end"
-      >
+      <text x="192" y="97" fontSize="7" fill="rgba(29,36,48,0.45)" textAnchor="end">
         {xEnd}
       </text>
     </>
@@ -229,11 +227,7 @@ function TrendLine({ inView }: { inView: boolean }) {
       </Box>
       <ChartLegend
         items={[
-          {
-            color: "rgba(29,36,48,0.55)",
-            label: "Without Serava",
-            dashed: true,
-          },
+          { color: "rgba(29,36,48,0.55)", label: "Without Serava", dashed: true },
           { color: "#2AB3A6", label: "With Serava" },
         ]}
       />
@@ -334,11 +328,7 @@ function TrendArea({ inView }: { inView: boolean }) {
       </Box>
       <ChartLegend
         items={[
-          {
-            color: "rgba(29,36,48,0.55)",
-            label: "Without Serava",
-            dashed: true,
-          },
+          { color: "rgba(29,36,48,0.55)", label: "Without Serava", dashed: true },
           { color: "#2AB3A6", label: "With Serava" },
         ]}
       />
@@ -528,8 +518,7 @@ export function Outcomes() {
               fontWeight: 600,
               fontSize: { xs: "1.75rem", sm: "2.5rem" },
               color: "background.paper",
-              textShadow:
-                "0 2px 4px rgba(0,0,0,0.45), 0 8px 24px rgba(0,0,0,0.35)",
+              textShadow: "0 2px 4px rgba(0,0,0,0.45), 0 8px 24px rgba(0,0,0,0.35)",
             }}
           >
             Outcomes we can{" "}
@@ -667,35 +656,100 @@ export function Outcomes() {
         </Box>
       </Box>
 
-      {/* Partner row — structural placeholder only. Do not add a real
-          institution's name/logo unless a genuine, signed partnership
-          exists. Implying affiliation with an institution that hasn't
-          actually partnered with Serava is a false claim, not a style
-          choice. */}
+      {/* Partner row — an auto-scrolling marquee of GENERIC placeholder
+          marks for UAT purposes only. Do not add a real institution's
+          name/logo unless a genuine, signed partnership exists. Implying
+          affiliation with an institution that hasn't actually partnered
+          with Serava is a false claim, not a style choice — including
+          "temporarily," for a demo. See PARTNER_PLACEHOLDERS above for
+          the swap-in point once real, approved logos exist. */}
       <Box sx={{ mt: { xs: 6, md: 8 }, textAlign: "center" }}>
         <Typography variant="caption" color="text.secondary">
-          Partner institutions — add only if a real partnership exists
+          Illustrative placeholders — swap for real, approved partner logos
+          once a partnership actually exists
         </Typography>
+
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 5,
-            mt: 2,
-            flexWrap: "wrap",
+            position: "relative",
+            mt: 3,
+            overflow: "hidden",
+            maskImage:
+              "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
           }}
         >
-          {[1, 2, 3, 4].map((i) => (
-            <Box
-              key={i}
-              sx={{
-                height: 32,
-                width: 100,
-                borderRadius: 1,
-                bgcolor: "muted.main",
-              }}
-            />
-          ))}
+          <Box
+            className="partner-marquee"
+            sx={{
+              display: "flex",
+              width: "max-content",
+              gap: { xs: 5, md: 7 },
+            }}
+          >
+            {[...PARTNER_PLACEHOLDERS, ...PARTNER_PLACEHOLDERS].map(
+              ({ src, alt }, i) => (
+                <Box
+                  key={`${src}-${i}`}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 0.5,
+                    flexShrink: 0,
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={src}
+                    alt={alt}
+                    sx={{
+                      height: 48,
+                      width: "auto",
+                      maxWidth: 180,
+                      objectFit: "contain",
+                      opacity: 0.75,
+                      filter: "grayscale(60%)",
+                    }}
+                  />
+                  {/* Per-logo reminder, not just the row-level caption
+                      above — swap this out the moment this specific logo
+                      is replaced with a real, approved one. */}
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: "text.secondary",
+                      opacity: 0.6,
+                      fontSize: "0.65rem",
+                      letterSpacing: "0.04em",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    Placeholder — real logo TBC
+                  </Typography>
+                </Box>
+              ),
+            )}
+          </Box>
+
+          <style>{`
+            .partner-marquee {
+              animation: partner-marquee-scroll 28s linear infinite;
+            }
+            .partner-marquee:hover {
+              animation-play-state: paused;
+            }
+            @keyframes partner-marquee-scroll {
+              from { transform: translateX(0); }
+              to { transform: translateX(-50%); }
+            }
+            @media (prefers-reduced-motion: reduce) {
+              .partner-marquee {
+                animation: none;
+              }
+            }
+          `}</style>
         </Box>
       </Box>
     </Box>
