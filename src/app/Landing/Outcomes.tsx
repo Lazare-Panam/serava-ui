@@ -1,20 +1,30 @@
 // src/components/Outcomes.tsx
-// Three outcome cards on a light teal-tinted panel. All charts and the big
-// numbers animate in once, when the section scrolls into view — the line
-// draws, the donut fills, the area rises, the numbers count up. Respects
-// prefers-reduced-motion (everything just appears in its final state).
+// Outcome stats restyled as a cluster of frosted-glass tiles floating over
+// a full-bleed lifestyle photo, instead of a flat card grid on a solid
+// teal panel. Each tile fades and rises into place, staggered, the first
+// time the section scrolls into view; the charts inside animate on that
+// same trigger. Respects prefers-reduced-motion (everything just appears
+// in its final state, no motion).
 //
 // The figures below are ILLUSTRATIVE CONCEPT NUMBERS, not real outcomes
-// data — you said this is fine for now since it's a work-in-progress
-// concept. Before this goes live publicly, replace every number with a
-// real, evidenced figure. Never publish a fabricated statistic.
+// data — this is fine for now as a work-in-progress concept. Before this
+// goes live publicly, replace every number with a real, evidenced figure.
+// Never publish a fabricated statistic.
 // The partner-logo row is a structural placeholder only — do not add a
 // real institution's name/logo unless a genuine, signed partnership exists.
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import { alpha } from "@mui/material/styles";
+import type { SxProps, Theme } from "@mui/material/styles";
 import { Box, Typography } from "@mui/material";
+
+// Placeholder — no image was specified for this section. This reuses an
+// asset already used elsewhere on the page (TrustBand); swap in a
+// dedicated photo before shipping so it doesn't repeat.
+const BACKGROUND_IMAGE_URL =
+  "https://pblol2.blob.core.windows.net/serava-ui/hero/sv-analytics-section.jpg";
 
 function useInView<T extends HTMLElement>() {
   const ref = useRef<T>(null);
@@ -130,7 +140,7 @@ function DonutChart({ percent, inView }: { percent: number; inView: boolean }) {
     <Box
       component="svg"
       viewBox="0 0 120 120"
-      sx={{ width: 130, height: 130 }}
+      sx={{ width: 110, height: 110 }}
       aria-hidden="true"
     >
       <circle
@@ -197,15 +207,15 @@ function BarCompare({ inView }: { inView: boolean }) {
         alignItems: "flex-end",
         justifyContent: "center",
         gap: 4,
-        height: 140,
-        mt: 2,
+        height: 120,
+        mt: 1,
       }}
     >
       <Box sx={{ textAlign: "center" }}>
         <Box
           sx={{
-            width: 56,
-            height: inView ? 60 : 0,
+            width: 48,
+            height: inView ? 50 : 0,
             bgcolor: "muted.main",
             borderRadius: 1.5,
             transition: "height 1.1s ease",
@@ -222,8 +232,8 @@ function BarCompare({ inView }: { inView: boolean }) {
       <Box sx={{ textAlign: "center" }}>
         <Box
           sx={{
-            width: 56,
-            height: inView ? 120 : 0,
+            width: 48,
+            height: inView ? 100 : 0,
             background: "linear-gradient(180deg, #2AB3A6 0%, #1F8A80 100%)",
             borderRadius: 1.5,
             transition: "height 1.1s ease 0.15s",
@@ -241,6 +251,54 @@ function BarCompare({ inView }: { inView: boolean }) {
   );
 }
 
+// A single frosted-glass stat tile. Fades up into place on the section's
+// shared `inView` trigger, with `delay` staggering the cluster so they
+// don't all snap in at once — that stagger is most of what makes it read
+// as "floating in" rather than a plain card grid just appearing.
+function Tile({
+  inView,
+  delay = 0,
+  sx,
+  children,
+}: {
+  inView: boolean;
+  delay?: number;
+  sx?: SxProps<Theme>;
+  children: ReactNode;
+}) {
+  return (
+    <Box
+      sx={{
+        borderRadius: 5,
+        bgcolor: (t) => alpha(t.palette.background.paper, 0.85),
+        backdropFilter: "blur(18px) saturate(160%)",
+        WebkitBackdropFilter: "blur(18px) saturate(160%)",
+        border: "1px solid rgba(255,255,255,0.6)",
+        boxShadow: "0 12px 32px rgba(29,36,48,0.18)",
+        p: { xs: 2.5, sm: 3 },
+        opacity: inView ? 1 : 0,
+        transform: inView ? "translateY(0)" : "translateY(20px)",
+        transition: `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`,
+        ...sx,
+      }}
+    >
+      {children}
+    </Box>
+  );
+}
+
+function TileLabel({ children }: { children: ReactNode }) {
+  return (
+    <Typography
+      variant="caption"
+      color="text.secondary"
+      sx={{ textTransform: "uppercase", letterSpacing: "0.08em" }}
+    >
+      {children}
+    </Typography>
+  );
+}
+
 export function Outcomes() {
   const { ref, inView } = useInView<HTMLDivElement>();
 
@@ -252,237 +310,231 @@ export function Outcomes() {
       <Box
         ref={ref}
         sx={{
+          position: "relative",
+          overflow: "hidden",
           borderRadius: 6,
-          bgcolor: (t) => alpha(t.palette.primary.main, 0.08),
-          color: "text.primary",
+          minHeight: { xs: 640, md: 760 },
+          backgroundImage: `url(${BACKGROUND_IMAGE_URL})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
           p: { xs: 4, md: 8 },
         }}
       >
-        <Typography
-          variant="h2"
+        {/* A faint vignette, not a legibility scrim — the tiles and the
+            heading pill below carry their own contrast (they're opaque
+            glass surfaces), so this is purely for a bit of depth. */}
+        <Box
           sx={{
-            fontFamily: "var(--font-manrope), sans-serif",
-            fontWeight: 600,
-            fontSize: { xs: "2rem", sm: "2.75rem" },
-            textAlign: "center",
-            mb: { xs: 6, md: 8 },
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(120% 90% at 50% 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.18) 100%)",
           }}
-        >
-          Outcomes we can{" "}
-          <Box component="span" sx={{ color: "secondary.main" }}>
-            measure
+        />
+
+        <Box sx={{ position: "relative", textAlign: "center", maxWidth: 720 }}>
+          <Box
+            sx={{
+              display: "inline-block",
+              bgcolor: (t) => alpha(t.palette.background.paper, 0.85),
+              backdropFilter: "blur(14px)",
+              WebkitBackdropFilter: "blur(14px)",
+              borderRadius: 999,
+              px: 3,
+              py: 1,
+              mb: 3,
+            }}
+          >
+            <Typography
+              variant="overline"
+              sx={{
+                color: "secondary.main",
+                letterSpacing: "0.2em",
+                fontWeight: 600,
+              }}
+            >
+              Outcomes
+            </Typography>
           </Box>
-          , not just promise
-        </Typography>
+
+          <Typography
+            variant="h2"
+            sx={{
+              fontFamily: "var(--font-manrope), sans-serif",
+              fontWeight: 600,
+              fontSize: { xs: "2rem", sm: "2.75rem" },
+              color: "background.paper",
+              textShadow: "0 2px 12px rgba(0,0,0,0.35)",
+            }}
+          >
+            Outcomes we can{" "}
+            <Box component="span" sx={{ color: "primary.main" }}>
+              measure
+            </Box>
+            , not just promise
+          </Typography>
+        </Box>
 
         <Box
           sx={{
+            position: "relative",
+            width: "100%",
+            maxWidth: 640,
+            mt: { xs: 5, md: 7 },
             display: "grid",
-            gridTemplateColumns: {
-              xs: "1fr",
-              sm: "1fr 1fr",
-              md: "1fr 1fr 1fr",
-            },
-            gap: 3,
-            maxWidth: 1300,
-            mx: "auto",
+            gridTemplateColumns: "1fr 1fr",
+            gap: { xs: 2, sm: 3 },
           }}
         >
-          {/* Card 1: wide, spans both columns on desktop */}
-          <Box
+          {/* Tile 1: donut */}
+          <Tile inView={inView} delay={0}>
+            <TileLabel>Felt supported throughout</TileLabel>
+            <Box sx={{ display: "flex", justifyContent: "center", my: 1.5 }}>
+              <DonutChart percent={68} inView={inView} />
+            </Box>
+            <Typography
+              sx={{
+                fontFamily: "var(--font-manrope), sans-serif",
+                fontWeight: 800,
+                fontSize: "1.75rem",
+                textAlign: "center",
+              }}
+            >
+              <AnimatedNumber value={68} suffix="%" inView={inView} />
+            </Typography>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ display: "block", textAlign: "center", mt: 0.5 }}
+            >
+              Concept figure — replace before shipping.
+            </Typography>
+          </Tile>
+
+          {/* Tile 2: blood tests bar comparison */}
+          <Tile inView={inView} delay={0.12}>
+            <TileLabel>Blood tests and outcomes</TileLabel>
+            <Typography
+              sx={{
+                fontFamily: "var(--font-manrope), sans-serif",
+                fontWeight: 800,
+                fontSize: "1.75rem",
+                mt: 0.5,
+              }}
+            >
+              <AnimatedNumber value={2} suffix="×" inView={inView} />
+            </Typography>
+            <BarCompare inView={inView} />
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ display: "block", mt: 0.5 }}
+            >
+              Concept figure — replace before shipping.
+            </Typography>
+          </Tile>
+
+          {/* Tile 3: wide — average change vs no support */}
+          <Tile
+            inView={inView}
+            delay={0.24}
             sx={{
-              gridColumn: { md: "1 / -1" },
-              borderRadius: 4,
-              bgcolor: "background.paper",
-              border: "1px solid",
-              borderColor: "divider",
-              p: { xs: 3, md: 4 },
+              gridColumn: "1 / -1",
               display: "grid",
               gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
-              gap: 3,
+              gap: 2,
               alignItems: "center",
+              textAlign: { xs: "center", sm: "left" },
             }}
           >
             <Box>
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{ textTransform: "uppercase", letterSpacing: "0.08em" }}
-              >
-                Average change vs. no support
-              </Typography>
+              <TileLabel>Average change vs. no support</TileLabel>
               <Typography
                 sx={{
                   fontFamily: "var(--font-manrope), sans-serif",
                   fontWeight: 800,
-                  fontSize: "3rem",
+                  fontSize: "2.5rem",
                   lineHeight: 1,
+                  mt: 0.5,
                 }}
               >
                 <AnimatedNumber value={5} suffix="×" inView={inView} />
               </Typography>
               <Typography
-                variant="body2"
+                variant="caption"
                 color="text.secondary"
-                sx={{ mt: 1, maxWidth: 320 }}
+                sx={{
+                  display: "block",
+                  mt: 0.5,
+                  maxWidth: 260,
+                  mx: { xs: "auto", sm: 0 },
+                }}
               >
                 Concept figure — to be replaced with a real, evidenced result
                 once we have outcomes data.
               </Typography>
             </Box>
             <TrendLine inView={inView} />
-          </Box>
+          </Tile>
 
-          {/* Card 2: donut */}
-          <Box
-            sx={{
-              borderRadius: 4,
-              bgcolor: "background.paper",
-              border: "1px solid",
-              borderColor: "divider",
-              p: { xs: 3, md: 4 },
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                alignSelf: "flex-start",
-              }}
-            >
-              Felt supported throughout
-            </Typography>
-            <DonutChart percent={68} inView={inView} />
+          {/* Tile 4: wide — programme completion */}
+          <Tile inView={inView} delay={0.36} sx={{ gridColumn: "1 / -1" }}>
+            <TileLabel>Programme completion rate</TileLabel>
             <Typography
               sx={{
                 fontFamily: "var(--font-manrope), sans-serif",
                 fontWeight: 800,
                 fontSize: "2rem",
-              }}
-            >
-              <AnimatedNumber value={68} suffix="%" inView={inView} />
-            </Typography>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ textAlign: "center" }}
-            >
-              Concept figure — replace with a real result before shipping.
-            </Typography>
-          </Box>
-
-          {/* Card 3: area trend */}
-          <Box
-            sx={{
-              borderRadius: 4,
-              bgcolor: "background.paper",
-              border: "1px solid",
-              borderColor: "divider",
-              p: { xs: 3, md: 4 },
-            }}
-          >
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{ textTransform: "uppercase", letterSpacing: "0.08em" }}
-            >
-              Programme completion rate
-            </Typography>
-            <Typography
-              sx={{
-                fontFamily: "var(--font-manrope), sans-serif",
-                fontWeight: 800,
-                fontSize: "2.25rem",
-                mt: 1,
+                mt: 0.5,
               }}
             >
               <AnimatedNumber value={82} suffix="%" inView={inView} />
             </Typography>
             <Typography
-              variant="body2"
+              variant="caption"
               color="text.secondary"
-              sx={{ mt: 0.5, mb: 1 }}
+              sx={{ display: "block", mb: 1 }}
             >
               Concept figure — replace with a real result before shipping.
             </Typography>
             <TrendArea inView={inView} />
-          </Box>
-
-          {/* Card 4: bar comparison */}
-          <Box
-            sx={{
-              borderRadius: 4,
-              bgcolor: "background.paper",
-              border: "1px solid",
-              borderColor: "divider",
-              p: { xs: 3, md: 4 },
-            }}
-          >
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{ textTransform: "uppercase", letterSpacing: "0.08em" }}
-            >
-              Blood tests and outcomes
-            </Typography>
-            <Typography
-              sx={{
-                fontFamily: "var(--font-manrope), sans-serif",
-                fontWeight: 800,
-                fontSize: "2.25rem",
-                mt: 1,
-              }}
-            >
-              <AnimatedNumber value={2} suffix="×" inView={inView} />
-            </Typography>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ mt: 0.5, mb: 1 }}
-            >
-              Concept figure — patients with monitoring blood tests are more
-              likely to reach a meaningful result. Replace before shipping.
-            </Typography>
-            <BarCompare inView={inView} />
-          </Box>
+          </Tile>
         </Box>
+      </Box>
 
-        {/* Partner row — structural placeholder only. Do not add a real
-            institution's name/logo unless a genuine, signed partnership
-            exists. Implying affiliation with an institution that hasn't
-            actually partnered with Serava is a false claim, not a style
-            choice. */}
-        <Box sx={{ mt: { xs: 6, md: 8 }, textAlign: "center" }}>
-          <Typography variant="caption" color="text.secondary">
-            Partner institutions — add only if a real partnership exists
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 5,
-              mt: 2,
-              flexWrap: "wrap",
-            }}
-          >
-            {[1, 2, 3, 4].map((i) => (
-              <Box
-                key={i}
-                sx={{
-                  height: 32,
-                  width: 100,
-                  borderRadius: 1,
-                  bgcolor: "muted.main",
-                }}
-              />
-            ))}
-          </Box>
+      {/* Partner row — structural placeholder only. Do not add a real
+          institution's name/logo unless a genuine, signed partnership
+          exists. Implying affiliation with an institution that hasn't
+          actually partnered with Serava is a false claim, not a style
+          choice. */}
+      <Box sx={{ mt: { xs: 6, md: 8 }, textAlign: "center" }}>
+        <Typography variant="caption" color="text.secondary">
+          Partner institutions — add only if a real partnership exists
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            gap: 5,
+            mt: 2,
+            flexWrap: "wrap",
+          }}
+        >
+          {[1, 2, 3, 4].map((i) => (
+            <Box
+              key={i}
+              sx={{
+                height: 32,
+                width: 100,
+                borderRadius: 1,
+                bgcolor: "muted.main",
+              }}
+            />
+          ))}
         </Box>
       </Box>
     </Box>

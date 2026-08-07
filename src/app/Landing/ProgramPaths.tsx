@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import MonitorHeartOutlinedIcon from "@mui/icons-material/MonitorHeartOutlined";
-
+//bgcolor: "#F9E8B0", primary.main
 export function ProgrammePaths() {
   return (
     <Box component="section" sx={{ mx: "auto", maxWidth: 1600, px: 3, py: 10 }}>
@@ -280,7 +280,7 @@ export function ProgrammePaths() {
               }}
             >
               <Image
-                src="https://pblol2.blob.core.windows.net/serava-ui/hero/Serava_Pill_Box_Transparent.png"
+                src="https://pblol2.blob.core.windows.net/serava-ui/hero/Serava_Pill_Box_No_Blister_Transparent.png"
                 alt="Serava pill organizer"
                 fill
                 style={{

@@ -32,12 +32,6 @@ export function HonestySection() {
           p: { xs: 4, md: 8 },
         }}
       >
-        {/* Scrim: everything in this section — heading, body, the
-            exclusion list, the emergency notice, the icons — now sits
-            directly on the photo with no white card surfaces underneath,
-            so this scrim is the only thing keeping any of it legible.
-            Heavier on the left where the copy is, fading out toward the
-            visual anchor on the right. */}
         <Box
           sx={{
             position: "absolute",
@@ -58,19 +52,7 @@ export function HonestySection() {
               mx: "auto",
             }}
           >
-            <Box>
-              {/* textTransform is explicit ("none"/"uppercase") on every
-                  Typography below rather than left to inherit: the theme's
-                  MuiTypography root override forces textTransform:
-                  "capitalize" globally, which title-cases every word of
-                  ordinary sentences ("You Must Be 18 Or Over.") — fine for
-                  a short heading, but it reads as broken for body copy and
-                  list text. Overriding it locally per-element is the
-                  surgical fix; the real long-term fix is removing that
-                  root override from theme.ts (or scoping it to just
-                  buttons/labels) since it's quietly doing this to every
-                  paragraph on the site, not only this section. */}
-            
+            <Box>            
               <Typography
                 variant="h2"
                 sx={{
