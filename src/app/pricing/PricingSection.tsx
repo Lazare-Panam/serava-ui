@@ -114,9 +114,9 @@ const ACCENT_TOKENS = {
   },
   teal: {
     headerBg: "primary.main",
-    headerText: "primary.contrastText",
+    headerText: "#FFFFFF",
     checkColor: "primary.main",
-    chipTextColor: "primary.contrastText",
+    chipTextColor: "#FFFFFF",
   },
 } as const;
 
@@ -233,7 +233,7 @@ function PricingCard({ plan }: { plan: Plan }) {
                       alpha(theme.palette.accentBrand.contrastText, 0.18)
                   : (theme) => alpha(theme.palette.primary.contrastText, 0.14),
             color: tokens.chipTextColor,
-            fontWeight: 600,
+            fontWeight: 500,
             "& .MuiChip-label": {
               display: "block",
               whiteSpace: "normal",
