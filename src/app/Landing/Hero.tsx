@@ -1,15 +1,36 @@
 // src/components/Hero.tsx
 // Wordmark (own full-width row), then copy: headline, body, CTAs — all
-// laid over a single full-bleed background photo for the section. A soft
-// scrim sits between the photo and the copy so the text stays legible
-// regardless of what's busy in the image underneath.
+// laid over a full-bleed background video for the section (falls back to
+// a still poster image if the video can't/shouldn't play). A soft scrim
+// sits between the footage and the copy so the text stays legible
+// regardless of what's busy in the frame underneath.
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { alpha } from "@mui/material/styles";
 import { Box, Typography, Button, Stack } from "@mui/material";
 
+const HERO_VIDEO_URL =
+  "https://pblol2.blob.core.windows.net/serava-ui/hero/hero-video.mp4";
+const HERO_POSTER_URL =
+  "https://pblol2.blob.core.windows.net/serava-ui/hero/hero-img.jpg";
+
 export function Hero() {
+  // Video only plays if the browser lets it autoplay AND the visitor
+  // hasn't asked for reduced motion — either way we fall back to the
+  // still poster, which is why it's set as a real CSS background on the
+  // section (not just the <video poster> attribute): it's there
+  // immediately, before the video has decided whether it can play at all.
+  const [playVideo, setPlayVideo] = useState(false);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (!prefersReducedMotion) setPlayVideo(true);
+  }, []);
+
   return (
     <Box
       component="section"
@@ -21,26 +42,35 @@ export function Hero() {
         minHeight: { xs: 600, md: 780 },
         display: "flex",
         alignItems: "center",
-        backgroundImage:
-          "url(https://pblol2.blob.core.windows.net/serava-ui/hero/hero-img.jpg)",
+        backgroundImage: `url(${HERO_POSTER_URL})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* Scrim: a dark, on-brand (inkCharcoal) tint over the photo, heavier
-          on the left where the copy sits and fading out toward the right.
-          The type below is now light-coloured to read against the photo,
-          so this scrim is what actually earns that contrast — remove it
-          and the light text will wash out against a bright image. */}
-      <Box
-        sx={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(100deg, rgba(29,36,48,0.8) 0%, rgba(29,36,48,0.64) 40%, rgba(29,36,48,0.22) 75%)",
-        }}
-      />
+      {playVideo && (
+        <Box
+          component="video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster={HERO_POSTER_URL}
+          sx={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            maxWidth: "100%",
+            maxHeight: "100%",
+            display: "block",
+            objectFit: "cover",
+          }}
+        >
+          <source src={HERO_VIDEO_URL} type="video/mp4" />
+        </Box>
+      )}
 
       <Box
         sx={{
