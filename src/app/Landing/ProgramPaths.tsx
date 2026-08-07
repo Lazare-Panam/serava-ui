@@ -17,6 +17,11 @@ import {
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import MonitorHeartOutlinedIcon from "@mui/icons-material/MonitorHeartOutlined";
 //bgcolor: "#F9E8B0", primary.main
+
+// Shared size/position for the two card product images so they match exactly.
+const PRODUCT_IMAGE_SIZE = { height: 260, width: 280 };
+const PRODUCT_IMAGE_POSITION = { right: -8, bottom: 8 };
+
 export function ProgrammePaths() {
   return (
     <Box component="section" sx={{ mx: "auto", maxWidth: 1600, px: 3, py: 10 }}>
@@ -137,23 +142,23 @@ export function ProgrammePaths() {
             <Box
               sx={{
                 position: "absolute",
-                right: -8,
-                bottom: 8,
+                right: PRODUCT_IMAGE_POSITION.right,
+                bottom: PRODUCT_IMAGE_POSITION.bottom,
                 zIndex: 0,
-                height: 260,
-                width: 280,
+                height: PRODUCT_IMAGE_SIZE.height,
+                width: PRODUCT_IMAGE_SIZE.width,
                 transform: "rotate(1deg)",
               }}
             >
               <Image
-                src="https://pblol2.blob.core.windows.net/serava-ui/hero/Serava_Collagen_Transparent.png"
-                alt="Serava collagen product"
+                src="https://pblol2.blob.core.windows.net/serava-ui/hero/Serava_Pill_Box_No_Blister_Transparent.png"
+                alt="Serava pill organizer"
                 fill
                 style={{
                   objectFit: "contain",
                   filter: "drop-shadow(0 16px 20px rgba(0,0,0,0.25))",
                 }}
-                sizes="280px"
+                sizes={`${PRODUCT_IMAGE_SIZE.width}px`}
               />
             </Box>
 
@@ -271,23 +276,23 @@ export function ProgrammePaths() {
             <Box
               sx={{
                 position: "absolute",
-                right: 16,
-                bottom: 20,
+                right: PRODUCT_IMAGE_POSITION.right,
+                bottom: PRODUCT_IMAGE_POSITION.bottom,
                 zIndex: 0,
-                height: 240,
-                width: 260,
+                height: PRODUCT_IMAGE_SIZE.height,
+                width: PRODUCT_IMAGE_SIZE.width,
                 transform: "rotate(1deg)",
               }}
             >
               <Image
-                src="https://pblol2.blob.core.windows.net/serava-ui/hero/Serava_Pill_Box_No_Blister_Transparent.png"
-                alt="Serava pill organizer"
+                src="https://pblol2.blob.core.windows.net/serava-ui/hero/Serava_Collagen_Transparent.png"
+                alt="Serava collagen product"
                 fill
                 style={{
                   objectFit: "contain",
                   filter: "drop-shadow(0 16px 20px rgba(0,0,0,0.3))",
                 }}
-                sizes="260px"
+                sizes={`${PRODUCT_IMAGE_SIZE.width}px`}
               />
             </Box>
 
