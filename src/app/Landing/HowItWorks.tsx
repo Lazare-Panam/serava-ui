@@ -1,4 +1,3 @@
-// src/components/HowItWorks.tsx
 // Five-step journey. The connecting line draws in once on scroll, growing
 // from step 1 across to step 5 — a straight line moving at constant speed —
 // so the dot fill delays (a linear fraction of total duration) line up with
@@ -7,6 +6,12 @@
 // clickable links (placeholder href="#" until real destinations exist),
 // with a glossy sheen sweep on hover so they read as interactive. Falls
 // back to a plain vertical timeline on mobile.
+//
+// Step titles are always visible. Step details are hidden by default and
+// only fade in when hovering over that step's block (dot + label area),
+// via a CSS group-hover selector (`&:hover .step-detail`) on the wrapping
+// Box.
+
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
@@ -265,7 +270,16 @@ export function HowItWorks() {
             const delay = fraction * LINE_DURATION;
 
             return (
-              <Box key={step.title} sx={{ textAlign: "center" }}>
+              <Box
+                key={step.title}
+                sx={{
+                  textAlign: "center",
+                  // Group-hover: hovering anywhere in this step's block
+                  // (the dot or the space where the title/detail sits)
+                  // reveals the detail text underneath the title.
+                  "&:hover .step-detail": { opacity: 1 },
+                }}
+              >
                 <Box
                   component={Link}
                   href="#"
@@ -282,14 +296,25 @@ export function HowItWorks() {
                   {i + 1}
                 </Box>
                 <Typography
-                  sx={{ fontWeight: 600, fontSize: "1.15rem", mb: 1 }}
+                  sx={{
+                    fontWeight: 600,
+                    fontSize: "1.15rem",
+                    mb: 1,
+                  }}
                 >
                   {step.title}
                 </Typography>
                 <Typography
+                  className="step-detail"
                   variant="body1"
                   color="text.secondary"
-                  sx={{ maxWidth: 240, mx: "auto", lineHeight: 1.6 }}
+                  sx={{
+                    maxWidth: 240,
+                    mx: "auto",
+                    lineHeight: 1.6,
+                    opacity: 0,
+                    transition: "opacity 0.25s ease",
+                  }}
                 >
                   {step.detail}
                 </Typography>
@@ -300,7 +325,10 @@ export function HowItWorks() {
       </Box>
 
       {/* Mobile: plain vertical timeline, no SVG — but dots still fill in
-          sequence top-to-bottom, using the same shared trigger. */}
+          sequence top-to-bottom, using the same shared trigger. Note: on
+          touch devices there's no hover state, so these details will never
+          become visible here. If that's not what you want on mobile, drop
+          the opacity/transition below and just show the text plainly. */}
       <Box
         sx={{
           display: { xs: "block", md: "none" },
@@ -316,7 +344,14 @@ export function HowItWorks() {
           const delay = fraction * LINE_DURATION;
 
           return (
-            <Box key={step.title} sx={{ position: "relative", py: 2.5 }}>
+            <Box
+              key={step.title}
+              sx={{
+                position: "relative",
+                py: 2.5,
+                "&:hover .step-detail": { opacity: 1 },
+              }}
+            >
               <Box
                 component={Link}
                 href="#"
@@ -334,14 +369,23 @@ export function HowItWorks() {
                 {i + 1}
               </Box>
               <Typography
-                sx={{ fontWeight: 600, fontSize: "1.05rem", mb: 0.5 }}
+                sx={{
+                  fontWeight: 600,
+                  fontSize: "1.05rem",
+                  mb: 0.5,
+                }}
               >
                 {step.title}
               </Typography>
               <Typography
+                className="step-detail"
                 variant="body1"
                 color="text.secondary"
-                sx={{ lineHeight: 1.6 }}
+                sx={{
+                  lineHeight: 1.6,
+                  opacity: 0,
+                  transition: "opacity 0.25s ease",
+                }}
               >
                 {step.detail}
               </Typography>
