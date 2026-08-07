@@ -110,24 +110,23 @@ export function TrustBand() {
               sx={{
                 fontFamily: "var(--font-manrope), sans-serif",
                 fontWeight: 700,
-                fontSize: { xs: "2.25rem", sm: "3rem" },
+                fontSize: { xs: "1.75rem", sm: "2.25rem" },
                 lineHeight: 1.15,
                 color: "text.primary",
               }}
             >
-              A prescriber decides, not a form.
+              Treatment, made personal
             </Typography>
 
             <Typography
               variant="body1"
               color="text.secondary"
-              sx={{ fontSize: "1.25rem", lineHeight: 1.7 }}
+              sx={{ fontSize: "1.05rem", lineHeight: 1.6 }}
             >
-              Your programme is personal, supervised, and never something you do
-              alone. From your first consultation onward, someone is checking in
-              with you — right through to a finish you can see coming.
+              One prescriber, in your corner from day one. Real check-ins, real
+              adjustments, and an end date you'll see coming — not just an
+              algorithm waving you through.
             </Typography>
-
             <Box
               sx={{
                 display: { xs: "block", md: "none" },

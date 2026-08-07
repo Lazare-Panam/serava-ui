@@ -7,12 +7,11 @@ import LocalHospitalRoundedIcon from "@mui/icons-material/LocalHospitalRounded";
 import VerifiedUserRoundedIcon from "@mui/icons-material/VerifiedUserRounded";
 
 const EXCLUSIONS = [
-  "You must be 18 or over.",
-  "It is not suitable during pregnancy, breastfeeding, or while trying to conceive.",
-  "Some medical conditions and histories mean we cannot treat you safely; our eligibility check screens for these, and we will always tell you why.",
-  "Completing a form never guarantees a prescription. Your prescriber decides, with you.",
+  "Anyone under the age of 18.",
+  "Anyone who is pregnant, breastfeeding, or trying to conceive.",
+  "Anyone with a medical history that makes treatment unsafe for them — our eligibility check screens for this, and we'll always tell you why.",
+  "Anyone expecting a guaranteed prescription — completing the form doesn't guarantee one; your prescriber decides, with you.",
 ];
-
 export function HonestySection() {
   return (
     <Box
@@ -52,7 +51,7 @@ export function HonestySection() {
               mx: "auto",
             }}
           >
-            <Box>            
+            <Box>
               <Typography
                 variant="h2"
                 sx={{
