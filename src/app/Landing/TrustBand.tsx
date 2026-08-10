@@ -123,9 +123,9 @@ export function TrustBand() {
               color="text.secondary"
               sx={{ fontSize: "1.05rem", lineHeight: 1.6 }}
             >
-              One prescriber, in your corner from day one. Real check-ins, real
-              adjustments, and an end date you'll see coming — not just an
-              algorithm waving you through.
+              Ongoing care from a prescriber, with regular check-ins, treatment
+              adjusted as you go, and a programme built to end well rather than
+              run indefinitely..
             </Typography>
             <Box
               sx={{

@@ -117,11 +117,10 @@ export function ProgrammePaths() {
                 color="text.secondary"
                 sx={{ lineHeight: 1.7, fontSize: "1.125rem" }}
               >
-                A prescriber-led plan built around your goals, with clear
-                guidance and support at every step. Where medication is part of
-                your plan, it's dosed and adjusted by your prescriber —
-                alongside regular check-ins and the ongoing support to help you
-                stay on track.
+                Your plan is built around your goals, led by a prescriber, with
+                clear guidance at every step. If medication's part of it, your
+                prescriber doses and adjusts it themselves, with regular
+                check-ins and support to help you stay on track.
               </Typography>
             </CardContent>
 
@@ -253,9 +252,9 @@ export function ProgrammePaths() {
                   fontSize: "1.125rem",
                 }}
               >
-                Get tailored nutrition guidance, habit support, and structured
-                reviews alongside your prescription — on a fixed rhythm, to help
-                you stay consistent.
+                Your prescription is supported by tailored nutrition guidance,
+                habit support, and structured reviews, held to a fixed rhythm,
+                so consistency isn't left to chance.
               </Typography>
             </CardContent>
 

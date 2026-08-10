@@ -27,26 +27,27 @@ const STEPS: Step[] = [
   {
     title: "Eligibility check",
     detail:
-      "A free five-minute form to see if this is likely to be safe and suitable.",
+      "A free five-minute form that tells you whether this is likely to be safe and suitable for you.",
   },
   {
     title: "Medical questionnaire",
     detail:
-      "A detailed history, plus identity, height and weight verification.",
+      "A full medical history, along with verification of your identity, height, and weight.",
   },
   {
     title: "Video consultation",
     detail:
-      "Up to an hour, one to one with a prescriber. The decision is shared.",
+      "Up to an hour, one to one with your prescriber, going through your history and options together, with a shared decision at the end.",
   },
   {
     title: "Your plan and first delivery",
-    detail: "Your treatment plan, your Library, and your first package.",
+    detail:
+      "You'll receive your treatment plan, full access to the Library, and your first package, all at once.",
   },
   {
-    title: "Reviews, then the off-ramp",
+    title: "Ongoing reviews, then wind-down",
     detail:
-      "Scheduled reviews, moving into a maintenance phase designed to bring things to a steady close.",
+      "Nothing stops abruptly. The pace eases, the check-ins continue, and the goal quietly shifts from moving forward to staying steady.",
   },
 ];
 
@@ -233,7 +234,7 @@ export function HowItWorks() {
           mt: 1,
         }}
       >
-        Five steps, one continuous line of care
+        Five steps, and someone with you the whole way through
       </Typography>
 
       <Typography
@@ -241,9 +242,9 @@ export function HowItWorks() {
         color="text.secondary"
         sx={{ mt: 2, maxWidth: 720, fontSize: "1.125rem", lineHeight: 1.7 }}
       >
-        You are never handed a prescription and left to it. Every step below is
-        part of one supervised journey, and it ends with a plan, not a cliff
-        edge.
+        This isn't a prescription and a goodbye. Every step connects to the
+        next, guided from start to finish, and it ends with a plan you can hold
+        onto, not a sudden stop.
       </Typography>
 
       {/* Desktop: five staggered dots along a scroll-drawn connecting line */}

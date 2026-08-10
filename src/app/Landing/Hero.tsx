@@ -150,10 +150,10 @@ export function Hero() {
                   color: (t) => alpha(t.palette.background.paper, 0.88),
                 }}
               >
-                Led by independent prescribers, the programme runs on one to one
-                consultations, blood tests, and structured monitoring — with
-                full lifestyle support throughout, and an ending built in from
-                day one.
+                Weight loss is medicine, and it's treated that way here, led by an independent prescriber from day one, with one to one
+                consultations, blood tests, and proper monitoring along the way.
+                Full support throughout, and an ending that's planned from the
+                start, not an afterthought.
               </Typography>
 
               <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
