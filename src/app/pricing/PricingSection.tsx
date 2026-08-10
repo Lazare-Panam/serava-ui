@@ -4,6 +4,9 @@ import Link from "next/link";
 import { alpha } from "@mui/material/styles";
 import { Box, Typography, Button, Chip } from "@mui/material";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import SpaRoundedIcon from "@mui/icons-material/SpaRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+import AutorenewRoundedIcon from "@mui/icons-material/AutorenewRounded";
 
 // Same buttery yellow ProgrammePaths.tsx already uses for its "starting
 // fresh" card, kept as a literal hex (not a theme token) for the same
@@ -25,6 +28,15 @@ type Plan = {
   featured?: boolean;
 };
 
+// One icon per tier, shown as a small badge in the header — gives each
+// card a visual anchor beyond the colour strip, rather than the tier
+// name being the only thing distinguishing it.
+const PLAN_ICON = {
+  suitability: SpaRoundedIcon,
+  subscription: FavoriteRoundedIcon,
+  maintenance: AutorenewRoundedIcon,
+} as const;
+
 const PLANS: Plan[] = [
   {
     id: "suitability",
@@ -39,6 +51,7 @@ const PLANS: Plan[] = [
           "The five-minute eligibility check",
           "The detailed medical questionnaire",
           "Your first video consultation, in full, one to one",
+          "A same-week appointment slot, in most cases",
         ],
       },
       {
@@ -47,6 +60,7 @@ const PLANS: Plan[] = [
           "A clear answer, with reasons either way",
           "No card required, and no commitment either way",
           "A referral elsewhere if we're not the right fit",
+          "A written summary of the consultation to keep",
         ],
       },
     ],
@@ -106,6 +120,7 @@ const PLANS: Plan[] = [
           "Consultation-led reviews on a steady rhythm",
           "Little to no medication cost at this stage",
           "Continued access to the full Lifestyle Library",
+          "Your prescriber adjusts the pace, not a fixed schedule",
         ],
       },
       {
@@ -114,6 +129,7 @@ const PLANS: Plan[] = [
           "A plan that's yours to keep once you finish",
           "No re-enrolment needed to stay supported",
           "Built in from day one, not an afterthought",
+          "A final review to confirm you're ready to step away",
         ],
       },
     ],
@@ -133,33 +149,66 @@ const PLANS: Plan[] = [
 // almost no contrast against its own header, so it rendered as if the
 // pill were missing entirely even though the Chip was there. Every
 // variant now gets a solid, visibly-bounded pill like the other two.
+//
+// Full monochrome treatment — the ENTIRE card (header through footer,
+// button included) is one solid accent colour now, not just a header
+// strip over a white/pale-tinted body. Everything on top of that solid
+// colour is a light/near-white text or icon so it reads against a
+// saturated background, not a pale one. Each card is now unmistakably
+// "the yellow card" / "the teal card" / "the iris card" — a single flat
+// colour block per plan, not a colour cap on an otherwise neutral card.
 const ACCENT_TOKENS = {
   amber: {
-    headerBg: BUTTERY_YELLOW,
-    headerText: "#3D2E00",
-    checkColor: "#8A6D00",
+    cardBg: BUTTERY_YELLOW,
+    text: "#3D2E00",
+    secondaryText: "rgba(61,46,0,0.72)",
+    iconBg: "rgba(61,46,0,0.16)",
+    iconColor: "#3D2E00",
+    checkBg: "rgba(61,46,0,0.16)",
+    checkColor: "#3D2E00",
     chipBg: "#3D2E00",
     chipTextColor: "#FFFFFF",
+    dividerColor: "rgba(61,46,0,0.16)",
+    ctaBg: "#3D2E00",
+    ctaText: "#FFFFFF",
   },
   iris: {
-    headerBg: "accentBrand.main",
-    headerText: "accentBrand.contrastText",
-    checkColor: "accentBrand.main",
+    cardBg: "accentBrand.main",
+    text: "accentBrand.contrastText",
+    secondaryText: (theme: any) =>
+      alpha(theme.palette.accentBrand.contrastText, 0.72),
+    iconBg: (theme: any) => alpha(theme.palette.accentBrand.contrastText, 0.18),
+    iconColor: "accentBrand.contrastText",
+    checkBg: (theme: any) =>
+      alpha(theme.palette.accentBrand.contrastText, 0.18),
+    checkColor: "accentBrand.contrastText",
     chipBg: (theme: any) => alpha(theme.palette.accentBrand.contrastText, 0.22),
     chipTextColor: "accentBrand.contrastText",
+    dividerColor: (theme: any) =>
+      alpha(theme.palette.accentBrand.contrastText, 0.18),
+    ctaBg: "accentBrand.contrastText",
+    ctaText: "accentBrand.main",
   },
   teal: {
-    headerBg: "primary.main",
-    headerText: "#FFFFFF",
-    checkColor: "primary.main",
+    cardBg: "primary.main",
+    text: "#FFFFFF",
+    secondaryText: "rgba(255,255,255,0.72)",
+    iconBg: "rgba(255,255,255,0.18)",
+    iconColor: "#FFFFFF",
+    checkBg: "rgba(255,255,255,0.18)",
+    checkColor: "#FFFFFF",
     chipBg: "rgba(255,255,255,0.22)",
     chipTextColor: "#FFFFFF",
+    dividerColor: "rgba(255,255,255,0.18)",
+    ctaBg: "#FFFFFF",
+    ctaText: "primary.main",
   },
 } as const;
 
 function PricingCard({ plan }: { plan: Plan }) {
   const tokens = ACCENT_TOKENS[plan.accent];
   const isFeatured = Boolean(plan.featured);
+  const PlanIcon = PLAN_ICON[plan.id as keyof typeof PLAN_ICON];
 
   return (
     <Box
@@ -167,7 +216,9 @@ function PricingCard({ plan }: { plan: Plan }) {
         position: "relative",
         overflow: "hidden",
         borderRadius: "20px",
-        bgcolor: "background.paper",
+        // Full monochrome card — one solid accent colour, header to
+        // footer, instead of a colour strip over a neutral body.
+        bgcolor: tokens.cardBg,
         border: "1px solid",
         borderColor: isFeatured ? "transparent" : "rgba(0,0,0,0.06)",
         boxShadow: isFeatured
@@ -181,7 +232,7 @@ function PricingCard({ plan }: { plan: Plan }) {
         // out from the other two rather than just having more content.
         minHeight: isFeatured ? 760 : 640,
         width: "100%",
-        maxWidth: isFeatured ? 380 : 320,
+        maxWidth: isFeatured ? 440 : 380,
         mx: "auto",
         // Nudge the featured card up slightly so it reads as "the" plan
         // rather than sitting flush in the same row as the other two.
@@ -237,14 +288,31 @@ function PricingCard({ plan }: { plan: Plan }) {
         </Box>
       )}
 
-      {/* Header block — the coloured zone carrying tier name + price */}
+      {/* Header block — tier name + price. No separate background any
+          more; it sits directly on the card's solid colour, with a
+          small icon badge as its visual anchor. */}
       <Box
         sx={{
-          bgcolor: tokens.headerBg,
-          color: tokens.headerText,
+          color: tokens.text,
           p: isFeatured ? 5 : 4,
+          pb: isFeatured ? 4 : 3,
         }}
       >
+        <Box
+          sx={{
+            width: 40,
+            height: 40,
+            borderRadius: "12px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            bgcolor: tokens.iconBg,
+            mb: 2,
+          }}
+        >
+          <PlanIcon sx={{ fontSize: 20, color: tokens.iconColor }} />
+        </Box>
+
         <Typography
           sx={{
             fontSize: "0.75rem",
@@ -297,12 +365,15 @@ function PricingCard({ plan }: { plan: Plan }) {
         />
       </Box>
 
-      {/* Body — checklist + CTA, same treatment across every tier */}
+      {/* Body — checklist + CTA, same treatment across every tier.
+          Gaps opened up throughout (section gap, item gap, line-height)
+          so the list reads as scannable groups rather than a dense wall
+          of small print. */}
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: isFeatured ? 3 : 2.5,
+          gap: isFeatured ? 3.5 : 3,
           p: isFeatured ? 5 : 4,
           flexGrow: 1,
         }}
@@ -311,7 +382,7 @@ function PricingCard({ plan }: { plan: Plan }) {
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: isFeatured ? 3 : 2.5,
+            gap: isFeatured ? 3.5 : 3,
             flexGrow: 1,
           }}
         >
@@ -321,10 +392,10 @@ function PricingCard({ plan }: { plan: Plan }) {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                gap: 1.5,
-                pt: idx > 0 ? 2 : 0,
+                gap: 1.75,
+                pt: idx > 0 ? 2.5 : 0,
                 borderTop: idx > 0 ? "1px solid" : "none",
-                borderColor: "rgba(0,0,0,0.08)",
+                borderColor: tokens.dividerColor,
               }}
             >
               {section.heading && (
@@ -334,7 +405,7 @@ function PricingCard({ plan }: { plan: Plan }) {
                     fontWeight: 700,
                     letterSpacing: "0.08em",
                     textTransform: "uppercase",
-                    color: "text.disabled",
+                    color: tokens.secondaryText,
                   }}
                 >
                   {section.heading}
@@ -354,14 +425,7 @@ function PricingCard({ plan }: { plan: Plan }) {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      bgcolor:
-                        plan.accent === "amber"
-                          ? alpha(BUTTERY_YELLOW, 0.5)
-                          : plan.accent === "iris"
-                            ? (theme: any) =>
-                                alpha(theme.palette.accentBrand.main, 0.12)
-                            : (theme: any) =>
-                                alpha(theme.palette.primary.main, 0.14),
+                      bgcolor: tokens.checkBg,
                       mt: "1px",
                     }}
                   >
@@ -372,8 +436,8 @@ function PricingCard({ plan }: { plan: Plan }) {
                   <Typography
                     sx={{
                       fontSize: "0.92rem",
-                      lineHeight: 1.55,
-                      color: "text.secondary",
+                      lineHeight: 1.65,
+                      color: tokens.text,
                       textTransform: "none",
                     }}
                   >
@@ -396,9 +460,13 @@ function PricingCard({ plan }: { plan: Plan }) {
             mt: 1,
             fontWeight: 700,
             textTransform: "none",
-            bgcolor: "secondary.main",
-            color: "secondary.contrastText",
-            "&:hover": { bgcolor: "secondary.main", opacity: 0.9 },
+            // Per-card CTA colour instead of one universal secondary.main
+            // button on every card — each button now matches its own
+            // card's accent (dark-on-yellow, white-on-teal, etc.) rather
+            // than every card ending the same regardless of colour.
+            bgcolor: tokens.ctaBg,
+            color: tokens.ctaText,
+            "&:hover": { bgcolor: tokens.ctaBg, opacity: 0.88 },
           }}
         >
           {plan.cta}
@@ -488,9 +556,14 @@ export function PricingSection() {
           sx={{
             mx: "auto",
             mt: { xs: 6, md: 12 },
-            maxWidth: 1200,
+            maxWidth: 1400,
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "320px 380px 320px" },
+            // Widened from 320/380/320 — at the old widths, against a
+            // 640-760px minHeight, the columns were skinny enough that
+            // almost every feature line wrapped, which is what made the
+            // cards read as cramped/oddly tall rather than just "long
+            // lists". Wider columns let more text sit on one line.
+            gridTemplateColumns: { xs: "1fr", md: "380px 440px 380px" },
             justifyContent: "center",
             gap: { xs: 4, md: 4 },
             alignItems: "stretch",
