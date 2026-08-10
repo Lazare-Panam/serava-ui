@@ -1,21 +1,17 @@
 // src/components/Landing/MoneyFaqSection.tsx
-// "Money questions, answered plainly" — a few pricing/cancellation FAQs,
-// each its own white rounded card (not a joined accordion list) with a
-// filled teal circular chevron toggle on the right, matching the
-// reference. Content ties back to what PricingSection/PricingHero already
-// promise (free eligibility check, cancel anytime, fixed programme price)
-// so this section doesn't introduce anything inconsistent with them.
+// "Money questions, answered plainly" — five pricing/cancellation FAQs,
+// each its own white rounded card on a warm off-white section background,
+// with a filled teal circular chevron toggle on the right, matching the
+// reference screenshot. All five start collapsed; only one card ever
+// tracks as "expanded" at a time via the single `expanded` index below —
+// change to a Set<number> if independent multi-open is ever wanted.
 //
-// Flagging for whoever ships this: these three answers describe actual
-// policy (refunds, cancellation terms, price-lock behaviour) — confirm
-// the wording against the real cancellations/refunds policy and service
-// agreement before this goes live, same "don't ship an unverified claim"
-// rule as the illustrative-number placeholders elsewhere.
-//
-// Also: theme.ts sets text.secondary to the exact same solid inkCharcoal
-// as text.primary (no auto-lightening), so body copy below uses
-// alpha(text.primary, 0.7) instead of the text.secondary token to
-// actually get a softer tone.
+// Flagging for whoever ships this: these answers describe actual policy
+// (refunds, cancellation terms, price-lock behaviour, medication billing).
+// Confirm the wording against the real cancellations/refunds policy and
+// service agreement before this goes live — same "don't ship an
+// unverified claim" rule as the illustrative-number placeholders
+// elsewhere in the pricing section.
 "use client";
 
 import { useState } from "react";
@@ -31,12 +27,20 @@ import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 
 const FAQS = [
   {
-    q: "What if I'm not eligible?",
-    a: "Then there's nothing to pay. The eligibility check and the medical questionnaire are both free, and we'll explain why, and point you towards more suitable support.",
+    q: "Why is medication priced separately from the programme fee?",
+    a: "So the cost stays transparent, and so a change in medication pricing never quietly changes what you pay for your care. Medication is billed at cost, and your prescriber confirms the figure with you before you pay anything for it.",
+  },
+  {
+    q: "Will my medication cost change over time?",
+    a: "It can, if your prescriber increases your dose as part of your treatment. You'll always be told the exact figure before it applies, so there's never a surprise on your bill.",
+  },
+  {
+    q: "What if I am not eligible?",
+    a: "Then there is nothing to pay. The eligibility check and the medical questionnaire are free, and we will tell you why, and point you towards more suitable support.",
   },
   {
     q: "Can I cancel?",
-    a: "Yes. How cancellation and refunds work is set out in plain English in our cancellations and refunds policy, and in your service agreement before you start. Stopping treatment is always done safely, with your prescriber.",
+    a: "Yes. Billing is monthly throughout, with no prepaid blocks, so there's nothing to lose by stopping. You simply won't be charged again the following month. Coming off treatment is always done safely, with your prescriber, and our cancellations and refunds policy sets out the full detail in plain English.",
   },
   {
     q: "Will my price change during the programme?",
@@ -45,95 +49,108 @@ const FAQS = [
 ];
 
 export function MoneyFaqSection() {
-  const [expanded, setExpanded] = useState<number | false>(0);
+  // false = nothing open. Cards render fully collapsed on first paint —
+  // no default index here, unlike the earlier draft that opened index 0.
+  const [expanded, setExpanded] = useState<number | false>(false);
 
   return (
     <Box
       component="section"
-      sx={{ mx: "auto", maxWidth: 900, px: 3, py: { xs: 8, md: 12 } }}
+      sx={{
+        bgcolor: "#EDE9DE",
+        px: 3,
+        py: { xs: 8, md: 10 },
+      }}
     >
-      <Typography
-        variant="h2"
-        sx={{
-          textAlign: "center",
-          fontFamily: "var(--font-manrope), sans-serif",
-          fontWeight: 700,
-          fontSize: { xs: "1.875rem", sm: "2.25rem" },
-          mb: { xs: 5, md: 6 },
-          textTransform: "none",
-        }}
-      >
-        Money questions, answered plainly
-      </Typography>
+      <Box sx={{ mx: "auto", maxWidth: 900 }}>
+        <Typography
+          variant="h2"
+          sx={{
+            textAlign: "center",
+            fontFamily: "var(--font-manrope), sans-serif",
+            fontWeight: 700,
+            fontSize: { xs: "1.6rem", sm: "1.9rem" },
+            color: "secondary.main",
+            mb: { xs: 4, md: 5 },
+            textTransform: "none",
+          }}
+        >
+          Money questions, answered plainly
+        </Typography>
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
-        {FAQS.map((faq, i) => (
-          <Accordion
-            key={faq.q}
-            disableGutters
-            elevation={0}
-            square={false}
-            expanded={expanded === i}
-            onChange={(_, isExpanded) => setExpanded(isExpanded ? i : false)}
-            sx={{
-              borderRadius: "16px !important",
-              overflow: "hidden",
-              bgcolor: "background.paper",
-              boxShadow: "0 8px 24px rgba(29,36,48,0.08)",
-              "&::before": { display: "none" },
-            }}
-          >
-            <AccordionSummary
-              expandIcon={
-                <Box
-                  sx={{
-                    width: 34,
-                    height: 34,
-                    borderRadius: "50%",
-                    bgcolor: "primary.main",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                  }}
-                >
-                  <ExpandMoreRoundedIcon sx={{ fontSize: 20, color: "#FFFFFF" }} />
-                </Box>
-              }
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          {FAQS.map((faq, i) => (
+            <Accordion
+              key={faq.q}
+              disableGutters
+              elevation={0}
+              square={false}
+              expanded={expanded === i}
+              onChange={(_, isExpanded) => setExpanded(isExpanded ? i : false)}
               sx={{
-                px: { xs: 3, sm: 4 },
-                py: 1,
-                minHeight: "auto",
-                "& .MuiAccordionSummary-content": { my: 2 },
-                "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-                  transform: "rotate(180deg)",
-                },
+                borderRadius: "16px !important",
+                overflow: "hidden",
+                bgcolor: "background.paper",
+                boxShadow: "0 6px 18px rgba(29,36,48,0.08)",
+                "&::before": { display: "none" },
               }}
             >
-              <Typography
+              <AccordionSummary
+                expandIcon={
+                  <Box
+                    sx={{
+                      width: 30,
+                      height: 30,
+                      borderRadius: "50%",
+                      bgcolor: "primary.main",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <ExpandMoreRoundedIcon
+                      sx={{ fontSize: 18, color: "#FFFFFF" }}
+                    />
+                  </Box>
+                }
                 sx={{
-                  fontWeight: 700,
-                  fontSize: "1.05rem",
-                  textTransform: "none",
+                  px: { xs: 3, sm: 4 },
+                  py: 0.5,
+                  minHeight: "auto",
+                  "& .MuiAccordionSummary-content": { my: 2 },
+                  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+                    transform: "rotate(180deg)",
+                  },
                 }}
               >
-                {faq.q}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ px: { xs: 3, sm: 4 }, pt: 0, pb: 3 }}>
-              <Typography
-                sx={{
-                  color: (t) => alpha(t.palette.text.primary, 0.7),
-                  fontSize: "0.98rem",
-                  lineHeight: 1.7,
-                  textTransform: "none",
-                }}
-              >
-                {faq.a}
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        ))}
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: "0.98rem",
+                    color: "secondary.main",
+                    textTransform: "none",
+                  }}
+                >
+                  {faq.q}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ px: { xs: 3, sm: 4 }, pt: 0, pb: 3 }}>
+                <Typography
+                  sx={{
+                    color: (theme: any) =>
+                      alpha(theme.palette.text.primary, 0.72),
+                    fontSize: "0.92rem",
+                    lineHeight: 1.7,
+                    textTransform: "none",
+                  }}
+                >
+                  {faq.a}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </Box>
       </Box>
     </Box>
   );

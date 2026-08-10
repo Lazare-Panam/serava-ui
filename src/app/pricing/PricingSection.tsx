@@ -126,23 +126,33 @@ const PLANS: Plan[] = [
 // Plain palette-path strings (or the literal yellow) only — MUI's sx
 // engine resolves these on its own, no theme access required, so nothing
 // here can ever hit a "theme is unknown" problem.
+//
+// chipBg/chipTextColor are deliberately a HIGH-CONTRAST pairing against
+// their own headerBg — not just a lighter tint of the same hue. The old
+// amber chip (alpha(BUTTERY_YELLOW, 0.6) on top of BUTTERY_YELLOW) had
+// almost no contrast against its own header, so it rendered as if the
+// pill were missing entirely even though the Chip was there. Every
+// variant now gets a solid, visibly-bounded pill like the other two.
 const ACCENT_TOKENS = {
   amber: {
     headerBg: BUTTERY_YELLOW,
-    headerText: "text.primary",
-    checkColor: "status.amber",
-    chipTextColor: "text.primary",
+    headerText: "#3D2E00",
+    checkColor: "#8A6D00",
+    chipBg: "#3D2E00",
+    chipTextColor: "#FFFFFF",
   },
   iris: {
     headerBg: "accentBrand.main",
     headerText: "accentBrand.contrastText",
     checkColor: "accentBrand.main",
+    chipBg: (theme: any) => alpha(theme.palette.accentBrand.contrastText, 0.22),
     chipTextColor: "accentBrand.contrastText",
   },
   teal: {
     headerBg: "primary.main",
     headerText: "#FFFFFF",
     checkColor: "primary.main",
+    chipBg: "rgba(255,255,255,0.22)",
     chipTextColor: "#FFFFFF",
   },
 } as const;
@@ -158,9 +168,11 @@ function PricingCard({ plan }: { plan: Plan }) {
         overflow: "hidden",
         borderRadius: "20px",
         bgcolor: "background.paper",
+        border: "1px solid",
+        borderColor: isFeatured ? "transparent" : "rgba(0,0,0,0.06)",
         boxShadow: isFeatured
-          ? "0 24px 48px rgba(0,0,0,0.32)"
-          : "0 12px 32px rgba(0,0,0,0.22)",
+          ? "0 28px 56px rgba(0,0,0,0.35)"
+          : "0 8px 24px rgba(0,0,0,0.16)",
         display: "flex",
         flexDirection: "column",
         height: "100%",
@@ -256,19 +268,15 @@ function PricingCard({ plan }: { plan: Plan }) {
           sx={{
             mt: 2,
             height: "auto",
-            bgcolor:
-              plan.accent === "amber"
-                ? alpha(BUTTERY_YELLOW, 0.6)
-                : plan.accent === "iris"
-                  ? (theme) =>
-                      alpha(theme.palette.accentBrand.contrastText, 0.18)
-                  : (theme) => alpha(theme.palette.primary.contrastText, 0.14),
+            bgcolor: tokens.chipBg,
             color: tokens.chipTextColor,
-            fontWeight: 500,
+            fontWeight: 600,
+            fontSize: "0.78rem",
             "& .MuiChip-label": {
               display: "block",
               whiteSpace: "normal",
               lineHeight: 1.4,
+              px: 1.5,
               py: 0.75,
               textTransform: "none",
             },
@@ -297,7 +305,14 @@ function PricingCard({ plan }: { plan: Plan }) {
           {plan.sectionedFeatures.map((section, idx) => (
             <Box
               key={section.heading ?? idx}
-              sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 1.5,
+                pt: idx > 0 ? 2 : 0,
+                borderTop: idx > 0 ? "1px solid" : "none",
+                borderColor: "rgba(0,0,0,0.08)",
+              }}
             >
               {section.heading && (
                 <Typography
@@ -330,9 +345,9 @@ function PricingCard({ plan }: { plan: Plan }) {
                         plan.accent === "amber"
                           ? alpha(BUTTERY_YELLOW, 0.5)
                           : plan.accent === "iris"
-                            ? (theme) =>
+                            ? (theme: any) =>
                                 alpha(theme.palette.accentBrand.main, 0.12)
-                            : (theme) =>
+                            : (theme: any) =>
                                 alpha(theme.palette.primary.main, 0.14),
                       mt: "1px",
                     }}
