@@ -25,7 +25,6 @@ type Plan = {
   cta: string;
   href: string;
   accent: "amber" | "iris" | "teal";
-  featured?: boolean;
 };
 
 // One icon per tier, shown as a small badge in the header — gives each
@@ -105,7 +104,6 @@ const PLANS: Plan[] = [
     cta: "Check your eligibility →",
     href: "/eligibility",
     accent: "teal",
-    featured: true,
   },
   {
     id: "maintenance",
@@ -207,7 +205,6 @@ const ACCENT_TOKENS = {
 
 function PricingCard({ plan }: { plan: Plan }) {
   const tokens = ACCENT_TOKENS[plan.accent];
-  const isFeatured = Boolean(plan.featured);
   const PlanIcon = PLAN_ICON[plan.id as keyof typeof PLAN_ICON];
 
   return (
@@ -220,36 +217,22 @@ function PricingCard({ plan }: { plan: Plan }) {
         // footer, instead of a colour strip over a neutral body.
         bgcolor: tokens.cardBg,
         border: "1px solid",
-        borderColor: isFeatured ? "transparent" : "rgba(0,0,0,0.06)",
-        boxShadow: isFeatured
-          ? "0 28px 56px rgba(0,0,0,0.35)"
-          : "0 8px 24px rgba(0,0,0,0.16)",
+        borderColor: "rgba(0,0,0,0.06)",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.16)",
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        // Featured card is bigger in both dimensions, not just taller —
-        // wider max-width plus its own min-height so it visibly stands
-        // out from the other two rather than just having more content.
-        minHeight: isFeatured ? 760 : 640,
+        // All three cards now the same size — no more featured-card
+        // upsizing, vertical offset, or z-index bump, so they sit flush
+        // in one row instead of the middle one popping out.
+        minHeight: 640,
         width: "100%",
-        maxWidth: isFeatured ? 440 : 380,
+        maxWidth: 380,
         mx: "auto",
-        // Nudge the featured card up slightly so it reads as "the" plan
-        // rather than sitting flush in the same row as the other two.
-        transform: isFeatured ? { md: "translateY(-16px)" } : "none",
-        zIndex: isFeatured ? 2 : 1,
-        // Hover: pop up a bit further from wherever the card is already
-        // resting, and deepen the shadow so it reads as "lifted" rather
-        // than just moved. transition on both properties so it eases in
-        // instead of snapping.
         transition: "transform 0.25s ease, box-shadow 0.25s ease",
         "&:hover": {
-          transform: isFeatured
-            ? { md: "translateY(-24px)" }
-            : { md: "translateY(-8px)" },
-          boxShadow: isFeatured
-            ? "0 36px 64px rgba(0,0,0,0.4)"
-            : "0 16px 36px rgba(0,0,0,0.22)",
+          transform: { md: "translateY(-8px)" },
+          boxShadow: "0 16px 36px rgba(0,0,0,0.22)",
         },
       }}
     >
@@ -294,8 +277,8 @@ function PricingCard({ plan }: { plan: Plan }) {
       <Box
         sx={{
           color: tokens.text,
-          p: isFeatured ? 5 : 4,
-          pb: isFeatured ? 4 : 3,
+          p: 4,
+          pb: 3,
         }}
       >
         <Box
@@ -329,7 +312,7 @@ function PricingCard({ plan }: { plan: Plan }) {
           sx={{
             fontFamily: "var(--font-manrope), sans-serif",
             fontWeight: 700,
-            fontSize: isFeatured ? "3.25rem" : "2.75rem",
+            fontSize: "2.75rem",
             lineHeight: 1.1,
             textTransform: "none",
             mt: 0.5,
@@ -373,8 +356,8 @@ function PricingCard({ plan }: { plan: Plan }) {
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: isFeatured ? 3.5 : 3,
-          p: isFeatured ? 5 : 4,
+          gap: 3,
+          p: 4,
           flexGrow: 1,
         }}
       >
@@ -382,7 +365,7 @@ function PricingCard({ plan }: { plan: Plan }) {
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: isFeatured ? 3.5 : 3,
+            gap: 3,
             flexGrow: 1,
           }}
         >
@@ -449,28 +432,28 @@ function PricingCard({ plan }: { plan: Plan }) {
           ))}
         </Box>
 
-        <Button
-          component={Link}
-          href={plan.href}
-          variant="contained"
-          fullWidth
-          sx={{
-            borderRadius: 999,
-            py: 1.2,
-            mt: 1,
-            fontWeight: 700,
-            textTransform: "none",
-            // Per-card CTA colour instead of one universal secondary.main
-            // button on every card — each button now matches its own
-            // card's accent (dark-on-yellow, white-on-teal, etc.) rather
-            // than every card ending the same regardless of colour.
-            bgcolor: tokens.ctaBg,
-            color: tokens.ctaText,
-            "&:hover": { bgcolor: tokens.ctaBg, opacity: 0.88 },
-          }}
-        >
-          {plan.cta}
-        </Button>
+        {/* CTA button — kept only on the first (free/suitability) card.
+            The other two no longer show a button underneath. */}
+        {plan.id === "suitability" && (
+          <Button
+            component={Link}
+            href={plan.href}
+            variant="contained"
+            fullWidth
+            sx={{
+              borderRadius: 999,
+              py: 1.2,
+              mt: 1,
+              fontWeight: 700,
+              textTransform: "none",
+              bgcolor: tokens.ctaBg,
+              color: tokens.ctaText,
+              "&:hover": { bgcolor: tokens.ctaBg, opacity: 0.88 },
+            }}
+          >
+            {plan.cta}
+          </Button>
+        )}
       </Box>
     </Box>
   );
@@ -556,14 +539,11 @@ export function PricingSection() {
           sx={{
             mx: "auto",
             mt: { xs: 6, md: 12 },
-            maxWidth: 1400,
+            maxWidth: 1300,
             display: "grid",
-            // Widened from 320/380/320 — at the old widths, against a
-            // 640-760px minHeight, the columns were skinny enough that
-            // almost every feature line wrapped, which is what made the
-            // cards read as cramped/oddly tall rather than just "long
-            // lists". Wider columns let more text sit on one line.
-            gridTemplateColumns: { xs: "1fr", md: "380px 440px 380px" },
+            // Three equal-width columns — all three cards are now the
+            // same size, so no more asymmetric 380/440/380 split.
+            gridTemplateColumns: { xs: "1fr", md: "380px 380px 380px" },
             justifyContent: "center",
             gap: { xs: 4, md: 4 },
             alignItems: "stretch",
