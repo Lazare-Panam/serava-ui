@@ -17,9 +17,9 @@ export default function PricingPage() {
       <Reveal variant="rise">
         <PricingSection />
       </Reveal>
-      <Reveal variant="slide-left">
+      {/* <Reveal variant="slide-left">
         <NeverPayFor />
-      </Reveal>
+      </Reveal> */}
       <Reveal variant="scale-soft">
         <ConsultationSection />
       </Reveal>

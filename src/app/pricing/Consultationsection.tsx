@@ -37,12 +37,12 @@ const IMAGE_URL =
 
 const FAQS = [
   {
-    q: "What happens during a consultation?",
-    a: "You'll meet your prescriber one to one over video, up to an hour, to talk through your health history, current medications, and what you're hoping to achieve. You'll leave with a personalised treatment recommendation and clear next steps — nothing is decided before you've had that conversation.",
+    q: "Do I pay anything if I decide not to continue?",
+    a: "No. The consultation itself is free, and if you decide afterward that the programme isn't right for you, there's nothing to pay and no further commitment — you only pay if you choose to go ahead.",
   },
   {
-    q: "How are Serava's prescribers different?",
-    a: "Every prescriber is independent and UK-registered, and stays involved after that first call — through dosing decisions, monitoring blood tests, and scheduled reviews, rather than a one-off sign-off. The same person isn't guaranteed at every visit, but your records and plan carry over between reviews.",
+    q: "Is the free consultation a sales call, or a real clinical appointment?",
+    a: "It's a genuine clinical appointment with your prescriber, not a pitch. You'll go through your health history, current medications, and goals the same way you would in any paid consultation — the only difference is there's no charge for that first conversation.",
   },
 ];
 
@@ -86,7 +86,7 @@ export function ConsultationSection() {
               textTransform: "none",
             }}
           >
-            Your consultation, one to one
+            Your first consultation, free
           </Typography>
 
           <Typography
@@ -99,9 +99,9 @@ export function ConsultationSection() {
               textTransform: "none",
             }}
           >
-            Meet with your prescriber to review your health history,
-            medications, and goals. You'll leave with a personalised treatment
-            recommendation and clear next steps.
+            Your first consultation costs nothing. There's no charge to meet
+            your prescriber, and no obligation to continue afterward — you only
+            pay if you decide to go ahead with the programme.
           </Typography>
 
           <Box
@@ -118,7 +118,7 @@ export function ConsultationSection() {
                   textTransform: "none",
                 }}
               >
-                One-off cost: £149
+                Cost: Free
               </Typography>
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
