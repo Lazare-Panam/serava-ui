@@ -187,6 +187,19 @@ function PricingCard({ plan }: { plan: Plan }) {
         // rather than sitting flush in the same row as the other two.
         transform: isFeatured ? { md: "translateY(-16px)" } : "none",
         zIndex: isFeatured ? 2 : 1,
+        // Hover: pop up a bit further from wherever the card is already
+        // resting, and deepen the shadow so it reads as "lifted" rather
+        // than just moved. transition on both properties so it eases in
+        // instead of snapping.
+        transition: "transform 0.25s ease, box-shadow 0.25s ease",
+        "&:hover": {
+          transform: isFeatured
+            ? { md: "translateY(-24px)" }
+            : { md: "translateY(-8px)" },
+          boxShadow: isFeatured
+            ? "0 36px 64px rgba(0,0,0,0.4)"
+            : "0 16px 36px rgba(0,0,0,0.22)",
+        },
       }}
     >
       {plan.ribbon && (
@@ -397,16 +410,16 @@ function PricingCard({ plan }: { plan: Plan }) {
 
 export function PricingSection() {
   return (
-    <Box
-      component="section"
-      id="pricing"
-      sx={{ mx: "auto", maxWidth: 1600, px: 3, py: { xs: 6, md: 10 } }}
-    >
-      {/* The tile — everything below (heading, cards, footer note) sits
-          inside this one rounded dark-green panel. */}
+    <Box component="section" id="pricing" sx={{ py: { xs: 6, md: 10 } }}>
+      {/* Full-bleed green band — same treatment as PricingHero's photo
+          section: no maxWidth/px gutter and no border radius on this
+          outer level, so the green fills edge-to-edge instead of showing
+          a rounded tile with cream visible on both sides. The heading
+          block, cards grid, and footer note below all keep their own
+          maxWidth/mx:auto constraints, so the *content* still reads as
+          a centered column — only the background color spans full width. */}
       <Box
         sx={{
-          borderRadius: 6,
           bgcolor: "secondary.main",
           px: { xs: 3, sm: 6 },
           py: { xs: 8, md: 12 },
