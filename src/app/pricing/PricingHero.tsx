@@ -31,7 +31,7 @@ import AutorenewRoundedIcon from "@mui/icons-material/AutorenewRounded";
 import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";
 
 const HERO_IMAGE_URL =
-  "https://pblol2.blob.core.windows.net/serava-ui/hero/prices-hero.jpg";
+  "https://pblol2.blob.core.windows.net/serava-ui/pricing-hero.jpeg";
 
 const TRUST_ITEMS = [
   { icon: BadgeOutlinedIcon, label: "Independent prescribers" },
