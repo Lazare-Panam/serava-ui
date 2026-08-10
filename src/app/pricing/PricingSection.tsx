@@ -63,7 +63,7 @@ const PLANS: Plan[] = [
         ],
       },
     ],
-    cta: "Begin your journey",
+    cta: "Start free",
     href: "/eligibility",
     accent: "amber",
   },
@@ -459,19 +459,41 @@ function PricingCard({ plan }: { plan: Plan }) {
   );
 }
 
+const SECTION_BG_IMAGE_URL =
+  "https://pblol2.blob.core.windows.net/serava-ui/p-bg.jpeg";
+
 export function PricingSection() {
   return (
     <Box component="section" id="pricing" sx={{ py: { xs: 6, md: 10 } }}>
-      {/* Full-bleed green band — same treatment as PricingHero's photo
-          section: no maxWidth/px gutter and no border radius on this
-          outer level, so the green fills edge-to-edge instead of showing
-          a rounded tile with cream visible on both sides. The heading
-          block, cards grid, and footer note below all keep their own
-          maxWidth/mx:auto constraints, so the *content* still reads as
-          a centered column — only the background color spans full width. */}
+      {/* Full-bleed background band — same footprint as before (no
+          maxWidth/px gutter, no border radius, so it fills edge-to-edge),
+          now a photo instead of a flat secondary.main green.
+          p-bg.jpeg is itself a dark, busy leaf photo — the first overlay
+          pass (72-80% black) crushed it down so far the photo barely
+          read as anything, and worse, it dropped the heading/overline/
+          intro text (which just changes colour, no shadow) below a
+          usable contrast ratio against the same dark, textured
+          background. Lightened the overlay a lot (28-45%, just enough
+          to keep the busy leaf detail from fighting with the card grid)
+          and added a text-shadow to the heading/overline/intro instead —
+          a flat overlay alone can't guarantee contrast against a
+          textured photo the way it could against a flat colour; a
+          shadow separates the letters from whatever's directly behind
+          them regardless of the photo's local brightness. */}
       <Box
         sx={{
-          bgcolor: "secondary.main",
+          position: "relative",
+          backgroundImage: `url(${SECTION_BG_IMAGE_URL})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(180deg, rgba(15,22,20,0.28) 0%, rgba(15,22,20,0.45) 100%)",
+          },
           px: { xs: 3, sm: 6 },
           py: { xs: 8, md: 12 },
         }}
@@ -501,6 +523,11 @@ export function PricingSection() {
                 letterSpacing: "0.2em",
                 fontWeight: 500,
                 textTransform: "uppercase",
+                // Shadow, not just colour, so this stays legible over the
+                // busy leaf photo regardless of what's directly behind
+                // any given letter — a lighter overlay alone can't
+                // guarantee that on a textured background.
+                textShadow: "0 2px 10px rgba(0,0,0,0.55)",
               }}
             >
               Pricing
@@ -515,6 +542,7 @@ export function PricingSection() {
               fontSize: { xs: "2.25rem", sm: "2.75rem" },
               color: "background.paper",
               textTransform: "none",
+              textShadow: "0 4px 16px rgba(0,0,0,0.6)",
             }}
           >
             Pick the stage you're on
@@ -526,8 +554,9 @@ export function PricingSection() {
               maxWidth: 560,
               fontSize: "1.05rem",
               lineHeight: 1.7,
-              color: (t) => alpha(t.palette.background.paper, 0.75),
+              color: (t) => alpha(t.palette.background.paper, 0.9),
               textTransform: "none",
+              textShadow: "0 2px 10px rgba(0,0,0,0.55)",
             }}
           >
             Three stages, three prices — nothing hidden between them, and
@@ -559,8 +588,9 @@ export function PricingSection() {
             mt: { xs: 6, md: 10 },
             textAlign: "center",
             fontSize: "0.9rem",
-            color: (t) => alpha(t.palette.background.paper, 0.7),
+            color: (t) => alpha(t.palette.background.paper, 0.85),
             textTransform: "none",
+            textShadow: "0 2px 8px rgba(0,0,0,0.5)",
           }}
         >
           You pay nothing until you book your consultation. Full breakdown of
