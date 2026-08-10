@@ -32,6 +32,11 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import CurrencyPoundRoundedIcon from "@mui/icons-material/CurrencyPoundRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 
+// Same buttery yellow as PricingSection's "amber" accent card (its
+// headerBg) — flat color, no gradient, so this section visually matches
+// that card exactly rather than approximating it with a cream tint.
+const BUTTERY_YELLOW = "#F9E8B0";
+
 const IMAGE_URL =
   "https://pblol2.blob.core.windows.net/serava-ui/hero/video-call.jpg";
 
@@ -58,7 +63,7 @@ export function ConsultationSection() {
         sx={{
           borderRadius: 6,
           overflow: "hidden",
-          background: "linear-gradient(160deg, #F7EFE4 0%, #EEDFC8 100%)",
+          bgcolor: BUTTERY_YELLOW,
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "1fr 1.2fr" },
           boxShadow: "0 20px 48px rgba(29,36,48,0.14)",

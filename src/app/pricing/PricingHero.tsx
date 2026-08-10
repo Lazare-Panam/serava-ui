@@ -132,50 +132,7 @@ export function PricingHero() {
             Complete care, no hidden costs
           </Typography>
 
-          <Box sx={{ maxWidth: 340 }}>
-            <Typography
-              sx={{
-                fontWeight: 700,
-                fontSize: "1.05rem",
-                color: "background.paper",
-                textTransform: "none",
-              }}
-            >
-              Care from £50/month
-            </Typography>
-            <Typography
-              sx={{
-                mt: 0.75,
-                mb: 2.5,
-                fontSize: "0.92rem",
-                lineHeight: 1.6,
-                color: (t) => alpha(t.palette.background.paper, 0.85),
-                textTransform: "none",
-              }}
-            >
-              From your first appointment to your ongoing support, find out
-              exactly what's included and how much it costs.
-            </Typography>
-            <Button
-              component={Link}
-              href="#pricing"
-              variant="contained"
-              size="large"
-              sx={{
-                borderRadius: 999,
-                px: 4,
-                py: 1.2,
-                fontSize: "0.95rem",
-                fontWeight: 700,
-                textTransform: "none",
-                bgcolor: "background.paper",
-                color: "text.primary",
-                "&:hover": { bgcolor: "background.paper", opacity: 0.92 },
-              }}
-            >
-              Find my care
-            </Button>
-          </Box>
+         
         </Box>
       </Box>
 
