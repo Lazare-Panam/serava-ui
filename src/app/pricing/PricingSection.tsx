@@ -63,7 +63,7 @@ const PLANS: Plan[] = [
         ],
       },
     ],
-    cta: "Start free",
+    cta: "Begin your journey",
     href: "/eligibility",
     accent: "amber",
   },
