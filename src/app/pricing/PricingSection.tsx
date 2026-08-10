@@ -1,35 +1,3 @@
-// src/components/Landing/PricingSection.tsx
-// Three-tier pricing: a free eligibility/questionnaire stage, a one-time
-// consultation fee, and a recurring subscription. Same card anatomy across
-// all three (a coloured header block carrying the tier name/price, then a
-// white body with the checklist and CTA) — only the header colour changes
-// per tier. Colour lookups for plain palette tokens live in ACCENT_TOKENS;
-// anything needing alpha-blending is computed inline via a `(theme) => ...`
-// callback directly inside the relevant sx, same pattern ProgrammePaths
-// uses — no standalone helper function, so there's never a "theme"
-// parameter sitting outside a typed context for TypeScript to choke on.
-//
-// The whole heading + card grid now sits on a rounded dark-green tile
-// (secondary.main), same "cards floating in a coloured panel" device
-// ProgrammePaths already uses for its two-path section — except there the
-// panel was the pale buttery yellow behind mostly-white cards, and here
-// it's secondary.main (deep viridian) behind three already-colourful card
-// headers (buttery yellow / iris / teal). Went dark instead of another
-// pastel deliberately: those three header colours are the whole point of
-// telling the tiers apart, and they read strongest against a dark, mostly
-// neutral backdrop rather than against another light tint competing with
-// them for attention.
-//
-// Note: theme.ts sets `textTransform: "capitalize"` globally on
-// MuiTypography and MuiChip (and "capitalize" on MuiButton too, despite
-// typography.button being set to "none" — the component override wins).
-// That's why every Typography/Chip below that's meant to read as normal
-// sentence case has an explicit `textTransform: "none"` — without it,
-// "Starting at" renders as "Starting At" and the chip's illustrative-price
-// disclaimer gets title-cased word by word. If you'd rather not fight this
-// per-component, the real fix is removing those three overrides from
-// theme.ts — this file just works around them locally instead, since
-// that's a bigger, sitewide call.
 "use client";
 
 import Link from "next/link";
@@ -50,60 +18,108 @@ type Plan = {
   price: string;
   priceSuffix: string;
   chip: string;
-  features: string[];
+  sectionedFeatures: { heading?: string; items: string[] }[];
   cta: string;
   href: string;
   accent: "amber" | "iris" | "teal";
+  featured?: boolean;
 };
 
 const PLANS: Plan[] = [
   {
     id: "suitability",
-    badge: "Checking suitability",
+    badge: "Starting at",
     price: "Free",
-    priceSuffix: "Steps one & two",
+    priceSuffix: "Steps one to three",
     chip: "No card required",
-    features: [
-      "The five-minute eligibility check",
-      "The detailed medical questionnaire",
-      "A clear answer either way",
+    sectionedFeatures: [
+      {
+        heading: "The process",
+        items: [
+          "The five-minute eligibility check",
+          "The detailed medical questionnaire",
+          "Your first video consultation, in full, one to one",
+        ],
+      },
+      {
+        heading: "What you get",
+        items: [
+          "A clear answer, with reasons either way",
+          "No card required, and no commitment either way",
+          "A referral elsewhere if we're not the right fit",
+        ],
+      },
     ],
     cta: "Start free",
     href: "/eligibility",
     accent: "amber",
   },
   {
-    id: "consultation",
-    badge: "One to one consultation",
-    price: "£149",
-    priceSuffix: "one-time consultation fee",
-    chip: "Illustrative figure — final pricing under review, brief 10.1",
-    features: [
-      "A full video consultation, up to an hour, one to one with your prescriber",
-      "Baseline blood tests as part of your assessment",
-      "Independent identity and weight verification",
-      "A shared decision on treatment with your prescriber",
-    ],
-    cta: "Book a consultation",
-    href: "/book",
-    accent: "iris",
-  },
-  {
     id: "subscription",
-    badge: "The subscription",
-    ribbon: "Full programme",
-    price: "£199",
+    badge: "Starting at",
+    ribbon: "The programme",
+    price: "£129",
     priceSuffix: "per month",
-    chip: "Illustrative figure — final pricing under review, brief 10.1",
-    features: [
-      "Reviews every two weeks, longer reviews every four",
-      "Monitoring blood tests and cold-chain deliveries every four weeks",
-      "The full Lifestyle Library, from day one",
-      "A GP letter with consent, and a planned maintenance phase to finish",
+    chip: "Reviewed as we grow. See terms for details",
+    sectionedFeatures: [
+      {
+        heading: "Clinical care",
+        items: [
+          "Prescriber consultations every four weeks",
+          "Baseline and ongoing monitoring blood tests",
+          "Independent identity, height and weight verification",
+          "Titration management, adjusted by your prescriber",
+        ],
+      },
+      {
+        heading: "Included with your plan",
+        items: [
+          "The full Lifestyle Library, from day one",
+          "Direct messaging with your care team, via the safety inbox",
+          "A GP letter, with your consent",
+          "Delivery handled for you by our pharmacy partner",
+        ],
+      },
+      {
+        heading: "Billing",
+        items: [
+          "Monthly billing throughout, with no prepaid blocks",
+          "Medication billed separately, at cost, confirmed before you pay",
+        ],
+      },
     ],
     cta: "Check your eligibility →",
     href: "/eligibility",
     accent: "teal",
+    featured: true,
+  },
+  {
+    id: "maintenance",
+    badge: "Starting at",
+    price: "£119",
+    priceSuffix: "per month",
+    chip: "Where your plan winds down",
+    sectionedFeatures: [
+      {
+        heading: "As treatment steps down",
+        items: [
+          "Consultation-led reviews on a steady rhythm",
+          "Little to no medication cost at this stage",
+          "Continued access to the full Lifestyle Library",
+        ],
+      },
+      {
+        heading: "Your ending",
+        items: [
+          "A plan that's yours to keep once you finish",
+          "No re-enrolment needed to stay supported",
+          "Built in from day one, not an afterthought",
+        ],
+      },
+    ],
+    cta: "Book a consultation",
+    href: "/book",
+    accent: "iris",
   },
 ];
 
@@ -133,7 +149,7 @@ const ACCENT_TOKENS = {
 
 function PricingCard({ plan }: { plan: Plan }) {
   const tokens = ACCENT_TOKENS[plan.accent];
-  const isFeatured = plan.accent === "teal";
+  const isFeatured = Boolean(plan.featured);
 
   return (
     <Box
@@ -148,10 +164,17 @@ function PricingCard({ plan }: { plan: Plan }) {
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        minHeight: 640,
+        // Featured card is bigger in both dimensions, not just taller —
+        // wider max-width plus its own min-height so it visibly stands
+        // out from the other two rather than just having more content.
+        minHeight: isFeatured ? 760 : 640,
         width: "100%",
-        maxWidth: 320,
+        maxWidth: isFeatured ? 380 : 320,
         mx: "auto",
+        // Nudge the featured card up slightly so it reads as "the" plan
+        // rather than sitting flush in the same row as the other two.
+        transform: isFeatured ? { md: "translateY(-16px)" } : "none",
+        zIndex: isFeatured ? 2 : 1,
       }}
     >
       {plan.ribbon && (
@@ -190,7 +213,13 @@ function PricingCard({ plan }: { plan: Plan }) {
       )}
 
       {/* Header block — the coloured zone carrying tier name + price */}
-      <Box sx={{ bgcolor: tokens.headerBg, color: tokens.headerText, p: 4 }}>
+      <Box
+        sx={{
+          bgcolor: tokens.headerBg,
+          color: tokens.headerText,
+          p: isFeatured ? 5 : 4,
+        }}
+      >
         <Typography
           sx={{
             fontSize: "0.75rem",
@@ -205,21 +234,12 @@ function PricingCard({ plan }: { plan: Plan }) {
 
         <Typography
           sx={{
-            fontSize: "0.8rem",
-            mt: 2.5,
-            opacity: 0.75,
-            textTransform: "none",
-          }}
-        >
-          Starting at
-        </Typography>
-        <Typography
-          sx={{
             fontFamily: "var(--font-manrope), sans-serif",
             fontWeight: 700,
-            fontSize: "2.75rem",
+            fontSize: isFeatured ? "3.25rem" : "2.75rem",
             lineHeight: 1.1,
             textTransform: "none",
+            mt: 0.5,
           }}
         >
           {plan.price}
@@ -261,51 +281,78 @@ function PricingCard({ plan }: { plan: Plan }) {
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: 2,
-          p: 4,
+          gap: isFeatured ? 3 : 2.5,
+          p: isFeatured ? 5 : 4,
           flexGrow: 1,
         }}
       >
         <Box
-          sx={{ display: "flex", flexDirection: "column", gap: 2, flexGrow: 1 }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: isFeatured ? 3 : 2.5,
+            flexGrow: 1,
+          }}
         >
-          {plan.features.map((feature) => (
+          {plan.sectionedFeatures.map((section, idx) => (
             <Box
-              key={feature}
-              sx={{ display: "flex", flexDirection: "row", gap: 1.5 }}
+              key={section.heading ?? idx}
+              sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}
             >
-              <Box
-                sx={{
-                  flexShrink: 0,
-                  width: 22,
-                  height: 22,
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  bgcolor:
-                    plan.accent === "amber"
-                      ? alpha(BUTTERY_YELLOW, 0.5)
-                      : plan.accent === "iris"
-                        ? (theme) => alpha(theme.palette.accentBrand.main, 0.12)
-                        : (theme) => alpha(theme.palette.primary.main, 0.14),
-                  mt: "1px",
-                }}
-              >
-                <CheckRoundedIcon
-                  sx={{ fontSize: 15, color: tokens.checkColor }}
-                />
-              </Box>
-              <Typography
-                sx={{
-                  fontSize: "0.92rem",
-                  lineHeight: 1.55,
-                  color: "text.secondary",
-                  textTransform: "none",
-                }}
-              >
-                {feature}
-              </Typography>
+              {section.heading && (
+                <Typography
+                  sx={{
+                    fontSize: "0.72rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    color: "text.disabled",
+                  }}
+                >
+                  {section.heading}
+                </Typography>
+              )}
+              {section.items.map((feature) => (
+                <Box
+                  key={feature}
+                  sx={{ display: "flex", flexDirection: "row", gap: 1.5 }}
+                >
+                  <Box
+                    sx={{
+                      flexShrink: 0,
+                      width: 22,
+                      height: 22,
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      bgcolor:
+                        plan.accent === "amber"
+                          ? alpha(BUTTERY_YELLOW, 0.5)
+                          : plan.accent === "iris"
+                            ? (theme) =>
+                                alpha(theme.palette.accentBrand.main, 0.12)
+                            : (theme) =>
+                                alpha(theme.palette.primary.main, 0.14),
+                      mt: "1px",
+                    }}
+                  >
+                    <CheckRoundedIcon
+                      sx={{ fontSize: 15, color: tokens.checkColor }}
+                    />
+                  </Box>
+                  <Typography
+                    sx={{
+                      fontSize: "0.92rem",
+                      lineHeight: 1.55,
+                      color: "text.secondary",
+                      textTransform: "none",
+                    }}
+                  >
+                    {feature}
+                  </Typography>
+                </Box>
+              ))}
             </Box>
           ))}
         </Box>
@@ -413,11 +460,11 @@ export function PricingSection() {
           sx={{
             mx: "auto",
             mt: { xs: 6, md: 12 },
-            maxWidth: 1100,
+            maxWidth: 1200,
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "repeat(3, minmax(0, 320px))" },
+            gridTemplateColumns: { xs: "1fr", md: "320px 380px 320px" },
             justifyContent: "center",
-            gap: { xs: 4, md: 5 },
+            gap: { xs: 4, md: 4 },
             alignItems: "stretch",
           }}
         >
