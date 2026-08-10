@@ -92,21 +92,21 @@ export const theme = createTheme({
       defaultProps: { disableRipple: true },
       styleOverrides: {
         root: {
-          textTransform: "capitalize",
+          textTransform: "capitalize !important",
         },
       },
     },
     MuiTypography: {
       styleOverrides: {
         root: {
-          textTransform: "capitalize",
+          textTransform: "capitalize !important",
         },
       },
     },
     MuiChip: {
       styleOverrides: {
         label: {
-          textTransform: "capitalize",
+          textTransform: "capitalize !important",
         },
       },
     },
