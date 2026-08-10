@@ -191,12 +191,18 @@ function NewsletterForm() {
       </Box>
 
       {status === "success" && (
-        <Typography variant="caption" sx={{ color: FOOTER_TEXT, fontWeight: 600 }}>
+        <Typography
+          variant="caption"
+          sx={{ color: FOOTER_TEXT, fontWeight: 600 }}
+        >
           You&apos;re on the list — thanks for signing up.
         </Typography>
       )}
       {status === "error" && (
-        <Typography variant="caption" sx={{ color: "#FFD9D4", fontWeight: 600 }}>
+        <Typography
+          variant="caption"
+          sx={{ color: "#FFD9D4", fontWeight: 600 }}
+        >
           Something went wrong. Please try again.
         </Typography>
       )}
@@ -254,8 +260,8 @@ export function Footer() {
                 /> */}
               </Box>
               <Typography variant="body2" sx={{ color: FOOTER_TEXT }}>
-                Evidence-based support for the people navigating perimenopause
-                and menopause, built around you.
+                Pharmacist-led programmes built on measurement, monitoring and
+                genuine clinical care.
               </Typography>
 
               {/* Social icons — placeholder hrefs until real profiles exist */}
