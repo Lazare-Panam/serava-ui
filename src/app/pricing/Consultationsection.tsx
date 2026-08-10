@@ -18,7 +18,7 @@
 // a specific competitor's specialists).
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   Box,
@@ -37,8 +37,68 @@ import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 // that card exactly rather than approximating it with a cream tint.
 const BUTTERY_YELLOW = "#F9E8B0";
 
-const IMAGE_URL =
-  "https://pblol2.blob.core.windows.net/serava-ui/hero/video-call.jpg";
+const VIDEO_URL =
+  "https://pblol2.blob.core.windows.net/serava-ui/pricing-video.mp4";
+
+// Lazily-loaded video, replacing the old static photo. React doesn't
+// give <video> a native loading="lazy" the way <img> gets, so this uses
+// the same IntersectionObserver pattern Reveal.tsx already uses elsewhere
+// in this codebase: the <video>'s src is left unset (so nothing is
+// fetched — not even metadata, via preload="none") until the element is
+// within ~200px of entering the viewport, at which point the src gets
+// set and the browser starts fetching. Once triggered, the observer
+// disconnects — same one-shot behaviour as Reveal's useInView.
+function LazyVideo() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <Box
+      ref={containerRef}
+      sx={{
+        position: "relative",
+        minHeight: { xs: 320, md: "100%" },
+        bgcolor: "rgba(29,36,48,0.06)", // placeholder tone while unloaded
+        overflow: "hidden",
+      }}
+    >
+      {shouldLoad && (
+        <Box
+          component="video"
+          src={VIDEO_URL}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="none"
+          sx={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
+      )}
+    </Box>
+  );
+}
 
 const FAQS = [
   {
@@ -69,15 +129,8 @@ export function ConsultationSection() {
           boxShadow: "0 20px 48px rgba(29,36,48,0.14)",
         }}
       >
-        {/* Photo */}
-        <Box
-          sx={{
-            minHeight: { xs: 320, md: "100%" },
-            backgroundImage: `url(${IMAGE_URL})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
+        {/* Video — lazily loaded, see LazyVideo above */}
+        <LazyVideo />
 
         {/* Copy */}
         <Box sx={{ p: { xs: 4, sm: 5, md: 6 } }}>
