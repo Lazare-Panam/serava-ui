@@ -25,7 +25,7 @@ const TESTIMONIALS = [
     stat: "18kg",
     statLabel: "Weight lost",
     quote:
-      "“I'd tried enough fad plans to know they don't stick. Having a prescriber and a proper check-in schedule made the difference — for the first time this actually felt sustainable, not just another diet I'd fall off in a month.”",
+      "“I'd tried enough programmes to be sceptical of another one. What was different here was having an actual person checking in on me, not just an app pinging reminders. It felt like real care, not a subscription.”",
     tags: ["Decreased appetite", "More energy", "Sleeping better"],
     name: "Matt",
     role: "Weight loss programme",
@@ -36,10 +36,10 @@ const TESTIMONIALS = [
     stat: "12 wks",
     statLabel: "To first result",
     quote:
-      "“The blood work before and after made it feel like medicine, not guesswork. I finally understand what's actually going on with my body, and the check-ins meant I never felt like I was doing this alone.”",
+      "“I never really knew what I needed versus what was just marketing. Having someone go through it properly, and only recommend what actually made sense for me, was worth it on its own.”",
     tags: ["Brain fog lifted", "Better gym recovery", "Improved mood"],
     name: "Wesley",
-    role: "Testosterone programme",
+    role: "Supplmentation programme",
     sparkline: "M4 30 C 18 32, 30 22, 46 24 S 70 8, 88 10",
   },
   {
@@ -47,10 +47,10 @@ const TESTIMONIALS = [
     stat: "94%",
     statLabel: "Felt supported",
     quote:
-      "“It's a small thing to some people, but starting was easy, and I've actually stuck with the plan because someone's checking in on me. Six months in, I'm not thinking about it as a chore anymore.”",
+      "“It's the first routine I've actually stuck with, because it was built around my skin, not a generic list. Simple enough that I didn't give up after two weeks like usual.”",
     tags: ["Visible regrowth", "More confident", "Stuck with the plan"],
     name: "Samira",
-    role: "Hair loss programme",
+    role: "Skin Care programme",
     sparkline: "M4 28 C 20 24, 34 30, 50 18 S 74 4, 88 8",
   },
 ];
