@@ -5,6 +5,7 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 import { theme } from "./theme";
 import { Navbar } from "./Common/Navbar";
 import "./globals.css";
+import { Footer } from "./Common/Footer";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({
             <CssBaseline />
             <Navbar />
             {children}
+            <Footer />
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

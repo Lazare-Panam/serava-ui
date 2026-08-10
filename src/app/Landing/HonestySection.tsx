@@ -63,7 +63,7 @@ export function HonestySection() {
                   textTransform: "none",
                 }}
               >
-                Who this service is not for
+                Who is not eligble for the programme
               </Typography>
 
               <Typography
