@@ -90,24 +90,28 @@ export const FOUNDATIONS_VOLUMES: Volume[] = [
     title: "The Supplement Guide",
     description:
       "A plain-English look at what might be worth considering alongside your plan, and what generally isn't.",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/supplement.jpeg",
   },
   {
     num: "Guide IV",
     title: "Sleep — The Third Pillar",
     description:
       "Why sleep matters to the programme, with a practical routine and signposting if sleep itself is the problem.",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/sleep.jpeg",
   },
   {
     num: "Guide V",
     title: "The Mind — The Fourth Pillar",
     description:
       "Practical tools for cravings, habits and mindset, built for the moments the plan gets hard.",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/mind.jpeg",
   },
   {
     num: "Guide VI",
     title: "The Bookends",
     description:
       "Warm-up, cool-down, and simple mobility guidance to pair with any Strength volume.",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/bookend.jpeg",
   },
 ];
 
