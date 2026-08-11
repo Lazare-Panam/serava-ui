@@ -14,14 +14,26 @@
 // compact — this is a decorative-but-informative shelf, not the volume
 // cards below it), and the group wrapper uses a proper <ul> so nothing is
 // hidden from assistive tech that's visible on screen.
+//
+// Background swapped from the mist gradient to a looping hero video, same
+// lazy-load-on-intersection + dark overlay treatment as VolumeGroup's
+// Strength section — see that file for the reasoning on the overlay
+// opacity trade-off (readable text vs. the video actually being visible).
+// Every foreground element (eyebrow, heading, subhead, shelf labels,
+// summary line) was dark-on-light before and is now white/near-white so
+// it stays legible against the video instead of disappearing into it.
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
 const BUTTERY_YELLOW = "#F9E8B0"; // same literal PricingSection.tsx uses
 const BUTTER_DEEP_TEXT = "#6B5410"; // mockup's --butter-deep, AA on butter
 const TEAL_DEEP = "#146059";
+
+const HERO_VIDEO_URL =
+  "https://pblol2.blob.core.windows.net/serava-ui/lib/hero-video-lib.mp4";
 
 type ShelfGroup = {
   id: string;
@@ -62,6 +74,80 @@ const SHELF_GROUPS: ShelfGroup[] = [
   },
 ];
 
+// Lazily-loaded, looping background video — same IntersectionObserver
+// pattern as VolumeGroup.tsx's LazyBackgroundVideo and
+// ConsultationSection.tsx's LazyVideo (nothing fetched, not even
+// metadata via preload="none", until the section is ~200px from
+// entering the viewport). The hero is the very first thing on the page,
+// so in practice this fires almost immediately on load — kept the same
+// pattern anyway for consistency and so it behaves correctly if this
+// component is ever reused further down a page.
+function LazyHeroVideo({ src }: { src: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <Box
+      ref={containerRef}
+      aria-hidden="true"
+      sx={{
+        position: "absolute",
+        inset: 0,
+        overflow: "hidden",
+        bgcolor: TEAL_DEEP, // placeholder tone while unloaded
+      }}
+    >
+      {shouldLoad && (
+        <Box
+          component="video"
+          src={src}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="none"
+          sx={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
+      )}
+      {/* Dark wash so white heading/body text and the shelf's muted
+          labels stay readable regardless of what's playing underneath —
+          same reasoning and opacity range as VolumeGroup's Strength
+          video overlay, kept consistent between the two video sections
+          on this page. */}
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(180deg, rgba(10,26,23,0.5) 0%, rgba(10,26,23,0.62) 100%)",
+        }}
+      />
+    </Box>
+  );
+}
+
 export function LibraryPageHero() {
   return (
     <Box
@@ -70,45 +156,9 @@ export function LibraryPageHero() {
         position: "relative",
         pt: { xs: 7, md: 11 },
         overflow: "hidden",
-        background: (t) =>
-          `linear-gradient(180deg, ${t.palette.background.default} 0%, #F1F8F6 100%)`,
       }}
     >
-      {/* Decorative glow blobs, same placement/idea as the mockup's
-          ::before/::after radial gradients. */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          position: "absolute",
-          top: -200,
-          right: -160,
-          width: 520,
-          height: 520,
-          borderRadius: "50%",
-          background: (t) =>
-            `radial-gradient(circle, ${alpha(t.palette.primary.main, 0.14)} 0%, ${alpha(
-              t.palette.primary.main,
-              0,
-            )} 70%)`,
-          pointerEvents: "none",
-        }}
-      />
-      <Box
-        aria-hidden="true"
-        sx={{
-          position: "absolute",
-          bottom: -160,
-          left: -160,
-          width: 420,
-          height: 420,
-          borderRadius: "50%",
-          background: `radial-gradient(circle, ${alpha(BUTTERY_YELLOW, 0.35)} 0%, ${alpha(
-            BUTTERY_YELLOW,
-            0,
-          )} 70%)`,
-          pointerEvents: "none",
-        }}
-      />
+      <LazyHeroVideo src={HERO_VIDEO_URL} />
 
       <Box
         sx={{
@@ -134,7 +184,7 @@ export function LibraryPageHero() {
               fontWeight: 600,
               letterSpacing: "0.22em",
               textTransform: "uppercase",
-              color: TEAL_DEEP,
+              color: "#FFFFFF",
             }}
           >
             The Library
@@ -149,7 +199,7 @@ export function LibraryPageHero() {
             fontSize: { xs: "2.25rem", sm: "3rem", md: "3.3rem" },
             lineHeight: 1.16,
             letterSpacing: "-0.02em",
-            color: "secondary.main",
+            color: "#FFFFFF",
             maxWidth: "18ch",
           }}
         >
@@ -161,7 +211,7 @@ export function LibraryPageHero() {
             mt: 2.25,
             fontSize: "1.14rem",
             lineHeight: 1.7,
-            color: "text.secondary",
+            color: alpha("#FFFFFF", 0.85),
             maxWidth: 640,
           }}
         >
@@ -171,7 +221,10 @@ export function LibraryPageHero() {
         </Typography>
 
         {/* Bookshelf visual — three groups, each a real horizontally-
-            readable list rather than rotated decorative text. */}
+            readable list rather than rotated decorative text. Spine
+            chips already carry their own solid background colours, so
+            they stay legible unchanged; only the muted group labels
+            needed to flip from dark-on-light to light-on-dark. */}
         <Box
           sx={{
             display: "flex",
@@ -192,7 +245,7 @@ export function LibraryPageHero() {
                   fontWeight: 700,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  color: "#8A9A93",
+                  color: alpha("#FFFFFF", 0.72),
                   mb: 1.5,
                 }}
               >
@@ -253,7 +306,7 @@ export function LibraryPageHero() {
           sx={{
             mt: 3.5,
             fontSize: "0.92rem",
-            color: "text.secondary",
+            color: alpha("#FFFFFF", 0.8),
           }}
         >
           Six meal volumes · three strength volumes · six foundations guides,
