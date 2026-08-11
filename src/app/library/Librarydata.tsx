@@ -21,36 +21,43 @@ export const MEAL_VOLUMES: Volume[] = [
     title: "Main Meals — The Home-Cooked Collection",
     description:
       "A collection of everyday mains built around a repeatable plate formula, with batch cooking and storecupboard staples. The core volume for anyone who cooks.",
+    image:
+      "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-hero-img.png",
   },
   {
     num: "Volume II",
     title: "Breakfasts, Lighter Meals & Snacks — The Everyday Collection",
     description:
       "Breakfasts, lighter meals, and a snack list that doubles as a shopping list. The volume everyone starts with.",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-2.jpeg",
   },
   {
     num: "Volume III",
     title: "The Supermarket Navigator",
     description:
       "A quick way to judge any ready meal, plus zero-cook assembly meals for weeks with no time or energy to cook.",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-3.jpeg",
   },
   {
     num: "Volume IV",
     title: "Eating Out & Takeaways",
     description:
       "Practical guidance for restaurants, alcohol, and takeaway nights, covering ten different cuisines.",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-4.jpeg",
   },
   {
     num: "Volume V",
     title: "The Plant-Based Collection",
     description:
       "Meat-free mains and protein guidance for a fully plant-based approach, with conversions that work across the whole Library.",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-5.jpeg",
   },
   {
     num: "Volume VI",
     title: "The Workday",
     description:
       "Packed lunches, no-fridge and no-microwave solutions, canteens, forecourts, and shift work.",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-6.jpeg",
   },
 ];
 
