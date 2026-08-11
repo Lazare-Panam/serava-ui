@@ -458,11 +458,23 @@ export function VolumeGroup({
         ml: "-50vw",
         mr: "-50vw",
         borderRadius: 0,
-        mt: { xs: 5, md: 5.5 },
-        // Taller panel — more breathing room top/bottom so the video
-        // itself gets more visible real estate, per request to make this
-        // "a little bigger."
-        py: { xs: 8, md: 11 },
+        // Vertical breakout too: page.tsx wraps this group in a
+        // <Box component="section"> with py: {xs:8.5, md:12} — that's
+        // exactly where the mist-coloured gap above/below the video in
+        // the screenshot was coming from (horizontal breakout alone
+        // doesn't touch vertical padding). Cancel it out here with a
+        // matching negative margin so this panel's own py below is what
+        // actually renders as the section's full height, edge-to-edge
+        // top and bottom with no gap — same idea as the mt/ml width
+        // breakout above, just on the other axis. If page.tsx's section
+        // padding value ever changes, this negative-margin pair needs to
+        // change with it (they're a matched set, not independent).
+        mt: { xs: -8.5, md: -12 },
+        mb: { xs: -8.5, md: -12 },
+        // Panel's own vertical size — this is what actually determines
+        // how tall the video reads now that the parent's padding is
+        // cancelled out above.
+        py: { xs: 10, md: 14 },
         px: { xs: 3, sm: 6, md: 10 },
       }}
     >
