@@ -75,6 +75,7 @@ export const FOUNDATIONS_VOLUMES: Volume[] = [
     title: "Water — The Hydration Guide",
     description:
       "A practical daily hydration target and routine, issued from day one.",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/water-lib.jpeg",
   },
   {
     num: "Guide II",

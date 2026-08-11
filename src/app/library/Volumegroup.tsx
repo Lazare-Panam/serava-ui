@@ -13,6 +13,11 @@ export type Volume = {
   num: string; // "Volume I", "Guide III", etc.
   title: string;
   description: string;
+  // Optional cover image for the card. Left undefined in libraryData.tsx
+  // for now — fill in real URLs per volume when ready. Cards render a
+  // placeholder block (no broken-image icon, no layout shift once a src
+  // is added later since the aspect ratio is fixed either way).
+  image?: string;
 };
 
 export type VolumeGroupAccent = "meal" | "strength" | "foundation";
@@ -62,8 +67,7 @@ function VolumeCard({
         borderTop: "3px solid",
         borderTopColor: tokens.cardTopBorder,
         borderRadius: "16px",
-        py: "22px",
-        px: "20px",
+        overflow: "hidden",
         boxShadow:
           "0 1px 2px rgba(42,84,73,.05), 0 6px 16px -8px rgba(42,84,73,.10)",
         transition:
@@ -75,33 +79,69 @@ function VolumeCard({
         },
       }}
     >
-      <Typography
+      {/* Image slot — src left blank until real photography/artwork is
+          ready. Fixed 16:9 box either way so adding a src later doesn't
+          shift the grid, and a flat tinted placeholder (using the
+          group's own accent, at low opacity) stands in instead of a
+          broken-image icon or empty white gap. */}
+      <Box
         sx={{
-          fontSize: "0.72rem",
-          fontWeight: 700,
-          letterSpacing: "0.12em",
-          textTransform: "uppercase",
-          color: TEAL_DEEP,
-          mb: 1,
+          position: "relative",
+          width: "100%",
+          aspectRatio: "16 / 9",
+          bgcolor: volume.image ? "transparent" : tokens.cardTopBorder,
+          opacity: volume.image ? 1 : 0.18,
         }}
       >
-        {volume.num}
-      </Typography>
-      <Typography
-        sx={{
-          fontSize: "0.98rem",
-          fontWeight: 600,
-          color: "secondary.main",
-          mb: 0.75,
-        }}
-      >
-        {volume.title}
-      </Typography>
-      <Typography
-        sx={{ fontSize: "0.87rem", color: "text.secondary", lineHeight: 1.65 }}
-      >
-        {volume.description}
-      </Typography>
+        {volume.image && (
+          // eslint-disable-next-line @next/next/no-img-element -- swap for next/image once real, sized asset URLs are in place
+          <img
+            src={volume.image}
+            alt={volume.title}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        )}
+      </Box>
+
+      <Box sx={{ py: "22px", px: "20px" }}>
+        <Typography
+          sx={{
+            fontSize: "0.72rem",
+            fontWeight: 700,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            color: TEAL_DEEP,
+            mb: 1,
+          }}
+        >
+          {volume.num}
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "0.98rem",
+            fontWeight: 600,
+            color: "secondary.main",
+            mb: 0.75,
+          }}
+        >
+          {volume.title}
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "0.87rem",
+            color: "text.secondary",
+            lineHeight: 1.65,
+          }}
+        >
+          {volume.description}
+        </Typography>
+      </Box>
     </Box>
   );
 }
