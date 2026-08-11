@@ -22,21 +22,21 @@ export const MEAL_VOLUMES: Volume[] = [
     description:
       "A collection of everyday mains built around a repeatable plate formula, with batch cooking and storecupboard staples. The core volume for anyone who cooks.",
     image:
-      "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-1.jpeg",
+      "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-3.jpeg",
   },
   {
     num: "Volume II",
     title: "Breakfasts, Lighter Meals & Snacks — The Everyday Collection",
     description:
       "Breakfasts, lighter meals, and a snack list that doubles as a shopping list. The volume everyone starts with.",
-    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-2.jpeg",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-1.jpeg",
   },
   {
     num: "Volume III",
     title: "The Supermarket Navigator",
     description:
       "A quick way to judge any ready meal, plus zero-cook assembly meals for weeks with no time or energy to cook.",
-    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-3.jpeg",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-2.jpeg",
   },
   {
     num: "Volume IV",
