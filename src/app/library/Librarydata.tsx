@@ -22,7 +22,7 @@ export const MEAL_VOLUMES: Volume[] = [
     description:
       "A collection of everyday mains built around a repeatable plate formula, with batch cooking and storecupboard staples. The core volume for anyone who cooks.",
     image:
-      "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-hero-img.png",
+      "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-1.jpeg",
   },
   {
     num: "Volume II",
