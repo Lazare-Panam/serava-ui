@@ -8,6 +8,12 @@
 // targets, supplement timings) or internal-only (draft/version/sign-off
 // details) — none of that belongs on a public page, and none of it was
 // in the mockup's visible copy either.
+// Note: this was previously "./Volumegroup" (lowercase g) — that only
+// resolves on case-insensitive filesystems (macOS/Windows dev machines).
+// The actual file is VolumeGroup.tsx, so on a case-sensitive filesystem
+// (Linux CI, Vercel builds, most prod containers) that import silently
+// fails to resolve and the build breaks — fixed to match the real
+// filename exactly.
 import { Volume } from "./Volumegroup";
 export const MEAL_VOLUMES: Volume[] = [
   {
@@ -48,6 +54,12 @@ export const MEAL_VOLUMES: Volume[] = [
   },
 ];
 
+// Strength intentionally has NO per-volume `image` here. This group is
+// rendered by VolumeGroup with videoBackground set (see page.tsx), which
+// puts one shared looping video behind all 3 cards instead of individual
+// images — VolumeCard ignores `image` entirely whenever a group is in
+// that video mode. Adding an `image` to any of these 3 entries would
+// simply have no effect; don't be surprised when it doesn't show up.
 export const STRENGTH_VOLUMES: Volume[] = [
   {
     num: "Volume I",

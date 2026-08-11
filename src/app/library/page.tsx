@@ -4,10 +4,9 @@ import { Box } from "@mui/material";
 import { LibraryPageHero } from "./Librarypagehero";
 import { VolumeGroup } from "./Volumegroup";
 import { FoundationIcon, FOUNDATIONS_VOLUMES, MEAL_VOLUMES, MealIcon, STRENGTH_VOLUMES, StrengthIcon } from "./Librarydata";
+import { CtaBand } from "../how-it-works/CtaBand";
 import { ExtrasRow } from "./Extrasrow";
 import { PhilosophyPanel } from "./Philosophypanel";
-
-
 
 export const metadata = {
   title: "Serava Health | The Library",
@@ -21,15 +20,7 @@ export default function LibraryPage() {
 
       <LibraryPageHero />
 
-      <Box
-        component="section"
-        sx={{
-          bgcolor: "background.paper",
-          borderTop: "1px solid",
-          borderColor: "divider",
-          py: { xs: 8.5, md: 12 },
-        }}
-      >
+      <Box component="section" sx={{ bgcolor: "background.paper", borderTop: "1px solid", borderColor: "divider", py: { xs: 8.5, md: 12 } }}>
         <Box sx={{ mx: "auto", maxWidth: 1152, px: 3 }}>
           <VolumeGroup
             accent="meal"
@@ -42,26 +33,28 @@ export default function LibraryPage() {
       </Box>
 
       <Box component="section" sx={{ py: { xs: 8.5, md: 12 } }}>
-        <Box sx={{ mx: "auto", maxWidth: 1152, px: 3 }}>
+        {/* px: 0 on mobile (vs. the 3-unit gutter every other section
+            uses) so the Strength video panel can go edge-to-edge on
+            small screens — VolumeGroup applies its own internal px
+            (3 on mobile, 5 on desktop) once videoBackground is set, and
+            drops its border-radius to 0 on mobile too, so heading/card
+            text still gets proper inset padding either way. Don't
+            "fix" this back to a flat px: 3 without also reverting
+            VolumeGroup's borderRadius/px overrides for its video mode —
+            they're a matched pair. */}
+        <Box sx={{ mx: "auto", maxWidth: 1152, px: { xs: 0, md: 3 } }}>
           <VolumeGroup
             accent="strength"
             icon={<StrengthIcon />}
             title="Strength"
             intro="Three venues for the same programme, because muscle matters throughout the plan, not just at the end of it — swap between them freely, week to week."
             volumes={STRENGTH_VOLUMES}
+            videoBackground="https://pblol2.blob.core.windows.net/serava-ui/lib/ex-video.mp4"
           />
         </Box>
       </Box>
 
-      <Box
-        component="section"
-        sx={{
-          bgcolor: "background.paper",
-          borderTop: "1px solid",
-          borderColor: "divider",
-          py: { xs: 8.5, md: 12 },
-        }}
-      >
+      <Box component="section" sx={{ bgcolor: "background.paper", borderTop: "1px solid", borderColor: "divider", py: { xs: 8.5, md: 12 } }}>
         <Box sx={{ mx: "auto", maxWidth: 1152, px: 3 }}>
           <VolumeGroup
             accent="foundation"
@@ -76,8 +69,8 @@ export default function LibraryPage() {
         </Box>
       </Box>
 
-
-      
+      <CtaBand heading={""} subtext={""} ctaLabel={""} ctaHref={""} />
+   
     </>
   );
 }
