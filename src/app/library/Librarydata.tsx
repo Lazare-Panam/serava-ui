@@ -82,6 +82,8 @@ export const FOUNDATIONS_VOLUMES: Volume[] = [
     title: "The Safety Net",
     description:
       "How to recognise side effects, when to act, and who to call — issued at your first prescription.",
+    image:
+      "https://pblol2.blob.core.windows.net/serava-ui/lib/the-safety-net.jpeg",
   },
   {
     num: "Guide III",
