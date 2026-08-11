@@ -10,6 +10,12 @@ type Extra = {
   icon: ReactNode;
   title: string;
   description: string;
+  // Optional cover image, same pattern as Volume in VolumeGroup.tsx —
+  // left undefined below until real photography/artwork is ready. Add a
+  // "image: \"...\"" line to any entry in EXTRAS to swap in a real one;
+  // the card's layout doesn't shift either way since the slot's aspect
+  // ratio is fixed.
+  image?: string;
 };
 
 const EXTRAS: Extra[] = [
@@ -23,6 +29,8 @@ const EXTRAS: Extra[] = [
     title: "Session cards & a training log",
     description:
       "A quick-reference card for each strength venue, plus a log to track sessions as the habit builds.",
+    image:
+      "https://pblol2.blob.core.windows.net/serava-ui/lib/session-cards.jpeg",
   },
   {
     icon: (
@@ -34,6 +42,8 @@ const EXTRAS: Extra[] = [
     title: "Ten pocket cards",
     description:
       "The whole Library condensed to wallet size, for the exact moment you need it — the menu, the shelf, the fridge door.",
+    image:
+      "https://pblol2.blob.core.windows.net/serava-ui/lib/ten-pocket-cards.jpeg",
   },
   {
     icon: (
@@ -45,7 +55,8 @@ const EXTRAS: Extra[] = [
     title: "A pre-exercise readiness screen",
     description:
       "A short check completed before starting any Strength volume, to make sure it's the right starting point for you.",
-  },
+    image:"https://pblol2.blob.core.windows.net/serava-ui/lib/pre-exercise.jpeg"
+    },
 ];
 
 export function ExtrasRow() {
@@ -66,11 +77,7 @@ export function ExtrasRow() {
             border: "1px solid",
             borderColor: "divider",
             borderRadius: "16px",
-            py: "22px",
-            px: "20px",
-            display: "flex",
-            gap: 1.75,
-            alignItems: "flex-start",
+            overflow: "hidden",
             boxShadow:
               "0 1px 2px rgba(42,84,73,.05), 0 6px 16px -8px rgba(42,84,73,.10)",
             transition:
@@ -82,51 +89,91 @@ export function ExtrasRow() {
             },
           }}
         >
+          {/* Image slot — src left blank until real photography/artwork
+              is ready. Same fixed-aspect-ratio + tinted-placeholder
+              approach as VolumeGroup's VolumeCard, so this row stays
+              visually consistent with the volume cards above it and
+              doesn't reflow once real images are added. */}
           <Box
             sx={{
-              width: 38,
-              height: 38,
-              borderRadius: "11px",
-              flexShrink: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background: (t) =>
-                `radial-gradient(circle at 30% 30%, #EAF9F6, ${t.palette.background.default})`,
-              boxShadow: "inset 0 0 0 1px rgba(42,179,166,.15)",
-              "& svg": {
-                width: 18,
-                height: 18,
-                stroke: TEAL_DEEP,
-                fill: "none",
-                strokeWidth: 1.8,
-                strokeLinecap: "round",
-                strokeLinejoin: "round",
-              },
+              position: "relative",
+              width: "100%",
+              aspectRatio: "16 / 9",
+              bgcolor: extra.image ? "transparent" : TEAL_DEEP,
+              opacity: extra.image ? 1 : 0.12,
             }}
           >
-            {extra.icon}
+            {extra.image && (
+              // eslint-disable-next-line @next/next/no-img-element -- swap for next/image once real, sized asset URLs are in place
+              <img
+                src={extra.image}
+                alt={extra.title}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              />
+            )}
           </Box>
-          <Box>
-            <Typography
+
+          <Box
+            sx={{
+              py: "22px",
+              px: "20px",
+              display: "flex",
+              gap: 1.75,
+              alignItems: "flex-start",
+            }}
+          >
+            <Box
               sx={{
-                fontSize: "0.94rem",
-                fontWeight: 600,
-                color: "secondary.main",
-                mb: 0.5,
+                width: 38,
+                height: 38,
+                borderRadius: "11px",
+                flexShrink: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: (t) =>
+                  `radial-gradient(circle at 30% 30%, #EAF9F6, ${t.palette.background.default})`,
+                boxShadow: "inset 0 0 0 1px rgba(42,179,166,.15)",
+                "& svg": {
+                  width: 18,
+                  height: 18,
+                  stroke: TEAL_DEEP,
+                  fill: "none",
+                  strokeWidth: 1.8,
+                  strokeLinecap: "round",
+                  strokeLinejoin: "round",
+                },
               }}
             >
-              {extra.title}
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: "0.85rem",
-                color: "text.secondary",
-                lineHeight: 1.6,
-              }}
-            >
-              {extra.description}
-            </Typography>
+              {extra.icon}
+            </Box>
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: "0.94rem",
+                  fontWeight: 600,
+                  color: "secondary.main",
+                  mb: 0.5,
+                }}
+              >
+                {extra.title}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.85rem",
+                  color: "text.secondary",
+                  lineHeight: 1.6,
+                }}
+              >
+                {extra.description}
+              </Typography>
+            </Box>
           </Box>
         </Box>
       ))}
