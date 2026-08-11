@@ -68,9 +68,6 @@ export default function LibraryPage() {
           <PhilosophyPanel />
         </Box>
       </Box>
-
-      <CtaBand heading={""} subtext={""} ctaLabel={""} ctaHref={""} />
-   
     </>
   );
 }
