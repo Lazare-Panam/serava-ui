@@ -45,7 +45,7 @@ export default function LibraryPage() {
               accent="meal"
               icon={<MealIcon />}
               title="The Meal Library"
-              intro="Six shorter guides that sit underneath everything else, less about what to eat or how to train and more about staying safe, rested, and steady throughout."
+              intro="Written by our clinical team for real UK kitchens, supermarkets, and living rooms. It's yours from day one, and every programme includes it without exception."
               volumes={MEAL_VOLUMES}
             />
           </Box>
@@ -91,7 +91,7 @@ export default function LibraryPage() {
               accent="foundation"
               icon={<FoundationIcon />}
               title="Foundations"
-              intro="Six shorter guides that sit underneath everything else, less about what to eat or how to train and more about staying safe, rested, and steady throughout."
+              intro="Written by our clinical team for real UK kitchens, supermarkets, and living rooms. It's yours from day one, and every programme includes it without exception."
               volumes={FOUNDATIONS_VOLUMES}
             />
 
