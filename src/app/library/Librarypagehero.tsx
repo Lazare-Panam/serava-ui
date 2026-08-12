@@ -172,9 +172,9 @@ export function LibraryPageHero() {
             maxWidth: 640,
           }}
         >
-          Written by our clinical team for real UK kitchens, supermarkets and
-          living rooms. Yours from day one, included in every programme —
-          nothing here is sold separately or held back.
+          Written by our clinical team for real UK kitchens, supermarkets, and
+          living rooms. It's yours from day one, and every programme includes it
+          without exception.
         </Typography>
 
         <Typography

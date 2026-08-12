@@ -91,7 +91,7 @@ export default function LibraryPage() {
               accent="foundation"
               icon={<FoundationIcon />}
               title="Foundations"
-              intro="Six shorter guides that sit underneath everything else — less about what to eat or how to train, more about staying safe, rested and steady throughout."
+              intro="Six shorter guides that sit underneath everything else, less about what to eat or how to train and more about staying safe, rested, and steady throughout."
               volumes={FOUNDATIONS_VOLUMES}
             />
 

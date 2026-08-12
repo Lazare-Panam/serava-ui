@@ -18,24 +18,23 @@ import { Volume } from "./Volumegroup";
 export const MEAL_VOLUMES: Volume[] = [
   {
     num: "Volume I",
-    title: "Main Meals — The Home-Cooked Collection",
+    title: "Main Meals: The Home-Cooked Collection",
     description:
-      "A collection of everyday mains built around a repeatable plate formula, with batch cooking and storecupboard staples. The core volume for anyone who cooks.",
-    image:
-      "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-3.jpeg",
+      "Everyday mains built around one repeatable plate formula, so batch cooking and storecupboard staples do most of the work. The core volume for anyone who actually cooks.",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-3.jpeg",
   },
   {
     num: "Volume II",
-    title: "Breakfasts, Lighter Meals & Snacks — The Everyday Collection",
+    title: "Breakfasts, Lighter Meals & Snacks: The Everyday Collection",
     description:
-      "Breakfasts, lighter meals, and a snack list that doubles as a shopping list. The volume everyone starts with.",
+      "Breakfasts, lighter meals, and a snack list you can shop straight from. The volume most people start with",
     image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-1.jpeg",
   },
   {
     num: "Volume III",
     title: "The Supermarket Navigator",
     description:
-      "A quick way to judge any ready meal, plus zero-cook assembly meals for weeks with no time or energy to cook.",
+      "A quick way to size up any ready meal, plus zero-cook assembly meals for the weeks you have neither the time nor the energy to cook.",
     image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-2.jpeg",
   },
   {
@@ -49,14 +48,14 @@ export const MEAL_VOLUMES: Volume[] = [
     num: "Volume V",
     title: "The Plant-Based Collection",
     description:
-      "Meat-free mains and protein guidance for a fully plant-based approach, with conversions that work across the whole Library.",
+      "Everything you need to go fully plant-based: meat-free mains, protein guidance, and conversions for the meals you already have.",
     image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-5.jpeg",
   },
   {
     num: "Volume VI",
     title: "The Workday",
     description:
-      "Packed lunches, no-fridge and no-microwave solutions, canteens, forecourts, and shift work.",
+      "Practical eating solutions for wherever your workday takes you, from a packed lunch with no fridge or microwave in sight, to canteens, forecourts, and shift patterns.",
     image: "https://pblol2.blob.core.windows.net/serava-ui/lib/lib-img-6.jpeg",
   },
 ];
@@ -72,35 +71,35 @@ export const STRENGTH_VOLUMES: Volume[] = [
     num: "Volume I",
     title: "The Gym Programme",
     description:
-      "A twice-weekly, machine-led programme, plus the gym itself explained — inductions, etiquette, off-peak times, and why machines are the smart starting tool.",
+      "A twice-weekly, machine-led programme, with the gym itself demystified too: inductions, etiquette, off-peak times, and why machines are the smart place to start.",
   },
   {
     num: "Volume II",
     title: "The Home Programme",
     description:
-      "The identical programme, done from a living room with a chair, a wall, the stairs and a rucksack.",
+      "The same programme, run from your living room with nothing more than a chair, a wall, the stairs, and a rucksack.",
   },
   {
     num: "Volume III",
     title: "The Band Programme",
     description:
-      "The same programme again, using a set of resistance bands — the travel and small-space option, with the safety rules that keep it that way.",
+      "Resistance bands make this the travel and small-space option, light enough for a coat pocket, with the safety rules that keep it that way.",
   },
 ];
 
 export const FOUNDATIONS_VOLUMES: Volume[] = [
   {
     num: "Guide I",
-    title: "Water — The Hydration Guide",
+    title: "Water: The Hydration Guide",
     description:
-      "A practical daily hydration target and routine, issued from day one.",
+      "A practical daily target and routine for staying hydrated, from day one.",
     image: "https://pblol2.blob.core.windows.net/serava-ui/lib/water-lib.jpeg",
   },
   {
     num: "Guide II",
     title: "The Safety Net",
     description:
-      "How to recognise side effects, when to act, and who to call — issued at your first prescription.",
+      "Know how to spot side effects early, when they need action, and exactly who to call.",
     image:
       "https://pblol2.blob.core.windows.net/serava-ui/lib/the-safety-net.jpeg",
   },
@@ -108,28 +107,28 @@ export const FOUNDATIONS_VOLUMES: Volume[] = [
     num: "Guide III",
     title: "The Supplement Guide",
     description:
-      "A plain-English look at what might be worth considering alongside your plan, and what generally isn't.",
+      "General guidance on what supplementation can offer, alongside specific instructions for the items your provider has chosen for you.",
     image: "https://pblol2.blob.core.windows.net/serava-ui/lib/supplement.jpeg",
   },
   {
     num: "Guide IV",
-    title: "Sleep — The Third Pillar",
+    title: "Sleep: The Third Pillar",
     description:
-      "Why sleep matters to the programme, with a practical routine and signposting if sleep itself is the problem.",
+      "Why sleep matters to the programme, with a practical routine and clear signposting if sleep itself is the problem.",
     image: "https://pblol2.blob.core.windows.net/serava-ui/lib/sleep.jpeg",
   },
   {
     num: "Guide V",
-    title: "The Mind — The Fourth Pillar",
+    title: "The Mind: The Fourth Pillar",
     description:
-      "Practical tools for cravings, habits and mindset, built for the moments the plan gets hard.",
+      "Practical tools for cravings, habits, and mindset, built for the moments the plan gets hard.",
     image: "https://pblol2.blob.core.windows.net/serava-ui/lib/mind.jpeg",
   },
   {
     num: "Guide VI",
     title: "The Bookends",
     description:
-      "Warm-up, cool-down, and simple mobility guidance to pair with any Strength volume.",
+      "Warm-up, cool-down, and simple mobility guidance, built to pair with any of the strength volumes.",
     image: "https://pblol2.blob.core.windows.net/serava-ui/lib/bookend.jpeg",
   },
 ];
