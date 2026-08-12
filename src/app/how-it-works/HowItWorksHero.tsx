@@ -1,11 +1,19 @@
 // src/components/HowItWorksPage/HowItWorksHero.tsx
 // Page hero for /how-it-works — eyebrow, headline, subtitle, and a row of
-// three fact chips. Two soft radial-gradient blobs sit behind the copy for
-// visual depth, same idea as the mockup's page-hero::before/::after, just
-// built as real Boxes since pseudo-elements aren't a thing in sx. Both
-// blobs pull their colour from the theme (primary teal, and the same
-// literal "buttery yellow" already established in Pricing.tsx/
-// ProgrammePaths.tsx for the one accent that has no palette token).
+// three fact chips. One soft radial-gradient blob sits behind the copy for
+// visual depth (bottom-left), same idea as the mockup's page-hero::after,
+// just built as a real Box since pseudo-elements aren't a thing in sx.
+//
+// Colour: this section is now fully yellow-themed, per request — the
+// section background, the remaining blob, and the fact chips all use
+// BUTTERY_YELLOW / BUTTERY_YELLOW_DEEP instead of primary teal. The
+// top-right teal blob from the previous version has been removed entirely
+// so no teal accent appears anywhere in this hero. BUTTERY_YELLOW is the
+// same literal already established in Pricing.tsx/ProgrammePaths.tsx;
+// BUTTERY_YELLOW_DEEP is new here, added for text/icon contrast on the
+// yellow background (same reasoning as BUTTER_DEEP in JourneyTimeline.tsx —
+// no palette token exists for this accent yet, so it's a documented
+// exception rather than a stray hex value).
 "use client";
 
 import Link from "next/link";
@@ -19,6 +27,11 @@ import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 // entry for this exact warm yellow, so it's a documented exception rather
 // than a stray hex value.
 const BUTTERY_YELLOW = "#F9E8B0";
+// New: a deeper gold for text/icons/borders on top of BUTTERY_YELLOW, where
+// plain text.secondary or primary.dark (teal) would either clash or fail
+// contrast against a yellow background. Same role as BUTTER_DEEP plays
+// alongside BUTTER in JourneyTimeline.tsx.
+const BUTTERY_YELLOW_DEEP = "#8A6D1A";
 
 const FACT_CHIPS = [
   { icon: ScheduleRoundedIcon, label: "Designed around nine months" },
@@ -33,23 +46,15 @@ export function HowItWorksHero() {
       sx={{
         position: "relative",
         overflow: "hidden",
-        bgcolor: "background.default",
+        // Was background.default — section background now uses the full
+        // butter yellow rather than just a faint corner blob on top of the
+        // theme's default background.
+        bgcolor: BUTTERY_YELLOW,
         py: { xs: 10, md: 14 },
       }}
     >
-      <Box
-        sx={{
-          position: "absolute",
-          top: -200,
-          right: -160,
-          width: 520,
-          height: 520,
-          borderRadius: "50%",
-          background: (theme) =>
-            `radial-gradient(circle, ${alpha(theme.palette.primary.main, 0.14)} 0%, ${alpha(theme.palette.primary.main, 0)} 70%)`,
-          pointerEvents: "none",
-        }}
-      />
+      {/* Teal blob (previously top-right) removed — no teal accent left in
+          this section, per "totally yellow" including the chips. */}
       <Box
         sx={{
           position: "absolute",
@@ -58,7 +63,7 @@ export function HowItWorksHero() {
           width: 420,
           height: 420,
           borderRadius: "50%",
-          background: `radial-gradient(circle, ${alpha(BUTTERY_YELLOW, 0.22)} 0%, ${alpha(BUTTERY_YELLOW, 0)} 70%)`,
+          background: `radial-gradient(circle, ${alpha(BUTTERY_YELLOW_DEEP, 0.18)} 0%, ${alpha(BUTTERY_YELLOW_DEEP, 0)} 70%)`,
           pointerEvents: "none",
         }}
       />
@@ -73,11 +78,13 @@ export function HowItWorksHero() {
             mb: 2,
           }}
         >
-          <Box sx={{ width: 22, height: "1.5px", bgcolor: "primary.main" }} />
+          <Box
+            sx={{ width: 22, height: "1.5px", bgcolor: BUTTERY_YELLOW_DEEP }}
+          />
           <Typography
             variant="overline"
             sx={{
-              color: "primary.dark",
+              color: BUTTERY_YELLOW_DEEP,
               letterSpacing: "0.22em",
               fontWeight: 600,
             }}
@@ -123,18 +130,22 @@ export function HowItWorksHero() {
           {FACT_CHIPS.map(({ icon: Icon, label }) => (
             <Chip
               key={label}
-              icon={<Icon sx={{ color: "primary.dark", fontSize: 18 }} />}
+              icon={<Icon sx={{ color: BUTTERY_YELLOW_DEEP, fontSize: 18 }} />}
               label={label}
               sx={{
-                bgcolor: "background.paper",
+                // Was background.paper / divider — chips now carry a
+                // yellow-tinted surface + border instead of a neutral
+                // white card, so they read as part of the same yellow
+                // block rather than a contrasting white cutout.
+                bgcolor: "#FFFFFF",
                 border: "1px solid",
-                borderColor: "divider",
+                borderColor: alpha(BUTTERY_YELLOW_DEEP, 0.35),
                 borderRadius: 999,
                 px: 0.5,
                 py: 2.5,
                 fontSize: "0.84rem",
                 fontWeight: 500,
-                color: "text.secondary",
+                color: BUTTERY_YELLOW_DEEP,
                 boxShadow:
                   "0 1px 2px rgba(42,84,73,0.05), 0 6px 16px -8px rgba(42,84,73,0.10)",
               }}

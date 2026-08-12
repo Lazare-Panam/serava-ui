@@ -4,10 +4,25 @@
 // CareLinePath (stroke-dashoffset animated via IntersectionObserver,
 // respecting prefers-reduced-motion), just a vertical wavy path instead of
 // a horizontal straight one, since that's this page's signature visual.
+//
+// Colour: this component's accent (the wavy line, step-number dots, and
+// meta-card labels) and its background wash both use a butter yellow
+// instead of primary teal. BUTTER/BUTTER_DEEP are local consts, not theme
+// tokens — theme.ts has no yellow/amber entry yet. If this becomes a
+// recurring brand colour rather than a one-off page accent, promote it into
+// theme.ts the way accentBrand/muted were.
 "use client";
 
 import { useEffect, useRef, useState } from "react";
 import { Box, Typography } from "@mui/material";
+
+// Local placeholder colours — no yellow/amber token exists in theme.ts yet.
+const BUTTER = "#F8E08E";
+const BUTTER_DEEP = "#8A6D1A";
+// Very light wash for the section background — BUTTER at low opacity over
+// white reads as a pale cream rather than a loud yellow block, so text
+// inside step cards stays readable.
+const BUTTER_WASH = "#FBF3D9";
 
 type StepMeta = { label: string; value: string };
 type Step = {
@@ -151,7 +166,7 @@ function VerticalJourneyLine({ drawn }: { drawn: boolean }) {
         pathLength={1}
         style={{
           color: "inherit",
-          opacity: 0.55,
+          opacity: 0.65,
           strokeDasharray: 1,
           strokeDashoffset: drawn ? 0 : 1,
           transition: `stroke-dashoffset ${LINE_DURATION}s ease`,
@@ -189,113 +204,136 @@ export function JourneyTimeline() {
   }, []);
 
   return (
+    // Outer wrapper: full viewport width, carries the background wash.
+    // Previously the background and the maxWidth/centering lived on the
+    // same Box, which is why the yellow stopped at the content's edges
+    // instead of running edge to edge — this splits them into two layers
+    // so the colour can go full-width while the content still centres.
     <Box
       component="section"
-      sx={{ mx: "auto", maxWidth: 1100, px: 3, py: { xs: 8, md: 12 } }}
+      sx={{
+        width: "100%",
+        bgcolor: BUTTER_WASH,
+        py: { xs: 8, md: 12 },
+      }}
     >
       <Box
-        ref={sectionRef}
         sx={{
-          position: "relative",
-          mt: { xs: 4, md: 6 },
-          pl: { xs: 9, md: 14.75 },
-          color: "primary.main",
+          mx: "auto",
+          maxWidth: 1100,
+          px: 3,
         }}
       >
-        <VerticalJourneyLine drawn={drawn} />
+        <Box
+          ref={sectionRef}
+          sx={{
+            position: "relative",
+            mt: { xs: 4, md: 6 },
+            pl: { xs: 9, md: 14.75 },
+            // Was primary.main (teal) — the wavy line inherits this via
+            // currentColor, so this one swap recolours the line too.
+            color: BUTTER_DEEP,
+          }}
+        >
+          <VerticalJourneyLine drawn={drawn} />
 
-        {STEPS.map((step, i) => (
-          <Box
-            key={step.id}
-            sx={{
-              position: "relative",
-              maxWidth: 640,
-              mb: i === STEPS.length - 1 ? 0 : { xs: 6, md: 8 },
-            }}
-          >
+          {STEPS.map((step, i) => (
             <Box
+              key={step.id}
               sx={{
-                position: "absolute",
-                left: { xs: -74, md: -115 },
-                top: -2,
-                width: DOT_SIZE,
-                height: DOT_SIZE,
-                borderRadius: "50%",
-                bgcolor: "background.paper",
-                border: "2px solid",
-                borderColor: "primary.main",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontWeight: 700,
-                color: "secondary.main",
-                zIndex: 2,
-                boxShadow:
-                  "0 1px 2px rgba(42,84,73,0.05), 0 6px 16px -8px rgba(42,84,73,0.10)",
+                position: "relative",
+                maxWidth: 640,
+                mb: i === STEPS.length - 1 ? 0 : { xs: 6, md: 8 },
               }}
             >
-              {step.id}
+              <Box
+                sx={{
+                  position: "absolute",
+                  left: { xs: -74, md: -115 },
+                  top: -2,
+                  width: DOT_SIZE,
+                  height: DOT_SIZE,
+                  borderRadius: "50%",
+                  bgcolor: BUTTER,
+                  border: "2px solid",
+                  borderColor: BUTTER_DEEP,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 700,
+                  color: BUTTER_DEEP,
+                  zIndex: 2,
+                  boxShadow:
+                    "0 1px 2px rgba(42,84,73,0.05), 0 6px 16px -8px rgba(42,84,73,0.10)",
+                }}
+              >
+                {step.id}
+              </Box>
+
+              <Typography
+                variant="h2"
+                sx={{
+                  fontFamily: "var(--font-manrope), sans-serif",
+                  fontWeight: 700,
+                  fontSize: "1.35rem",
+                  letterSpacing: "-0.02em",
+                  color: "secondary.main",
+                  mb: 1.25,
+                }}
+              >
+                {step.title}
+              </Typography>
+
+              <Typography
+                variant="body1"
+                sx={{ lineHeight: 1.7, color: "text.secondary" }}
+              >
+                {step.description}
+              </Typography>
+
+              <Box
+                sx={{
+                  mt: 2.5,
+                  display: "grid",
+                  gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                  gap: { xs: 1.5, sm: "12px 24px" },
+                  // Was background.paper (white) — switched to plain white
+                  // explicitly, since the section behind it is now
+                  // BUTTER_WASH rather than transparent, and the card should
+                  // still read as a lighter surface floating above the wash.
+                  bgcolor: "#FFFFFF",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  borderRadius: "20px",
+                  p: { xs: 2.5, sm: 3.25 },
+                  fontSize: "0.88rem",
+                  boxShadow:
+                    "0 1px 2px rgba(42,84,73,0.05), 0 6px 16px -8px rgba(42,84,73,0.10)",
+                }}
+              >
+                {step.meta.map((item) => (
+                  <Box key={item.label}>
+                    <Typography
+                      component="span"
+                      sx={{
+                        display: "block",
+                        fontWeight: 600,
+                        fontSize: "0.7rem",
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        color: BUTTER_DEEP,
+                        mb: 0.5,
+                      }}
+                    >
+                      {item.label}
+                    </Typography>
+                    {item.value}
+                  </Box>
+                ))}
+              </Box>
             </Box>
-
-            <Typography
-              variant="h2"
-              sx={{
-                fontFamily: "var(--font-manrope), sans-serif",
-                fontWeight: 700,
-                fontSize: "1.35rem",
-                letterSpacing: "-0.02em",
-                color: "secondary.main",
-                mb: 1.25,
-              }}
-            >
-              {step.title}
-            </Typography>
-
-            <Typography
-              variant="body1"
-              sx={{ lineHeight: 1.7, color: "text.secondary" }}
-            >
-              {step.description}
-            </Typography>
-
-            <Box
-              sx={{
-                mt: 2.5,
-                display: "grid",
-                gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
-                gap: { xs: 1.5, sm: "12px 24px" },
-                bgcolor: "background.paper",
-                border: "1px solid",
-                borderColor: "divider",
-                borderRadius: "20px",
-                p: { xs: 2.5, sm: 3.25 },
-                fontSize: "0.88rem",
-                boxShadow:
-                  "0 1px 2px rgba(42,84,73,0.05), 0 6px 16px -8px rgba(42,84,73,0.10)",
-              }}
-            >
-              {step.meta.map((item) => (
-                <Box key={item.label}>
-                  <Typography
-                    component="span"
-                    sx={{
-                      display: "block",
-                      fontWeight: 600,
-                      fontSize: "0.7rem",
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      color: "primary.dark",
-                      mb: 0.5,
-                    }}
-                  >
-                    {item.label}
-                  </Typography>
-                  {item.value}
-                </Box>
-              ))}
-            </Box>
-          </Box>
-        ))}
+          ))}
+        </Box>
       </Box>
     </Box>
   );

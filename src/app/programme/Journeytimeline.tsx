@@ -5,6 +5,15 @@
 // from the mockup's inline <script> IntersectionObserver, respecting
 // prefers-reduced-motion the same way the original did.
 //
+// Colour: this component uses the page's "butter" yellow (see BUTTER /
+// BUTTER_DEEP in page.tsx, used there for the Month 1 phase chip) instead of
+// primary teal, for the wavy line, the step-number dots, and the meta-card
+// labels. BUTTER_DEEP is the same dark gold the page already pairs with
+// BUTTER for text-on-yellow contrast, so it's reused here rather than
+// inventing a third yellow/brown pairing. These are local consts, not theme
+// tokens — same reasoning as page.tsx's NOTE: promote to theme.ts if this
+// becomes a recurring brand colour rather than a one-off page accent.
+//
 // Content note: step 3's "£[x] consultation fee" and any other bracketed
 // placeholders are carried over verbatim from the source mockup — replace with
 // confirmed pricing/legal copy before shipping, per the mockup's own
@@ -13,6 +22,11 @@
 
 import { useEffect, useRef } from "react";
 import { Box, Typography } from "@mui/material";
+
+// Local placeholder colours — matches BUTTER/BUTTER_DEEP in page.tsx. Not a
+// theme token (yet); see NOTE above.
+const BUTTER = "#F8E08E";
+const BUTTER_DEEP = "#8A6D1A";
 
 const STEPS = [
   {
@@ -169,7 +183,7 @@ export function JourneyTimeline() {
         <path
           ref={pathRef}
           d="M26 0 C 4 130, 48 240, 26 360 S 6 590, 26 720 S 48 950, 26 1200"
-          stroke="#2AB3A6"
+          stroke={BUTTER_DEEP}
           strokeWidth={3}
           fill="none"
           strokeLinecap="round"
@@ -194,14 +208,14 @@ export function JourneyTimeline() {
               width: { xs: 44, sm: 52 },
               height: { xs: 44, sm: 52 },
               borderRadius: "50%",
-              bgcolor: "background.paper",
+              bgcolor: BUTTER,
               border: "2px solid",
-              borderColor: "primary.main",
+              borderColor: BUTTER_DEEP,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontWeight: 700,
-              color: "secondary.main",
+              color: BUTTER_DEEP,
               zIndex: 2,
               boxShadow:
                 "0 1px 2px rgba(42,84,73,0.05), 0 6px 16px -8px rgba(42,84,73,0.10)",
@@ -242,7 +256,7 @@ export function JourneyTimeline() {
                     fontSize: "0.7rem",
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
-                    color: "primary.dark",
+                    color: BUTTER_DEEP,
                     mb: 0.5,
                   }}
                 >
