@@ -26,7 +26,7 @@ const LOGO_URL =
 // Mirrors the primary nav in Navbar.tsx — keep these two lists in sync
 // if the site's information architecture changes.
 const EXPLORE_LINKS = [
-  { label: "How it works", href: "#how" },
+  { label: "How it works", href: "/how-it-works" },
   { label: "The programme", href: "/programme" },
   { label: "The Library", href: "/library" },
   { label: "Pricing", href: "/pricing" },

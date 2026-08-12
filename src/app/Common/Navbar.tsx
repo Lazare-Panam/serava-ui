@@ -22,7 +22,7 @@ const LOGO_URL =
   "https://pblol2.blob.core.windows.net/serava-ui/hero/sereva.logo.jpeg";
 
 const NAV_LINKS = [
-  { label: "How it works", href: "#how" },
+  { label: "How it works", href: "/how-it-works" },
   { label: "The programme", href: "/programme" },
   { label: "The Library", href: "/library" },
   { label: "Pricing", href: "/pricing" },

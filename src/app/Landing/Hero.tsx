@@ -150,7 +150,8 @@ export function Hero() {
                   color: (t) => alpha(t.palette.background.paper, 0.88),
                 }}
               >
-                Weight loss is medicine, and it's treated that way here, led by an independent prescriber from day one, with one to one
+                Weight loss is medicine, and it's treated that way here, led by
+                an independent prescriber from day one, with one to one
                 consultations, blood tests, and proper monitoring along the way.
                 Full support throughout, and an ending that's planned from the
                 start, not an afterthought.
@@ -174,7 +175,7 @@ export function Hero() {
                 </Button>
                 <Button
                   component={Link}
-                  href="#how"
+                  href="/how-it-works"
                   variant="outlined"
                   size="large"
                   sx={{
