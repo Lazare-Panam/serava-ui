@@ -1,12 +1,11 @@
 // src/components/TrustBand.tsx
-// Left: a continuously scrolling column of lifestyle photography (no
-// before/after or transformation imagery, per the brand's photography
-// compliance rule). Right: a bold statement, subcopy, and the site's
-// standard eligibility CTA, on a soft tinted panel.
+// Left: a static photo collage of lifestyle photography (no before/after or
+// transformation imagery, per the brand's photography compliance rule).
+// Right: a bold statement, subcopy, and the site's standard eligibility
+// CTA, on a soft tinted panel.
 "use client";
 
 import Link from "next/link";
-import { alpha } from "@mui/material/styles";
 import { Box, Typography, Button, Stack } from "@mui/material";
 
 type Photo = {
@@ -20,54 +19,71 @@ const PHOTOS: Photo[] = [
   { src: "https://pblol2.blob.core.windows.net/serava-ui/hero/s-img-4.jpeg" },
 ];
 
-function PhotoColumn() {
-  const looped = [...PHOTOS, ...PHOTOS];
-
+// Static collage: a 2-column grid with the left column offset lower than
+// the right, so the four photos read as an arranged wall rather than a
+// grid of identical tiles. No animation, no looping — just a fixed layout.
+function PhotoCollage() {
   return (
     <Box
       sx={{
-        position: "relative",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: 2,
         height: "100%",
-        overflow: "hidden",
-        borderRadius: 4,
       }}
     >
-      <Box
-        className="trust-scroll"
-        sx={{ display: "flex", flexDirection: "column", gap: 2 }}
-      >
-        {looped.map((photo, i) => (
-          <Box
-            key={`${photo.src}-${i}`}
-            component="img"
-            src={photo.src}
-            alt=""
-            sx={{
-              height: 260,
-              width: "100%",
-              flexShrink: 0,
-              borderRadius: 3,
-              objectFit: "cover",
-              display: "block",
-            }}
-          />
-        ))}
-      </Box>
-
-      <style>{`
-        .trust-scroll {
-          animation: trust-scroll-up 28s linear infinite;
-        }
-        @keyframes trust-scroll-up {
-          from { transform: translateY(0); }
-          to { transform: translateY(-50%); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .trust-scroll {
-            animation: none;
-          }
-        }
-      `}</style>
+      <Stack spacing={2} sx={{ pt: 5 }}>
+        <Box
+          component="img"
+          src={PHOTOS[0].src}
+          alt=""
+          sx={{
+            width: "100%",
+            height: 220,
+            borderRadius: 3,
+            objectFit: "cover",
+            display: "block",
+          }}
+        />
+        <Box
+          component="img"
+          src={PHOTOS[2].src}
+          alt=""
+          sx={{
+            width: "100%",
+            height: 260,
+            borderRadius: 3,
+            objectFit: "cover",
+            display: "block",
+          }}
+        />
+      </Stack>
+      <Stack spacing={2}>
+        <Box
+          component="img"
+          src={PHOTOS[1].src}
+          alt=""
+          sx={{
+            width: "100%",
+            height: 260,
+            borderRadius: 3,
+            objectFit: "cover",
+            display: "block",
+          }}
+        />
+        <Box
+          component="img"
+          src={PHOTOS[3].src}
+          alt=""
+          sx={{
+            width: "100%",
+            height: 220,
+            borderRadius: 3,
+            objectFit: "cover",
+            display: "block",
+          }}
+        />
+      </Stack>
     </Box>
   );
 }
@@ -88,9 +104,12 @@ export function TrustBand() {
         <Box
           sx={{
             mx: "auto",
-            maxWidth: 1100,
+            maxWidth: 1280,
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "420px 1fr" },
+            // Photo column widened from 420px to 560px so each tile in the
+            // collage reads as a wider photo, not just a taller crop of a
+            // narrow one. Text column keeps the remaining space (1fr).
+            gridTemplateColumns: { xs: "1fr", md: "560px 1fr" },
             gap: { xs: 4, md: 8 },
             alignItems: "center",
           }}
@@ -101,7 +120,7 @@ export function TrustBand() {
               height: 560,
             }}
           >
-            <PhotoColumn />
+            <PhotoCollage />
           </Box>
 
           <Stack spacing={3}>
@@ -125,16 +144,16 @@ export function TrustBand() {
             >
               Ongoing care from a prescriber, with regular check-ins, treatment
               adjusted as you go, and a programme built to end well rather than
-              run indefinitely..
+              run indefinitely.
             </Typography>
             <Box
               sx={{
                 display: { xs: "block", md: "none" },
-                height: 280,
+                height: 320,
                 mt: 1,
               }}
             >
-              <PhotoColumn />
+              <PhotoCollage />
             </Box>
 
             <Box>
