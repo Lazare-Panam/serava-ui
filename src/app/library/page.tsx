@@ -45,7 +45,7 @@ export default function LibraryPage() {
               accent="meal"
               icon={<MealIcon />}
               title="The Meal Library"
-              intro="Six volumes covering every kind of week — from cooking from scratch to no kitchen at all — so eating well never depends on one narrow routine."
+              intro="Six shorter guides that sit underneath everything else, less about what to eat or how to train and more about staying safe, rested, and steady throughout."
               volumes={MEAL_VOLUMES}
             />
           </Box>

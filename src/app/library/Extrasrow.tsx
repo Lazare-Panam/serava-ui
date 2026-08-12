@@ -28,7 +28,7 @@ const EXTRAS: Extra[] = [
     ),
     title: "Session cards & a training log",
     description:
-      "A quick-reference card for each strength venue, plus a log to track sessions as the habit builds.",
+      "A quick-reference card for each strength venue, plus a log to track sessions as the habit takes hold.",
     image:
       "https://pblol2.blob.core.windows.net/serava-ui/lib/session-cards.jpeg",
   },
@@ -41,7 +41,7 @@ const EXTRAS: Extra[] = [
     ),
     title: "Ten pocket cards",
     description:
-      "The whole Library condensed to wallet size, for the exact moment you need it — the menu, the shelf, the fridge door.",
+      "The whole Library condensed to wallet size, ready for the exact moment you need it: the menu, the shelf, the fridge door.",
     image:
       "https://pblol2.blob.core.windows.net/serava-ui/lib/ten-pocket-cards.jpeg",
   },
@@ -54,9 +54,10 @@ const EXTRAS: Extra[] = [
     ),
     title: "A pre-exercise readiness screen",
     description:
-      "A short check completed before starting any Strength volume, to make sure it's the right starting point for you.",
-    image:"https://pblol2.blob.core.windows.net/serava-ui/lib/pre-exercise.jpeg"
-    },
+      "A short check completed before starting any strength volume, to confirm it's safe for you to begin, or flag if anything needs a closer look first.",
+    image:
+      "https://pblol2.blob.core.windows.net/serava-ui/lib/pre-exercise.jpeg",
+  },
 ];
 
 export function ExtrasRow() {

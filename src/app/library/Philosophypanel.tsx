@@ -110,7 +110,7 @@ export function PhilosophyPanel() {
           mb: 1.5,
         }}
       >
-        Nothing banned, and one meal never decides anything
+        Nothing is banned here, and no single slip decides anything
       </Typography>
 
       <Typography
@@ -122,10 +122,10 @@ export function PhilosophyPanel() {
           maxWidth: "60ch",
         }}
       >
-        The Library isn't a restriction list. It's written on the belief that a
-        plan you can't live with is a plan you'll abandon — so nothing is off
-        limits, and neither one meal nor one missed session is ever treated as a
-        failure. The next one simply returns to the plan. That philosophy runs
+        The Library isn't a restriction list. It's built on a simple belief: a
+        plan you can't live with is a plan you'll abandon. So nothing is off
+        limits, and a missed meal or a missed session is never treated as a
+        failure. The next one just returns to the plan. That philosophy runs
         through every volume on the shelf.
       </Typography>
     </Box>
