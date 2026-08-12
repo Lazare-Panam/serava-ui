@@ -103,9 +103,9 @@ const CATEGORIES: FaqCategory[] = [
         q: "Does completing the eligibility check guarantee a prescription?",
         a: (
           <>
-            No. Completing this form does not guarantee a prescription. In the
-            UK, weight-loss medicines can never be prescribed from an online
-            form alone.
+            No. Completing this form does not guarantee a prescription. In
+            the UK, weight-loss medicines can never be prescribed from an
+            online form alone.
           </>
         ),
       },
@@ -115,8 +115,8 @@ const CATEGORIES: FaqCategory[] = [
           <>
             Eligibility follows UK clinical guidance and depends on your BMI,
             ethnicity-adjusted where appropriate, your health history and
-            current medicines. The five-minute check gives you a clear answer,
-            free.
+            current medicines. The five-minute check gives you a clear
+            answer, free.
           </>
         ),
       },
@@ -127,8 +127,8 @@ const CATEGORIES: FaqCategory[] = [
             If it looks suitable, you complete a more detailed medical
             questionnaire, then have a one to one video consultation with a
             prescriber. See the full{" "}
-            <Link href="/how-it-works">how it works</Link> page for timings at
-            each step.
+            <Link href="/how-it-works">how it works</Link> page for timings
+            at each step.
           </>
         ),
       },
@@ -144,10 +144,10 @@ const CATEGORIES: FaqCategory[] = [
         q: "Do you prescribe medicines?",
         a: (
           <>
-            Where clinically appropriate, our prescribers can prescribe licensed
-            weight-loss treatments as part of the programme. UK rules mean we
-            can only discuss specific medicines with you after your
-            consultation.
+            Where clinically appropriate, our prescribers can prescribe
+            licensed weight-loss treatments as part of the programme. UK
+            rules mean we can only discuss specific medicines with you after
+            your consultation.
           </>
         ),
       },
@@ -155,9 +155,9 @@ const CATEGORIES: FaqCategory[] = [
         q: "How long is the consultation?",
         a: (
           <>
-            Up to one hour, one to one over video with your prescriber. You go
-            through your history, goals and options together, and reach a shared
-            decision.
+            Up to one hour, one to one over video with your prescriber. You
+            go through your history, goals and options together, and reach a
+            shared decision.
           </>
         ),
       },
@@ -165,9 +165,9 @@ const CATEGORIES: FaqCategory[] = [
         q: "Can I choose which treatment I get?",
         a: (
           <>
-            You can tell us your preference, but the clinical decision is your
-            prescriber&apos;s, and they may recommend a different option, or
-            none at all.
+            You can tell us your preference, but the clinical decision is
+            your prescriber&apos;s, and they may recommend a different
+            option, or none at all.
           </>
         ),
       },
@@ -205,10 +205,10 @@ const CATEGORIES: FaqCategory[] = [
         a: (
           <>
             It&apos;s designed around nine months: evaluation in month one,
-            treatment through months two to seven if suitable and stable, then
-            titrating down with maintenance in months eight and nine. Your
-            prescriber may adjust this shape around you — timings are a design,
-            not a promise.
+            treatment through months two to seven if suitable and stable,
+            then titrating down with maintenance in months eight and nine.
+            Your prescriber may adjust this shape around you — timings are a
+            design, not a promise.
           </>
         ),
       },
@@ -216,9 +216,9 @@ const CATEGORIES: FaqCategory[] = [
         q: "What happens at the end of the programme?",
         a: (
           <>
-            The programme ends deliberately: a two-month maintenance phase where
-            treatment is stepped down and you leave with a plan that is yours to
-            keep.
+            The programme ends deliberately: a two-month maintenance phase
+            where treatment is stepped down and you leave with a plan that is
+            yours to keep.
           </>
         ),
       },
@@ -226,10 +226,10 @@ const CATEGORIES: FaqCategory[] = [
         q: "What is the Lifestyle Library?",
         a: (
           <>
-            Meals, strength training, hydration, supplements and safety guidance
-            — every volume included from day one, written by our clinical team
-            for real UK kitchens, supermarkets and living rooms. See{" "}
-            <Link href="#">the Library</Link> for the full shelf.
+            Meals, strength training, hydration, supplements and safety
+            guidance — every volume included from day one, written by our
+            clinical team for real UK kitchens, supermarkets and living
+            rooms. See <Link href="#">the Library</Link> for the full shelf.
           </>
         ),
       },
@@ -247,8 +247,8 @@ const CATEGORIES: FaqCategory[] = [
           <>
             The consultation fee and monthly programme fee are shown on our{" "}
             <Link href="/pricing">pricing</Link> page. Final figures are
-            confirmed with you after your consultation, before you pay anything
-            for treatment.
+            confirmed with you after your consultation, before you pay
+            anything for treatment.
           </>
         ),
       },
@@ -256,9 +256,9 @@ const CATEGORIES: FaqCategory[] = [
         q: "What if I am not eligible?",
         a: (
           <>
-            Then there is nothing to pay. The eligibility check and the medical
-            questionnaire are free, and we will tell you why, and point you
-            towards more suitable support.
+            Then there is nothing to pay. The eligibility check and the
+            medical questionnaire are free, and we will tell you why, and
+            point you towards more suitable support.
           </>
         ),
       },
@@ -266,10 +266,10 @@ const CATEGORIES: FaqCategory[] = [
         q: "Can I cancel?",
         a: (
           <>
-            Yes. How cancellation and refunds work is set out in plain English
-            in our cancellations and refunds policy, and in your service
-            agreement before you start. Stopping treatment is always done
-            safely, with your prescriber.
+            Yes. How cancellation and refunds work is set out in plain
+            English in our cancellations and refunds policy, and in your
+            service agreement before you start. Stopping treatment is always
+            done safely, with your prescriber.
           </>
         ),
       },
@@ -277,8 +277,8 @@ const CATEGORIES: FaqCategory[] = [
         q: "Will my price change during the programme?",
         a: (
           <>
-            The price you agree in your service agreement is the price for your
-            programme. Anything that could change it is set out in that
+            The price you agree in your service agreement is the price for
+            your programme. Anything that could change it is set out in that
             agreement before you sign.
           </>
         ),
@@ -296,9 +296,10 @@ const CATEGORIES: FaqCategory[] = [
         a: (
           <>
             No. You must be 18 or over. It is not suitable during pregnancy,
-            breastfeeding, or while trying to conceive. Some medical conditions
-            and histories mean we cannot treat you safely; our eligibility check
-            screens for these, and we will always tell you why.
+            breastfeeding, or while trying to conceive. Some medical
+            conditions and histories mean we cannot treat you safely; our
+            eligibility check screens for these, and we will always tell you
+            why.
           </>
         ),
       },
@@ -307,9 +308,9 @@ const CATEGORIES: FaqCategory[] = [
         a: (
           <>
             If you are unwell now, or you need urgent help with how you are
-            feeling, call 999 in an emergency or NHS 111 for urgent advice. Our
-            forms and messaging are not monitored in real time — Serava is not
-            an emergency service.
+            feeling, call 999 in an emergency or NHS 111 for urgent advice.
+            Our forms and messaging are not monitored in real time — Serava
+            is not an emergency service.
           </>
         ),
       },
@@ -325,9 +326,9 @@ const CATEGORIES: FaqCategory[] = [
         q: "Is my information private?",
         a: (
           <>
-            Yes. Your health information is held securely as a clinical record,
-            is never sold, and is only shared with your GP with your consent.
-            Our privacy notice explains everything in plain English.
+            Yes. Your health information is held securely as a clinical
+            record, is never sold, and is only shared with your GP with your
+            consent. Our privacy notice explains everything in plain English.
           </>
         ),
       },
@@ -336,8 +337,8 @@ const CATEGORIES: FaqCategory[] = [
         a: (
           <>
             Both our prescribers are GPhC-registered Independent Prescribers,
-            verifiable on the public register. [CQC status line per brief 7.3].
-            We are a registered data controller with the ICO.
+            verifiable on the public register. [CQC status line per brief
+            7.3]. We are a registered data controller with the ICO.
           </>
         ),
       },
@@ -348,9 +349,9 @@ const CATEGORIES: FaqCategory[] = [
             Prescriptions are dispensed and shipped by Higherland Pharmacy,
             Newcastle-under-Lyme, a pharmacy registered with the General
             Pharmaceutical Council. In the interests of transparency, our
-            dispensing partner is part-owned by one of our co-founders — you are
-            always free to use a pharmacy of your choice instead, and your care
-            is unaffected either way.
+            dispensing partner is part-owned by one of our co-founders — you
+            are always free to use a pharmacy of your choice instead, and
+            your care is unaffected either way.
           </>
         ),
       },
@@ -359,8 +360,8 @@ const CATEGORIES: FaqCategory[] = [
         a: (
           <>
             We have a clear, published complaints procedure — see{" "}
-            <Link href="#">how to complain</Link>. We would rather hear it than
-            not.
+            <Link href="#">how to complain</Link>. We would rather hear it
+            than not.
           </>
         ),
       },
@@ -503,8 +504,7 @@ export default function FaqPage() {
                   textDecoration: "none",
                   boxShadow:
                     "0 1px 2px rgba(42,84,73,0.05), 0 6px 16px -8px rgba(42,84,73,0.10)",
-                  transition:
-                    "transform 0.25s ease, border-color 0.25s ease, color 0.25s ease",
+                  transition: "transform 0.25s ease, border-color 0.25s ease, color 0.25s ease",
                   "&:hover": {
                     transform: "translateY(-2px)",
                     borderColor: "primary.main",
@@ -523,12 +523,14 @@ export default function FaqPage() {
       {CATEGORIES.map((cat, catIndex) => {
         const Icon = cat.icon;
         // Alternates a real light/dark rhythm between sections, not just
-        // white-vs-transparent as before. Dark uses secondary.main (deep
-        // viridian, #2F5D50) — the one color in theme.ts actually dark
-        // enough for white text on top of it; it's also what the removed
-        // CTA band used for the same reason. Every accordion color below
-        // now branches on isDark so cards/text/icons stay legible on
-        // whichever background they land on.
+        // white-vs-transparent as before. Dark uses primary.main
+        // (eucalyptus teal, #2AB3A6) per request — note this is brighter/
+        // less contrasty than secondary.main (deep viridian) was, so white
+        // text here has less headroom than it would against a true dark
+        // neutral; still legible, just a different visual effect ("bright
+        // teal band" rather than "recessed dark band"). Every accordion
+        // color below still branches on isDark so cards/text/icons stay
+        // legible on whichever background they land on.
         const isDark = catIndex % 2 === 1;
         return (
           <Box
@@ -538,7 +540,7 @@ export default function FaqPage() {
             sx={{
               scrollMarginTop: "96px",
               py: { xs: 8, md: 10 },
-              bgcolor: isDark ? "secondary.main" : "background.paper",
+              bgcolor: isDark ? "primary.main" : "background.paper",
               borderTop: isDark ? "none" : "1px solid",
               borderColor: "divider",
             }}
@@ -742,15 +744,9 @@ export default function FaqPage() {
                     >
                       Still have a question?
                     </Typography>
-                    <Typography
-                      sx={{
-                        color: "text.secondary",
-                        fontSize: "0.92rem",
-                        maxWidth: "44ch",
-                      }}
-                    >
-                      The eligibility check is the fastest way to get a personal
-                      answer — free, and no obligation.
+                    <Typography sx={{ color: "text.secondary", fontSize: "0.92rem", maxWidth: "44ch" }}>
+                      The eligibility check is the fastest way to get a
+                      personal answer — free, and no obligation.
                     </Typography>
                   </Box>
                   <Box
