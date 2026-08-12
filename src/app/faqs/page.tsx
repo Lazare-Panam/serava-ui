@@ -522,7 +522,14 @@ export default function FaqPage() {
       {/* ---------------- FAQ categories ---------------- */}
       {CATEGORIES.map((cat, catIndex) => {
         const Icon = cat.icon;
-        const isWhite = catIndex % 2 === 1; // alternates section-white, matching mockup's odd sections getting .section-white.hairline-top
+        // Alternates a real light/dark rhythm between sections, not just
+        // white-vs-transparent as before. Dark uses secondary.main (deep
+        // viridian, #2F5D50) — the one color in theme.ts actually dark
+        // enough for white text on top of it; it's also what the removed
+        // CTA band used for the same reason. Every accordion color below
+        // now branches on isDark so cards/text/icons stay legible on
+        // whichever background they land on.
+        const isDark = catIndex % 2 === 1;
         return (
           <Box
             key={cat.id}
@@ -531,8 +538,8 @@ export default function FaqPage() {
             sx={{
               scrollMarginTop: "96px",
               py: { xs: 8, md: 10 },
-              bgcolor: isWhite ? "background.paper" : "transparent",
-              borderTop: isWhite ? "1px solid" : "none",
+              bgcolor: isDark ? "secondary.main" : "background.paper",
+              borderTop: isDark ? "none" : "1px solid",
               borderColor: "divider",
             }}
           >
@@ -550,16 +557,24 @@ export default function FaqPage() {
                     width: 44,
                     height: 44,
                     borderRadius: "13px",
-                    background:
-                      "radial-gradient(circle at 30% 30%, #EAF9F6, #FAF9F5)",
+                    background: isDark
+                      ? "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.16), rgba(255,255,255,0.04))"
+                      : "radial-gradient(circle at 30% 30%, #EAF9F6, #FAF9F5)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     flexShrink: 0,
-                    boxShadow: "inset 0 0 0 1px rgba(42,179,166,0.15)",
+                    boxShadow: isDark
+                      ? "inset 0 0 0 1px rgba(255,255,255,0.18)"
+                      : "inset 0 0 0 1px rgba(42,179,166,0.15)",
                   }}
                 >
-                  <Icon sx={{ color: "primary.dark", fontSize: 21 }} />
+                  <Icon
+                    sx={{
+                      color: isDark ? "#FFFFFF" : "primary.dark",
+                      fontSize: 21,
+                    }}
+                  />
                 </Box>
                 <Typography
                   variant="h2"
@@ -571,6 +586,7 @@ export default function FaqPage() {
                     // which is why these read as oversized/incohesive next
                     // to the rest of the page.
                     fontSize: "clamp(1.4rem, 2.6vw, 1.7rem)",
+                    color: isDark ? "#FFFFFF" : "secondary.main",
                     m: 0,
                   }}
                 >
@@ -589,17 +605,28 @@ export default function FaqPage() {
                       disableGutters
                       elevation={0}
                       sx={{
+                        // On dark sections the card itself stays a plain
+                        // white surface (a translucent/dark card here would
+                        // fight with the question text needing to stay dark
+                        // for the existing font-weight/AA styling) — so the
+                        // card "floats" off the dark background, same idea
+                        // as the light section's white-card-on-white just
+                        // made visible by contrast instead of a border.
                         bgcolor: "background.paper",
                         border: "1px solid",
-                        borderColor: "divider",
+                        borderColor: isDark
+                          ? "rgba(255,255,255,0.14)"
+                          : "divider",
                         borderRadius: "20px !important",
                         mb: 1.75,
                         overflow: "hidden",
-                        boxShadow:
-                          "0 1px 2px rgba(42,84,73,0.05), 0 6px 16px -8px rgba(42,84,73,0.10)",
+                        boxShadow: isDark
+                          ? "0 4px 14px rgba(0,0,0,0.18)"
+                          : "0 1px 2px rgba(42,84,73,0.05), 0 6px 16px -8px rgba(42,84,73,0.10)",
                         "&.Mui-expanded": {
-                          boxShadow:
-                            "0 2px 6px rgba(42,84,73,0.05), 0 20px 44px -20px rgba(42,84,73,0.20)",
+                          boxShadow: isDark
+                            ? "0 8px 24px rgba(0,0,0,0.24)"
+                            : "0 2px 6px rgba(42,84,73,0.05), 0 20px 44px -20px rgba(42,84,73,0.20)",
                         },
                         "&::before": { display: "none" },
                       }}
@@ -647,6 +674,12 @@ export default function FaqPage() {
                             fontFamily: "var(--font-montserrat), sans-serif",
                             fontWeight: 600,
                             fontSize: "0.98rem",
+                            // Accordion card background is always white
+                            // (background.paper) regardless of section, so
+                            // this stays secondary.main on both — no isDark
+                            // branch needed here, only the surrounding
+                            // section chrome (icon badge, h2, card border/
+                            // shadow) needs to react to the section color.
                             color: "secondary.main",
                           },
                         }}
