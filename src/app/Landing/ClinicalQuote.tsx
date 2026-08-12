@@ -21,7 +21,7 @@ import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRound
 
 const TESTIMONIALS = [
   {
-    image: "https://pblol2.blob.core.windows.net/serava-ui/hero/dummy-1.jpg",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/carlos-img.jpeg",
     stat: "18kg",
     statLabel: "Weight lost",
     quote:
@@ -32,13 +32,13 @@ const TESTIMONIALS = [
     sparkline: "M4 34 C 20 30, 34 26, 48 20 S 72 10, 88 6",
   },
   {
-    image: "https://pblol2.blob.core.windows.net/serava-ui/hero/dummy-3.jpg",
+    image: "https://pblol2.blob.core.windows.net/serava-ui/naomi-img.jpeg",
     stat: "12 wks",
     statLabel: "To first result",
     quote:
       "“I never really knew what I needed versus what was just marketing. Having someone go through it properly, and only recommend what actually made sense for me, was worth it on its own.”",
     tags: ["Brain fog lifted", "Better gym recovery", "Improved mood"],
-    name: "Wesley",
+    name: "Naomi",
     role: "Supplmentation programme",
     sparkline: "M4 30 C 18 32, 30 22, 46 24 S 70 8, 88 10",
   },
