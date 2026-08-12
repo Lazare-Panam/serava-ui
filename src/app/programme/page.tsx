@@ -145,51 +145,12 @@ export default function HowItWorksPage() {
               lineHeight: 1.7,
             }}
           >
-            One supervised journey, with a clear shape and a planned ending.
+            One supervised journey, with a clear shape and a planned CHIPS.mapending.
             Here&apos;s every step: what&apos;s involved, and what it costs
             along the way.
           </Typography>
 
-          <Stack
-            direction="row"
-            spacing={1.25}
-            useFlexGap
-            sx={{ mt: 3, flexWrap: "wrap" }}
-          >
-            {CHIPS.map(({ icon: Icon, label }) => (
-              <Stack
-                key={label}
-                direction="row"
-                spacing={1.1}
-                alignItems="center"
-                sx={{
-                  bgcolor: "background.paper",
-                  border: "1px solid",
-                  borderColor: "divider",
-                  borderRadius: 999,
-                  px: 2.25,
-                  py: 1.1,
-                  fontSize: "0.84rem",
-                  fontWeight: 500,
-                  color: "text.secondary",
-                  boxShadow:
-                    "0 1px 2px rgba(42,84,73,0.05), 0 6px 16px -8px rgba(42,84,73,0.10)",
-                }}
-              >
-                <Icon sx={{ fontSize: 15, color: "primary.dark" }} />
-                <Typography
-                  component="span"
-                  sx={{
-                    fontSize: "inherit",
-                    fontWeight: "inherit",
-                    color: "inherit",
-                  }}
-                >
-                  {label}
-                </Typography>
-              </Stack>
-            ))}
-          </Stack>
+         
         </Box>
       </Box>
 
