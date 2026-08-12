@@ -7,10 +7,9 @@
 // with a glossy sheen sweep on hover so they read as interactive. Falls
 // back to a plain vertical timeline on mobile.
 //
-// Step titles are always visible. Step details are hidden by default and
-// only fade in when hovering over that step's block (dot + label area),
-// via a CSS group-hover selector (`&:hover .step-detail`) on the wrapping
-// Box.
+// Step titles and step details are both always visible (no hover-to-reveal
+// — detail text used to fade in only on hover via a group-hover selector,
+// but that hid content touch users could never trigger anyway).
 
 "use client";
 
@@ -59,7 +58,8 @@ const LINE_DURATION = 3.6;
 // Diameter of the desktop dot. The line's vertical position is derived
 // directly from this (half of it), so the two can never drift out of sync
 // again — bump this and the line re-centres itself automatically.
-const DOT_SIZE = 72;
+// Bumped up from 72 to 88 per request for a bigger dot.
+const DOT_SIZE = 88;
 
 // Shared sx for the glossy sheen sweep + hover pop, factored out since both
 // the desktop and mobile dot are otherwise near-identical.
@@ -261,16 +261,7 @@ export function HowItWorks() {
             const delay = fraction * LINE_DURATION;
 
             return (
-              <Box
-                key={step.title}
-                sx={{
-                  textAlign: "center",
-                  // Group-hover: hovering anywhere in this step's block
-                  // (the dot or the space where the title/detail sits)
-                  // reveals the detail text underneath the title.
-                  "&:hover .step-detail": { opacity: 1 },
-                }}
-              >
+              <Box key={step.title} sx={{ textAlign: "center" }}>
                 <Box
                   component={Link}
                   href="#"
@@ -280,8 +271,10 @@ export function HowItWorks() {
                     width: DOT_SIZE,
                     height: DOT_SIZE,
                     mx: "auto",
-                    mb: 3,
-                    fontSize: "1.25rem",
+                    // Margin below the dot tightened from 3 to 2 to close
+                    // the gap between the dot and the title/detail text.
+                    mb: 2,
+                    fontSize: "1.4rem",
                   }}
                 >
                   {i + 1}
@@ -296,15 +289,12 @@ export function HowItWorks() {
                   {step.title}
                 </Typography>
                 <Typography
-                  className="step-detail"
                   variant="body1"
                   color="text.secondary"
                   sx={{
                     maxWidth: 240,
                     mx: "auto",
                     lineHeight: 1.6,
-                    opacity: 0,
-                    transition: "opacity 0.25s ease",
                   }}
                 >
                   {step.detail}
@@ -316,10 +306,8 @@ export function HowItWorks() {
       </Box>
 
       {/* Mobile: plain vertical timeline, no SVG — but dots still fill in
-          sequence top-to-bottom, using the same shared trigger. Note: on
-          touch devices there's no hover state, so these details will never
-          become visible here. If that's not what you want on mobile, drop
-          the opacity/transition below and just show the text plainly. */}
+          sequence top-to-bottom, using the same shared trigger. Detail text
+          is always visible here too now, same as desktop. */}
       <Box
         sx={{
           display: { xs: "block", md: "none" },
@@ -335,14 +323,7 @@ export function HowItWorks() {
           const delay = fraction * LINE_DURATION;
 
           return (
-            <Box
-              key={step.title}
-              sx={{
-                position: "relative",
-                py: 2.5,
-                "&:hover .step-detail": { opacity: 1 },
-              }}
-            >
+            <Box key={step.title} sx={{ position: "relative", py: 2.5 }}>
               <Box
                 component={Link}
                 href="#"
@@ -350,11 +331,11 @@ export function HowItWorks() {
                 sx={{
                   ...shinyDotSx(drawn, delay),
                   position: "absolute",
-                  left: -60,
+                  left: -68,
                   top: 18,
-                  width: 44,
-                  height: 44,
-                  fontSize: "1rem",
+                  width: 52,
+                  height: 52,
+                  fontSize: "1.1rem",
                 }}
               >
                 {i + 1}
@@ -369,14 +350,9 @@ export function HowItWorks() {
                 {step.title}
               </Typography>
               <Typography
-                className="step-detail"
                 variant="body1"
                 color="text.secondary"
-                sx={{
-                  lineHeight: 1.6,
-                  opacity: 0,
-                  transition: "opacity 0.25s ease",
-                }}
+                sx={{ lineHeight: 1.6 }}
               >
                 {step.detail}
               </Typography>
