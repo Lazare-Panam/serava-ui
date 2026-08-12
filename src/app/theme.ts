@@ -9,11 +9,18 @@ declare module "@mui/material/styles" {
     muted: { main: string; contrastText: string };
     accentBrand: { main: string; contrastText: string };
     status: { green: string; amber: string; red: string };
+    // The mockups' "butter" yellow — used as a page-hero accent blob on
+    // how-it-works and faqs, and as the wavy-line/dot accent on the
+    // how-it-works journey timeline. Previously redefined as a raw hex
+    // literal (BUTTER/BUTTER_DEEP) in every file that needed it; promoted
+    // here so there's one real source instead of N duplicated hex pairs.
+    accentWarm: { main: string; dark: string; contrastText: string };
   }
   interface PaletteOptions {
     muted?: { main: string; contrastText: string };
     accentBrand?: { main: string; contrastText: string };
     status?: { green: string; amber: string; red: string };
+    accentWarm?: { main: string; dark: string; contrastText: string };
   }
 }
 
@@ -29,6 +36,12 @@ const irisAccent = "#6E6AE4";
 const statusGreen = "#1E7A32"; // hsl(142 65% 32%) — confirm exact hex
 const statusAmber = "#B8860B"; // hsl(38 92% 38%) — confirm exact hex
 const statusRed = "#C0392B"; // hsl(4 74% 42%) — confirm exact hex
+
+// Matches the mockups' --butter/--butter-deep exactly (was duplicated as
+// local BUTTER/BUTTER_DEEP consts in JourneyTimeline.tsx, HowItWorksHero.tsx,
+// how-it-works/page.tsx, and faqs/page.tsx — now defined once, here).
+const butterYellow = "#F8E08E";
+const butterYellowDeep = "#8A6D1A";
 
 export const theme = createTheme({
   palette: {
@@ -72,6 +85,11 @@ export const theme = createTheme({
       green: statusGreen,
       amber: statusAmber,
       red: statusRed,
+    },
+    accentWarm: {
+      main: butterYellow,
+      dark: butterYellowDeep,
+      contrastText: inkCharcoal,
     },
   },
   typography: {

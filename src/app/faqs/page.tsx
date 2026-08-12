@@ -6,15 +6,16 @@
 // assumed to come from the shared root layout (Navbar/Footer), same as
 // how-it-works/page.tsx — this file is the page body only.
 //
-// NOTE — palette gaps vs. the mockup (same as how-it-works/page.tsx):
-// - The mockup's --butter (#F8E08E / deep #8A6D1A) has no theme.ts token.
-//   Not used on this particular page's visible surface (no phases bar
-//   here), but the page-hero's second background blob uses it at low
-//   opacity, same as the how-it-works hero's original butter corner blob —
-//   defined locally as BUTTER below rather than inventing a fake theme key.
-// - The mockup's --stop (#B0432B) is defined in :root but unused on this
-//   page — not reproduced here either, same reasoning as the how-it-works
-//   port's unused --ok/--warn/--stop note.
+// NOTE — palette:
+// - The mockup's --butter (#F8E08E / deep #8A6D1A) is now a real theme
+//   token: theme.palette.accentWarm.main / .dark (added to theme.ts,
+//   replacing the local BUTTER hex constants that used to be duplicated in
+//   this file, how-it-works/page.tsx, HowItWorksHero.tsx, and
+//   JourneyTimeline.tsx). Used below for the page-hero's second background
+//   blob and the CTA band's blob, same as how-it-works.
+// - The mockup's --stop (#B0432B) is defined in its :root but unused on
+//   this page — not reproduced here either, same reasoning as the
+//   how-it-works port's unused --ok/--warn/--stop note.
 //
 // Content note: bracketed placeholders from the source mockup ("[CQC status
 // line per brief 7.3]", "[Company] Ltd", "No. [x]", "Registered office:
@@ -36,6 +37,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { alpha } from "@mui/material/styles";
 import {
   Box,
   Typography,
@@ -52,9 +54,6 @@ import PaidRoundedIcon from "@mui/icons-material/PaidRounded";
 import ShieldRoundedIcon from "@mui/icons-material/ShieldRounded";
 import LockRoundedIcon from "@mui/icons-material/LockRounded";
 import type { SvgIconComponent } from "@mui/icons-material";
-
-// Local placeholder colour — see NOTE above. Not a theme token (yet).
-const BUTTER = "#F8E08E";
 
 type FaqItem = { q: string; a: React.ReactNode };
 type FaqCategory = {
@@ -432,7 +431,8 @@ export default function FaqPage() {
             width: 420,
             height: 420,
             borderRadius: "50%",
-            background: `radial-gradient(circle, ${BUTTER}38 0%, ${BUTTER}00 70%)`,
+            background: (theme) =>
+              `radial-gradient(circle, ${alpha(theme.palette.accentWarm.main, 0.22)} 0%, ${alpha(theme.palette.accentWarm.main, 0)} 70%)`,
             pointerEvents: "none",
           },
         }}
@@ -549,7 +549,19 @@ export default function FaqPage() {
                 >
                   <Icon sx={{ color: "primary.dark", fontSize: 21 }} />
                 </Box>
-                <Typography variant="h2" sx={{ m: 0 }}>
+                <Typography
+                  variant="h2"
+                  sx={{
+                    // Mockup's own CSS caps category h2s at
+                    // clamp(1.4rem, 2.6vw, 1.7rem) — noticeably smaller than
+                    // the page's h1. Missed this the first pass and let it
+                    // fall through to MUI's unscaled h2 default (3.75rem),
+                    // which is why these read as oversized/incohesive next
+                    // to the rest of the page.
+                    fontSize: "clamp(1.4rem, 2.6vw, 1.7rem)",
+                    m: 0,
+                  }}
+                >
                   {cat.title}
                 </Typography>
               </Box>
@@ -612,6 +624,15 @@ export default function FaqPage() {
                           px: 3,
                           py: 0.5,
                           "& .MuiAccordionSummary-content": {
+                            // Was missing fontFamily — AccordionDetails'
+                            // text is wrapped in <Typography> so it inherits
+                            // Montserrat from theme.ts automatically, but
+                            // this summary text is plain content with no
+                            // Typography wrapper, so it was silently
+                            // falling back to MUI's own default font stack
+                            // instead. That's why questions and answers
+                            // looked like two different fonts.
+                            fontFamily: "var(--font-montserrat), sans-serif",
                             fontWeight: 600,
                             fontSize: "0.98rem",
                             color: "secondary.main",
@@ -736,13 +757,22 @@ export default function FaqPage() {
             width: 600,
             height: 400,
             borderRadius: "50%",
-            background: `radial-gradient(circle, ${BUTTER}24 0%, ${BUTTER}00 70%)`,
+            background: (theme) =>
+              `radial-gradient(circle, ${alpha(theme.palette.accentWarm.main, 0.14)} 0%, ${alpha(theme.palette.accentWarm.main, 0)} 70%)`,
             pointerEvents: "none",
           },
         }}
       >
         <Box sx={{ position: "relative", maxWidth: 1100, mx: "auto", px: 3.5 }}>
-          <Typography variant="h2" sx={{ color: "#FFFFFF" }}>
+          <Typography
+            variant="h2"
+            sx={{
+              // Mockup: .cta-band h2 { font-size: clamp(1.6rem, 3vw, 2.15rem) }
+              // — same missing-size-override bug as the category headings.
+              fontSize: "clamp(1.6rem, 3vw, 2.15rem)",
+              color: "#FFFFFF",
+            }}
+          >
             Step one takes five minutes
           </Typography>
           <Typography
