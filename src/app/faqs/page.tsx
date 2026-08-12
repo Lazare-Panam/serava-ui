@@ -12,7 +12,10 @@
 //   replacing the local BUTTER hex constants that used to be duplicated in
 //   this file, how-it-works/page.tsx, HowItWorksHero.tsx, and
 //   JourneyTimeline.tsx). Used below for the page-hero's second background
-//   blob and the CTA band's blob, same as how-it-works.
+//   blob only — the mockup's closing dark-green CTA band (which also used
+//   this token for its own blob) was removed per request; see note further
+//   down where the "still have a question" panel now closes the page
+//   instead.
 // - The mockup's --stop (#B0432B) is defined in its :root but unused on
 //   this page — not reproduced here either, same reasoning as the
 //   how-it-works port's unused --ok/--warn/--stop note.
@@ -32,6 +35,15 @@
 // MUI's Accordion/AccordionSummary/AccordionDetails per your call, matching
 // how every other interactive element on this page (buttons, chips) is
 // already a real MUI component rather than native HTML styled via sx.
+//
+// Page ending: the mockup's closing dark-green "cta-band" section (Step one
+// takes five minutes...) has been removed per request. The "still have a
+// question?" panel — previously just a small prompt sitting above that
+// band — is now the actual last thing on the page, so it carries more
+// margin above/below (mt: 6, mb responsive) than it needed when a CTA band
+// followed immediately after it. Its background is unchanged
+// (background.paper / white) — not switched to the removed band's dark
+// green treatment.
 
 "use client";
 
@@ -659,9 +671,13 @@ export default function FaqPage() {
                 })}
               </Box>
 
-              {/* "Still have questions" panel — only on the last category,
-                  matching the mockup's single placement after Privacy &
-                  regulation. */}
+              {/* "Still have questions" panel — only on the last category.
+                  Now doubles as the page's closing element since the CTA
+                  band section was removed, so it needs real breathing room
+                  above/below it instead of the tight mt:1 that made sense
+                  when a CTA band followed immediately after. Background
+                  stays background.paper (white) — not switched to the old
+                  CTA band's dark green, per request. */}
               {catIndex === CATEGORIES.length - 1 && (
                 <Box
                   sx={{
@@ -670,8 +686,9 @@ export default function FaqPage() {
                     border: "1px solid",
                     borderColor: "divider",
                     borderRadius: 5,
-                    p: { xs: 3, md: 4.5 },
-                    mt: 1,
+                    p: { xs: 3.5, md: 5 },
+                    mt: 6,
+                    mb: { xs: 2, md: 4 },
                     display: "flex",
                     alignItems: "center",
                     gap: 3,
@@ -737,84 +754,6 @@ export default function FaqPage() {
           </Box>
         );
       })}
-
-      {/* ---------------- CTA band ---------------- */}
-      <Box
-        component="section"
-        sx={{
-          position: "relative",
-          overflow: "hidden",
-          textAlign: "center",
-          py: { xs: 8, md: 12.5 },
-          background: "linear-gradient(160deg, #2F5D50 0%, #234840 100%)",
-          color: "#F6FAF9",
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            bottom: -180,
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: 600,
-            height: 400,
-            borderRadius: "50%",
-            background: (theme) =>
-              `radial-gradient(circle, ${alpha(theme.palette.accentWarm.main, 0.14)} 0%, ${alpha(theme.palette.accentWarm.main, 0)} 70%)`,
-            pointerEvents: "none",
-          },
-        }}
-      >
-        <Box sx={{ position: "relative", maxWidth: 1100, mx: "auto", px: 3.5 }}>
-          <Typography
-            variant="h2"
-            sx={{
-              // Mockup: .cta-band h2 { font-size: clamp(1.6rem, 3vw, 2.15rem) }
-              // — same missing-size-override bug as the category headings.
-              fontSize: "clamp(1.6rem, 3vw, 2.15rem)",
-              color: "#FFFFFF",
-            }}
-          >
-            Step one takes five minutes
-          </Typography>
-          <Typography
-            sx={{
-              margin: "14px auto 32px",
-              color: "#BFD8D2",
-              maxWidth: "64ch",
-            }}
-          >
-            Free, and no obligation. If we are not the right service for you, we
-            will say so.
-          </Typography>
-          <Box
-            component={Link}
-            href="/eligibility"
-            sx={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "9px",
-              fontWeight: 600,
-              fontSize: "1rem",
-              px: 3.5,
-              py: 1.9,
-              borderRadius: 999,
-              textDecoration: "none",
-              color: "primary.contrastText",
-              background:
-                "linear-gradient(135deg, #33C2B4 0%, #2AB3A6 55%, #1F8A80 100%)",
-              boxShadow:
-                "0 1px 2px rgba(42,84,73,0.05), 0 6px 16px -8px rgba(42,84,73,0.10), 0 10px 24px -10px rgba(31,138,128,0.55)",
-              transition: "transform 0.25s ease, box-shadow 0.25s ease",
-              "&:hover": {
-                transform: "translateY(-2px)",
-                boxShadow:
-                  "0 2px 6px rgba(42,84,73,0.05), 0 20px 44px -20px rgba(42,84,73,0.20), 0 16px 32px -12px rgba(31,138,128,0.6)",
-              },
-            }}
-          >
-            Check your eligibility
-          </Box>
-        </Box>
-      </Box>
     </Box>
   );
 }
