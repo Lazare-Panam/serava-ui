@@ -59,7 +59,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { alpha } from "@mui/material/styles";
 import {
   Box,
   Typography,
@@ -378,33 +377,6 @@ const CATEGORIES: FaqCategory[] = [
   },
 ];
 
-function EyebrowLine({ children }: { children: React.ReactNode }) {
-  return (
-    <Typography
-      sx={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: "9px",
-        fontSize: "0.72rem",
-        fontWeight: 600,
-        letterSpacing: "0.22em",
-        textTransform: "uppercase",
-        color: "primary.dark",
-        mb: 2,
-        "&::before": {
-          content: '""',
-          width: 22,
-          height: "1.5px",
-          bgcolor: "primary.main",
-          borderRadius: "2px",
-        },
-      }}
-    >
-      {children}
-    </Typography>
-  );
-}
-
 export default function FaqPage() {
   // Tracks which panel is open per category, mirroring the mockup's
   // independent-per-category accordion groups (each <details> group opens
@@ -426,143 +398,150 @@ export default function FaqPage() {
   return (
     <Box component="main">
       {/* ---------------- Page hero ---------------- */}
+      {/* Photo now IS the hero background (full-bleed), not a card next to
+          the text — replaces the previous two-column grid + gradient
+          background + decorative teal/butter blobs entirely, since none of
+          that makes sense once a photo fills the whole section. A dark
+          gradient scrim sits between the photo and the text (heavier on
+          the left, where the text lives) so white text stays reliably
+          legible regardless of what's underneath it in the photo — plain
+          white text directly on this particular photo (light, busy pebbles)
+          would be unreadable in places without it. */}
       <Box
         sx={{
           position: "relative",
           overflow: "hidden",
-          pt: { xs: 8, md: 11 },
-          pb: { xs: 7, md: 8 },
-          background: "linear-gradient(180deg, #F6FAF9 0%, #F1F8F6 100%)",
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            top: -200,
-            right: -160,
-            width: 520,
-            height: 520,
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle, rgba(42,179,166,0.14) 0%, rgba(42,179,166,0) 70%)",
-            pointerEvents: "none",
-          },
-          "&::after": {
-            content: '""',
-            position: "absolute",
-            bottom: -160,
-            left: -160,
-            width: 420,
-            height: 420,
-            borderRadius: "50%",
-            background: (theme) =>
-              `radial-gradient(circle, ${alpha(theme.palette.accentWarm.main, 0.22)} 0%, ${alpha(theme.palette.accentWarm.main, 0)} 70%)`,
-            pointerEvents: "none",
-          },
+          minHeight: { xs: 420, md: 520 },
+          display: "flex",
+          alignItems: "center",
         }}
       >
+        <Image
+          src="https://pblol2.blob.core.windows.net/serava-ui/faq-hero.jpeg"
+          alt=""
+          fill
+          sizes="100vw"
+          style={{ objectFit: "cover" }}
+          priority
+        />
+        <Box
+          sx={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(100deg, rgba(29,36,48,0.82) 0%, rgba(29,36,48,0.55) 45%, rgba(29,36,48,0.22) 75%, rgba(29,36,48,0.05) 100%)",
+          }}
+        />
+
         <Box
           sx={{
             position: "relative",
+            width: "100%",
             maxWidth: 1100,
             mx: "auto",
             px: 3.5,
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "1.2fr 0.9fr" },
-            gap: { xs: 5, md: 7 },
-            alignItems: "center",
+            py: { xs: 8, md: 11 },
           }}
         >
-          <Box>
-            <EyebrowLine>FAQs</EyebrowLine>
-
-            <Typography
-              variant="h1"
-              sx={{
-                fontSize: { xs: "2.2rem", md: "3.3rem" },
-                fontWeight: 800,
-                lineHeight: 1.16,
-                letterSpacing: "-0.02em",
-                color: "secondary.main",
-              }}
-            >
-              Questions, answered plainly
-            </Typography>
-
-            <Typography
-              sx={{
-                fontSize: "1.14rem",
-                mt: 2.25,
-                color: "text.secondary",
-                maxWidth: "60ch",
-                lineHeight: 1.7,
-              }}
-            >
-              If it isn&apos;t here, our <Link href="#">privacy notice</Link>,{" "}
-              <Link href="#">terms</Link>, and <Link href="#">complaints</Link>{" "}
-              pages go into more detail — or you can ask us directly.
-            </Typography>
-
-            {/* Jump nav */}
-            <Stack
-              direction="row"
-              spacing={1.25}
-              sx={{ mt: 3.5, flexWrap: "wrap", rowGap: 1.25 }}
-            >
-              {CATEGORIES.map((cat) => (
-                <Box
-                  key={cat.id}
-                  component="a"
-                  href={`#${cat.id}`}
-                  sx={{
-                    fontSize: "0.84rem",
-                    fontWeight: 500,
-                    color: "secondary.main",
-                    bgcolor: "background.paper",
-                    border: "1px solid",
-                    borderColor: "divider",
-                    borderRadius: 999,
-                    px: 2,
-                    py: 1.1,
-                    textDecoration: "none",
-                    boxShadow:
-                      "0 1px 2px rgba(42,84,73,0.05), 0 6px 16px -8px rgba(42,84,73,0.10)",
-                    transition:
-                      "transform 0.25s ease, border-color 0.25s ease, color 0.25s ease",
-                    "&:hover": {
-                      transform: "translateY(-2px)",
-                      borderColor: "primary.main",
-                      color: "primary.dark",
-                    },
-                  }}
-                >
-                  {cat.jumpLabel}
-                </Box>
-              ))}
-            </Stack>
-          </Box>
-
-          {/* Hero image — desktop/tablet only, matches the two-column
-              text+photo pattern already used on the homepage's TrustBand. */}
-          <Box
+          <Typography
             sx={{
-              display: { xs: "none", md: "block" },
-              position: "relative",
-              width: "100%",
-              aspectRatio: "4 / 5",
-              borderRadius: 4,
-              overflow: "hidden",
-              boxShadow:
-                "0 1px 2px rgba(42,84,73,0.05), 0 20px 44px -20px rgba(42,84,73,0.20)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "9px",
+              fontSize: "0.72rem",
+              fontWeight: 600,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: "#FFFFFF",
+              mb: 2,
+              "&::before": {
+                content: '""',
+                width: 22,
+                height: "1.5px",
+                bgcolor: "primary.main",
+                borderRadius: "2px",
+              },
             }}
           >
-            <Image
-              src="https://pblol2.blob.core.windows.net/serava-ui/faq-hero.jpeg"
-              alt=""
-              fill
-              sizes="(max-width: 900px) 0px, 45vw"
-              style={{ objectFit: "cover" }}
-              priority
-            />
-          </Box>
+            FAQs
+          </Typography>
+
+          <Typography
+            variant="h1"
+            sx={{
+              fontSize: { xs: "2.2rem", md: "3.3rem" },
+              fontWeight: 800,
+              lineHeight: 1.16,
+              letterSpacing: "-0.02em",
+              color: "#FFFFFF",
+            }}
+          >
+            Questions, answered plainly
+          </Typography>
+
+          <Typography
+            sx={{
+              fontSize: "1.14rem",
+              mt: 2.25,
+              color: "rgba(255,255,255,0.82)",
+              maxWidth: "60ch",
+              lineHeight: 1.7,
+            }}
+          >
+            If it isn&apos;t here, our{" "}
+            <Link href="#" style={{ color: "#FFFFFF" }}>
+              privacy notice
+            </Link>
+            ,{" "}
+            <Link href="#" style={{ color: "#FFFFFF" }}>
+              terms
+            </Link>
+            , and{" "}
+            <Link href="#" style={{ color: "#FFFFFF" }}>
+              complaints
+            </Link>{" "}
+            pages go into more detail — or you can ask us directly.
+          </Typography>
+
+          {/* Jump nav — translucent-dark chips instead of the previous
+              white-card treatment, since a solid white pill would compete
+              with the white heading text and generally read as too heavy
+              sitting directly on the photo. */}
+          <Stack
+            direction="row"
+            spacing={1.25}
+            sx={{ mt: 3.5, flexWrap: "wrap", rowGap: 1.25 }}
+          >
+            {CATEGORIES.map((cat) => (
+              <Box
+                key={cat.id}
+                component="a"
+                href={`#${cat.id}`}
+                sx={{
+                  fontSize: "0.84rem",
+                  fontWeight: 500,
+                  color: "#FFFFFF",
+                  bgcolor: "rgba(255,255,255,0.14)",
+                  border: "1px solid",
+                  borderColor: "rgba(255,255,255,0.35)",
+                  borderRadius: 999,
+                  px: 2,
+                  py: 1.1,
+                  textDecoration: "none",
+                  backdropFilter: "blur(6px)",
+                  transition:
+                    "transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease",
+                  "&:hover": {
+                    transform: "translateY(-2px)",
+                    bgcolor: "rgba(255,255,255,0.24)",
+                    borderColor: "rgba(255,255,255,0.55)",
+                  },
+                }}
+              >
+                {cat.jumpLabel}
+              </Box>
+            ))}
+          </Stack>
         </Box>
       </Box>
 
