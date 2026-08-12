@@ -7,9 +7,11 @@
 // with a glossy sheen sweep on hover so they read as interactive. Falls
 // back to a plain vertical timeline on mobile.
 //
-// Step titles and step details are both always visible (no hover-to-reveal
-// — detail text used to fade in only on hover via a group-hover selector,
-// but that hid content touch users could never trigger anyway).
+// The number, title, and detail text all live inside the circle now (white
+// text on the filled teal background) — number on top, then title, then
+// detail below it. This replaces the earlier layout where title/detail sat
+// outside and below a small dot; the circle had to grow substantially
+// (DOT_SIZE) to fit three lines of content without the text overflowing.
 
 "use client";
 
@@ -55,11 +57,16 @@ const STEPS: Step[] = [
 // right as the line finishes drawing.
 const LINE_DURATION = 3.6;
 
-// Diameter of the desktop dot. The line's vertical position is derived
-// directly from this (half of it), so the two can never drift out of sync
-// again — bump this and the line re-centres itself automatically.
-// Bumped up from 72 to 88 per request for a bigger dot.
-const DOT_SIZE = 88;
+// Diameter of the desktop circle. Grown substantially (was 88, a plain
+// number-only dot) now that title + detail text both live inside it too.
+// The line's vertical position is derived directly from this (half of it),
+// so the two can never drift out of sync — bump this and the line
+// re-centres itself automatically.
+const DOT_SIZE = 240;
+
+// Diameter of the mobile circle — same content, smaller viewport, so it's
+// sized down from the desktop circle but still needs room for 3 lines.
+const MOBILE_DOT_SIZE = 168;
 
 // Shared sx for the glossy sheen sweep + hover pop, factored out since both
 // the desktop and mobile dot are otherwise near-identical.
@@ -69,9 +76,10 @@ function shinyDotSx(drawn: boolean, delay: number) {
     overflow: "hidden" as const,
     borderRadius: "50%",
     display: "flex",
+    flexDirection: "column" as const,
     alignItems: "center",
     justifyContent: "center",
-    fontWeight: 700,
+    textAlign: "center" as const,
     textDecoration: "none",
     boxShadow: 1,
     border: "2px solid",
@@ -237,7 +245,8 @@ export function HowItWorks() {
         Your Five Step Journey With Us
       </Typography>
 
-      {/* Desktop: five staggered dots along a scroll-drawn connecting line */}
+      {/* Desktop: five staggered circles along a scroll-drawn connecting
+          line. Number, title, and detail text all live inside each circle. */}
       <Box
         ref={sectionRef}
         sx={{
@@ -271,34 +280,34 @@ export function HowItWorks() {
                     width: DOT_SIZE,
                     height: DOT_SIZE,
                     mx: "auto",
-                    // Margin below the dot tightened from 3 to 2 to close
-                    // the gap between the dot and the title/detail text.
-                    mb: 2,
-                    fontSize: "1.4rem",
+                    px: 2.5,
+                    gap: 0.75,
                   }}
                 >
-                  {i + 1}
+                  <Typography
+                    component="span"
+                    sx={{ fontWeight: 700, fontSize: "1.1rem", opacity: 0.85 }}
+                  >
+                    {i + 1}
+                  </Typography>
+                  <Typography
+                    component="span"
+                    sx={{ fontWeight: 700, fontSize: "1rem", lineHeight: 1.25 }}
+                  >
+                    {step.title}
+                  </Typography>
+                  <Typography
+                    component="span"
+                    sx={{
+                      fontSize: "0.8rem",
+                      lineHeight: 1.4,
+                      fontWeight: 400,
+                      opacity: 0.92,
+                    }}
+                  >
+                    {step.detail}
+                  </Typography>
                 </Box>
-                <Typography
-                  sx={{
-                    fontWeight: 600,
-                    fontSize: "1.15rem",
-                    mb: 1,
-                  }}
-                >
-                  {step.title}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  color="text.secondary"
-                  sx={{
-                    maxWidth: 240,
-                    mx: "auto",
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {step.detail}
-                </Typography>
               </Box>
             );
           })}
@@ -306,16 +315,12 @@ export function HowItWorks() {
       </Box>
 
       {/* Mobile: plain vertical timeline, no SVG — but dots still fill in
-          sequence top-to-bottom, using the same shared trigger. Detail text
-          is always visible here too now, same as desktop. */}
+          sequence top-to-bottom, using the same shared trigger. Same
+          number/title/detail-inside-circle layout, sized down. */}
       <Box
         sx={{
           display: { xs: "block", md: "none" },
           mt: 7,
-          ml: 3,
-          pl: 4,
-          borderLeft: "3px solid",
-          borderColor: "primary.main",
         }}
       >
         {STEPS.map((step, i) => {
@@ -323,39 +328,50 @@ export function HowItWorks() {
           const delay = fraction * LINE_DURATION;
 
           return (
-            <Box key={step.title} sx={{ position: "relative", py: 2.5 }}>
+            <Box
+              key={step.title}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                py: 2.5,
+              }}
+            >
               <Box
                 component={Link}
                 href="#"
                 aria-label={`Step ${i + 1}: ${step.title}`}
                 sx={{
                   ...shinyDotSx(drawn, delay),
-                  position: "absolute",
-                  left: -68,
-                  top: 18,
-                  width: 52,
-                  height: 52,
-                  fontSize: "1.1rem",
+                  width: MOBILE_DOT_SIZE,
+                  height: MOBILE_DOT_SIZE,
+                  px: 2,
+                  gap: 0.5,
                 }}
               >
-                {i + 1}
+                <Typography
+                  component="span"
+                  sx={{ fontWeight: 700, fontSize: "0.95rem", opacity: 0.85 }}
+                >
+                  {i + 1}
+                </Typography>
+                <Typography
+                  component="span"
+                  sx={{ fontWeight: 700, fontSize: "0.9rem", lineHeight: 1.25 }}
+                >
+                  {step.title}
+                </Typography>
+                <Typography
+                  component="span"
+                  sx={{
+                    fontSize: "0.7rem",
+                    lineHeight: 1.35,
+                    fontWeight: 400,
+                    opacity: 0.92,
+                  }}
+                >
+                  {step.detail}
+                </Typography>
               </Box>
-              <Typography
-                sx={{
-                  fontWeight: 600,
-                  fontSize: "1.05rem",
-                  mb: 0.5,
-                }}
-              >
-                {step.title}
-              </Typography>
-              <Typography
-                variant="body1"
-                color="text.secondary"
-                sx={{ lineHeight: 1.6 }}
-              >
-                {step.detail}
-              </Typography>
             </Box>
           );
         })}
