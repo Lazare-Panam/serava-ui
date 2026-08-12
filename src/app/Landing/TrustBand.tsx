@@ -104,12 +104,11 @@ export function TrustBand() {
         <Box
           sx={{
             mx: "auto",
-            maxWidth: 1280,
+            maxWidth: 1360,
             display: "grid",
-            // Photo column widened from 420px to 560px so each tile in the
-            // collage reads as a wider photo, not just a taller crop of a
-            // narrow one. Text column keeps the remaining space (1fr).
-            gridTemplateColumns: { xs: "1fr", md: "560px 1fr" },
+            // Photo column widened again, 560px -> 660px, per "bit wider".
+            // Text column keeps the remaining space (1fr).
+            gridTemplateColumns: { xs: "1fr", md: "660px 1fr" },
             gap: { xs: 4, md: 8 },
             alignItems: "center",
           }}
