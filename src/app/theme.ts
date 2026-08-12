@@ -75,19 +75,38 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "var(--font-inter), sans-serif", // body font
-    h1: { fontFamily: "var(--font-manrope), sans-serif" },
-    h2: { fontFamily: "var(--font-manrope), sans-serif" },
-    h3: { fontFamily: "var(--font-manrope), sans-serif" },
-    h4: { fontFamily: "var(--font-manrope), sans-serif" },
-    h5: { fontFamily: "var(--font-manrope), sans-serif" },
-    h6: { fontFamily: "var(--font-manrope), sans-serif" },
+    // Montserrat everywhere, via the --font-montserrat variable that
+    // layout.tsx now generates with next/font/google (same pattern as the
+    // old --font-manrope/--font-inter). No !important needed anywhere —
+    // the variable was simply undefined before, which is the actual bug
+    // that made h2/h5/paragraphs look unchanged.
+    fontFamily: "var(--font-montserrat), sans-serif",
+    h1: { fontFamily: "var(--font-montserrat), sans-serif" },
+    h2: { fontFamily: "var(--font-montserrat), sans-serif" },
+    h3: { fontFamily: "var(--font-montserrat), sans-serif" },
+    h4: { fontFamily: "var(--font-montserrat), sans-serif" },
+    h5: { fontFamily: "var(--font-montserrat), sans-serif" },
+    h6: { fontFamily: "var(--font-montserrat), sans-serif" },
+    body1: { fontFamily: "var(--font-montserrat), sans-serif" },
+    body2: { fontFamily: "var(--font-montserrat), sans-serif" },
     button: { textTransform: "none" },
   },
   shape: {
     borderRadius: 12, // matches --radius: 0.75rem
   },
   components: {
+    // CssBaseline (rendered in layout.tsx, right next to ThemeProvider)
+    // picks up typography.fontFamily automatically — this override just
+    // makes that explicit for raw <body> content not wrapped in
+    // <Typography>. No !important or per-tag overrides needed now that
+    // --font-montserrat is actually defined in layout.tsx.
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          fontFamily: "var(--font-montserrat), sans-serif",
+        },
+      },
+    },
     MuiButton: {
       defaultProps: { disableRipple: true },
       styleOverrides: {

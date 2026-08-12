@@ -234,17 +234,7 @@ export function HowItWorks() {
           mt: 1,
         }}
       >
-        Five steps, and someone with you the whole way through
-      </Typography>
-
-      <Typography
-        variant="body1"
-        color="text.secondary"
-        sx={{ mt: 2, maxWidth: 720, fontSize: "1.125rem", lineHeight: 1.7 }}
-      >
-        This isn't a prescription and a goodbye. Every step connects to the
-        next, guided from start to finish, and it ends with a plan you can hold
-        onto, not a sudden stop.
+        Your Five Step Journey With Us
       </Typography>
 
       {/* Desktop: five staggered dots along a scroll-drawn connecting line */}

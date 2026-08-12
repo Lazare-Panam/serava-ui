@@ -1,5 +1,5 @@
 // src/app/layout.tsx
-import { Manrope, Inter } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { theme } from "./theme";
@@ -7,17 +7,13 @@ import { Navbar } from "./Common/Navbar";
 import "./globals.css";
 import { Footer } from "./Common/Footer";
 
-const manrope = Manrope({
+// Replaces the old Manrope (headings) + Inter (body) pairing — theme.ts now
+// points every typography variant at this single --font-montserrat variable.
+// Weights: 400/500 for body text, 600/700 for headings and buttons.
+const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-manrope",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-montserrat",
   display: "swap",
 });
 
@@ -27,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${manrope.variable} ${inter.variable}`}>
+    <html lang="en" className={montserrat.variable}>
       <body>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
